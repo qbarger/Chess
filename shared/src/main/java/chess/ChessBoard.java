@@ -52,6 +52,10 @@ public class ChessBoard {
         }
     }
 
+    public void removePiece(ChessPosition position){
+        board[position.getRow()][position.getColumn()] = null;
+    }
+
     public void AddPieces(int row, int col){
         /* Piece is white */
         if(row == 0){
