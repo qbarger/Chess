@@ -19,6 +19,10 @@ public class ChessBoard {
         this.board = new ChessPiece[rows][columns];
     }
 
+    public ChessBoard(ChessBoard originalBoard){
+        ChessPiece[][] testBoard = deepCopy(board);
+    }
+
     /**
      * Adds a chess piece to the chessboard
      *
@@ -50,10 +54,6 @@ public class ChessBoard {
                 AddPieces(i,j);
             }
         }
-    }
-
-    public void removePiece(ChessPosition position){
-        board[position.getRow()][position.getColumn()] = null;
     }
 
     public void AddPieces(int row, int col){
