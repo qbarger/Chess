@@ -19,8 +19,15 @@ public class ChessBoard {
         this.board = new ChessPiece[rows][columns];
     }
 
-    public ChessBoard(ChessBoard originalBoard){
-        ChessPiece[][] testBoard = deepCopy(board);
+    public ChessBoard(ChessBoard originalBoard) {
+        this();
+        for(int i = 1;i < 9;i++){
+            for(int j = 1;j < 9;j++){
+                ChessPosition position = new ChessPosition(i,j);
+                ChessPiece piece=originalBoard.getPiece(position);
+                this.addPiece(position, piece);
+            }
+        }
     }
 
     /**
@@ -51,12 +58,12 @@ public class ChessBoard {
     public void resetBoard() {
         for(int i = 0;i < 8;i++){
             for(int j = 0;j < 8;j++){
-                AddPieces(i,j);
+                setPieces(i,j);
             }
         }
     }
 
-    public void AddPieces(int row, int col){
+    public void setPieces(int row, int col){
         /* Piece is white */
         if(row == 0){
             if(col == 0){
@@ -136,6 +143,10 @@ public class ChessBoard {
             ChessPiece piece = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
             board[row][col] = piece;
         }
+    }
+
+    public void removePiece(ChessPosition position){
+        board[position.getRow() - 1][position.getColumn() - 1] = null;
     }
 
     @Override
