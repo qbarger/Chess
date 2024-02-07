@@ -29,6 +29,27 @@ public class PawnMoves {
             moveList.add(move);
           }
         }
+        /* Start capture */
+        new_position = new ChessPosition(i,j + 1);
+        if((j + 1) < 9) {
+          if (board.getPiece(new_position) != null) {
+            ChessPiece other=board.getPiece(new_position);
+            if (other.getTeamColor() != piece.getTeamColor()) {
+              move=new ChessMove(position, new_position, null);
+              moveList.add(move);
+            }
+          }
+        }
+        new_position = new ChessPosition(i,j - 1);
+        if((j - 1) > 0) {
+          if (board.getPiece(new_position) != null) {
+            ChessPiece other=board.getPiece(new_position);
+            if (other.getTeamColor() != piece.getTeamColor()) {
+              move=new ChessMove(position, new_position, null);
+              moveList.add(move);
+            }
+          }
+        }
       }
       else {
         /* Promotion */
@@ -45,31 +66,35 @@ public class PawnMoves {
           }
           /* Promotion Capture */
           new_position = new ChessPosition(i,j + 1);
-          if(board.getPiece(new_position) != null) {
-            ChessPiece other=board.getPiece(new_position);
-            if (other.getTeamColor() != piece.getTeamColor()) {
-              move=new ChessMove(position, new_position, ChessPiece.PieceType.BISHOP);
-              moveList.add(move);
-              move=new ChessMove(position, new_position, ChessPiece.PieceType.KNIGHT);
-              moveList.add(move);
-              move=new ChessMove(position, new_position, ChessPiece.PieceType.ROOK);
-              moveList.add(move);
-              move=new ChessMove(position, new_position, ChessPiece.PieceType.QUEEN);
-              moveList.add(move);
+          if(j < 9) {
+            if (board.getPiece(new_position) != null) {
+              ChessPiece other=board.getPiece(new_position);
+              if (other.getTeamColor() != piece.getTeamColor()) {
+                move=new ChessMove(position, new_position, ChessPiece.PieceType.BISHOP);
+                moveList.add(move);
+                move=new ChessMove(position, new_position, ChessPiece.PieceType.KNIGHT);
+                moveList.add(move);
+                move=new ChessMove(position, new_position, ChessPiece.PieceType.ROOK);
+                moveList.add(move);
+                move=new ChessMove(position, new_position, ChessPiece.PieceType.QUEEN);
+                moveList.add(move);
+              }
             }
           }
           new_position = new ChessPosition(i,j - 1);
-          if(board.getPiece(new_position) != null) {
-            ChessPiece other=board.getPiece(new_position);
-            if (other.getTeamColor() != piece.getTeamColor()) {
-              move=new ChessMove(position, new_position, ChessPiece.PieceType.BISHOP);
-              moveList.add(move);
-              move=new ChessMove(position, new_position, ChessPiece.PieceType.KNIGHT);
-              moveList.add(move);
-              move=new ChessMove(position, new_position, ChessPiece.PieceType.ROOK);
-              moveList.add(move);
-              move=new ChessMove(position, new_position, ChessPiece.PieceType.QUEEN);
-              moveList.add(move);
+          if(j > 0) {
+            if (board.getPiece(new_position) != null) {
+              ChessPiece other=board.getPiece(new_position);
+              if (other.getTeamColor() != piece.getTeamColor()) {
+                move=new ChessMove(position, new_position, ChessPiece.PieceType.BISHOP);
+                moveList.add(move);
+                move=new ChessMove(position, new_position, ChessPiece.PieceType.KNIGHT);
+                moveList.add(move);
+                move=new ChessMove(position, new_position, ChessPiece.PieceType.ROOK);
+                moveList.add(move);
+                move=new ChessMove(position, new_position, ChessPiece.PieceType.QUEEN);
+                moveList.add(move);
+              }
             }
           }
         }
@@ -81,19 +106,23 @@ public class PawnMoves {
             }
             /* Capture */
             new_position = new ChessPosition(i,j + 1);
-            if(board.getPiece(new_position) != null) {
-              ChessPiece other = board.getPiece(new_position);
-              if(other.getTeamColor() != piece.getTeamColor()) {
-                move=new ChessMove(position, new_position, null);
-                moveList.add(move);
+            if((j + 1) < 9) {
+              if (board.getPiece(new_position) != null) {
+                ChessPiece other=board.getPiece(new_position);
+                if (other.getTeamColor() != piece.getTeamColor()) {
+                  move=new ChessMove(position, new_position, null);
+                  moveList.add(move);
+                }
               }
             }
             new_position = new ChessPosition(i,j - 1);
-            if(board.getPiece(new_position) != null) {
-              ChessPiece other = board.getPiece(new_position);
-              if(other.getTeamColor() != piece.getTeamColor()) {
-                move=new ChessMove(position, new_position, null);
-                moveList.add(move);
+            if((j - 1) > 0) {
+              if (board.getPiece(new_position) != null) {
+                ChessPiece other=board.getPiece(new_position);
+                if (other.getTeamColor() != piece.getTeamColor()) {
+                  move=new ChessMove(position, new_position, null);
+                  moveList.add(move);
+                }
               }
             }
           }
@@ -116,6 +145,27 @@ public class PawnMoves {
           if(board.getPiece(new_position) == null){
             move = new ChessMove(position,new_position,null);
             moveList.add(move);
+          }
+        }
+        /* Start Capture */
+        new_position = new ChessPosition(i,j + 1);
+        if((j + 1) < 9) {
+          if (board.getPiece(new_position) != null) {
+            ChessPiece other=board.getPiece(new_position);
+            if (other.getTeamColor() != piece.getTeamColor()) {
+              move=new ChessMove(position, new_position, null);
+              moveList.add(move);
+            }
+          }
+        }
+        new_position = new ChessPosition(i,j - 1);
+        if((j - 1) > 0) {
+          if (board.getPiece(new_position) != null) {
+            ChessPiece other=board.getPiece(new_position);
+            if (other.getTeamColor() != piece.getTeamColor()) {
+              move=new ChessMove(position, new_position, null);
+              moveList.add(move);
+            }
           }
         }
       }
@@ -170,19 +220,23 @@ public class PawnMoves {
             }
             /* Capture */
             new_position = new ChessPosition(i,j + 1);
-            if(board.getPiece(new_position) != null) {
-              ChessPiece other = board.getPiece(new_position);
-              if(other.getTeamColor() != piece.getTeamColor()) {
-                move=new ChessMove(position, new_position, null);
-                moveList.add(move);
+            if((j + 1) < 9) {
+              if (board.getPiece(new_position) != null) {
+                ChessPiece other=board.getPiece(new_position);
+                if (other.getTeamColor() != piece.getTeamColor()) {
+                  move=new ChessMove(position, new_position, null);
+                  moveList.add(move);
+                }
               }
             }
             new_position = new ChessPosition(i,j - 1);
-            if(board.getPiece(new_position) != null) {
-              ChessPiece other = board.getPiece(new_position);
-              if(other.getTeamColor() != piece.getTeamColor()) {
-                move=new ChessMove(position, new_position, null);
-                moveList.add(move);
+            if((j - 1) > 0) {
+              if (board.getPiece(new_position) != null) {
+                ChessPiece other=board.getPiece(new_position);
+                if (other.getTeamColor() != piece.getTeamColor()) {
+                  move=new ChessMove(position, new_position, null);
+                  moveList.add(move);
+                }
               }
             }
           }
