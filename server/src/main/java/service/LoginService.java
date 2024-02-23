@@ -1,6 +1,11 @@
 package service;
 
+import dataAccess.AuthDao;
+import dataAccess.UserDao;
+import org.eclipse.jetty.server.Authentication;
+
 public class LoginService {
-  public void register()
+  private AuthDao authDB;
+  private UserDao userDB;
 
 }
