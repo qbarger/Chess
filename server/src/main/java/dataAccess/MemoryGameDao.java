@@ -1,13 +1,34 @@
 package dataAccess;
 
+import model.GameData;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class MemoryGameDao {
-  public void createGame();
+  private Map<String, GameData> gameInfo = new HashMap<>();
+  @Override
+  public void createGame(String gameName){
 
-  public void getGame();
+  }
 
-  public void updateGame();
+  @Override
+  public void getGame(){
 
-  public void listGames();
+  }
 
-  public void clear();
+  @Override
+  public void updateGame(){
+
+  }
+
+  @Override
+  public void listGames(){
+
+  }
+
+  @Override
+  public void clear(){
+    gameInfo.clear();
+  }
 }

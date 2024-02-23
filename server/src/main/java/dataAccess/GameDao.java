@@ -2,7 +2,7 @@ package dataAccess;
 
 public interface GameDao {
 
-  public void createGame();
+  public void createGame(String gameName);
 
   public void getGame();
 
