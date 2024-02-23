@@ -1,7 +1,6 @@
 package dataAccess;
 
-public interface GameDao {
-
+public class MemoryGameDao {
   public void createGame();
 
   public void getGame();
@@ -11,5 +10,4 @@ public interface GameDao {
   public void listGames();
 
   public void clear();
-
 }

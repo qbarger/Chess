@@ -7,4 +7,6 @@ public interface AuthDao {
 
   public void deleteAuth();
 
+  public void clear();
+
 }
