@@ -9,6 +9,8 @@ public interface UserDao {
 
   public UserData getUser(String username);
 
+  public boolean checkUser(String username);
+
   public void clear();
 
   public boolean isItEmpty();

@@ -17,6 +17,13 @@ public class MemoryUserDao implements UserDao{
     return userInfo.get(username);
   }
 
+  public boolean checkUser(String username){
+    if(userInfo.containsKey(username)){
+      return true;
+    }
+    return false;
+  }
+
   @Override
   public void clear(){
     userInfo.clear();

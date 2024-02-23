@@ -3,9 +3,9 @@ package dataAccess;
 import model.AuthData;
 
 public interface AuthDao {
-  public void createAuth(AuthData auth);
+  public void createAuth(String username);
 
-  public void getAuth(String authToken);
+  public AuthData getAuth(String username);
 
   public void deleteAuth();
 

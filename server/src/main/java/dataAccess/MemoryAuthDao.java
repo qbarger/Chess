@@ -1,5 +1,6 @@
 package dataAccess;
 import model.AuthData;
+import model.UserData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,14 +10,15 @@ public class MemoryAuthDao implements AuthDao{
   private Map<String, AuthData> authInfo = new HashMap<>();
 
   @Override
-  public void createAuth(AuthData auth){
+  public void createAuth(String username){
     String authToken =UUID.randomUUID().toString();
+    AuthData auth = new AuthData(authToken,username);
     authInfo.put(authToken,auth);
   }
 
   @Override
-  public void getAuth(String authToken){
-
+  public AuthData getAuth(String username){
+    return authInfo.get(username);
   }
 
   @Override
