@@ -5,9 +5,9 @@ import dataAccess.GameDao;
 import dataAccess.UserDao;
 
 public class ClearService {
-  private UserDao userDB;
-  private AuthDao authDB;
-  private GameDao gameDB;
+  public UserDao userDB;
+  public AuthDao authDB;
+  public GameDao gameDB;
 
   public ClearService(UserDao userDB, AuthDao authDB, GameDao gameDB) {
     this.userDB = userDB;

@@ -1,8 +1,10 @@
 package dataAccess;
 
+import model.GameData;
+
 public interface GameDao {
 
-  public void createGame(String gameName);
+  public void createGame(GameData game);
 
   public void getGame();
 

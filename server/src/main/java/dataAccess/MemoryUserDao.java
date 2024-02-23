@@ -8,13 +8,13 @@ public class MemoryUserDao implements UserDao{
   private Map<String, UserData> userInfo = new HashMap<>();
 
   @Override
-  public void createUser(String username, String password){
-
+  public void createUser(UserData user){
+    userInfo.put(user.username(),user);
   }
 
   @Override
-  public void getUser(String username){
-
+  public UserData getUser(String username){
+    return userInfo.get(username);
   }
 
   @Override

@@ -1,10 +1,13 @@
 package dataAccess;
 
+import model.UserData;
+import org.eclipse.jetty.server.Authentication;
+
 public interface UserDao {
 
-  public void createUser(String username, String password);
+  public void createUser(UserData user);
 
-  public void getUser(String username);
+  public UserData getUser(String username);
 
   public void clear();
 

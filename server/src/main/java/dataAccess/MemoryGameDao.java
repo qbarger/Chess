@@ -8,8 +8,8 @@ import java.util.Map;
 public class MemoryGameDao implements GameDao{
   private Map<String, GameData> gameInfo = new HashMap<>();
   @Override
-  public void createGame(String gameName){
-
+  public void createGame(GameData game){
+    gameInfo.put(game.gameName(), game);
   }
 
   @Override
