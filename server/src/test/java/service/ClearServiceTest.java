@@ -31,5 +31,9 @@ class ClearServiceTest {
     testObject.gameDB.createGame(new GameData(2,"john","james","game0",new ChessGame()));
 
     testObject.clear();
+
+    assertEquals(true,testObject.userDB.isItEmpty());
+    assertEquals(true,testObject.authDB.isItEmpty());
+    assertEquals(true,testObject.gameDB.isItEmpty());
   }
 }

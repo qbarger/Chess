@@ -28,4 +28,12 @@ public class MemoryAuthDao implements AuthDao{
   public void clear(){
     authInfo.clear();
   }
+
+  @Override
+  public boolean isItEmpty(){
+    if(authInfo.size() == 0){
+      return true;
+    }
+    return false;
+  }
 }

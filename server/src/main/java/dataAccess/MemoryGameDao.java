@@ -31,4 +31,12 @@ public class MemoryGameDao implements GameDao{
   public void clear(){
     gameInfo.clear();
   }
+
+  @Override
+  public boolean isItEmpty(){
+    if(gameInfo.size() == 0){
+      return true;
+    }
+    return false;
+  }
 }

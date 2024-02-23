@@ -11,4 +11,5 @@ public interface UserDao {
 
   public void clear();
 
+  public boolean isItEmpty();
 }

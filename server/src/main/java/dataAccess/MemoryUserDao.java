@@ -21,4 +21,12 @@ public class MemoryUserDao implements UserDao{
   public void clear(){
     userInfo.clear();
   }
+
+  @Override
+  public boolean isItEmpty(){
+    if(userInfo.size() == 0){
+      return true;
+    }
+    return false;
+  }
 }

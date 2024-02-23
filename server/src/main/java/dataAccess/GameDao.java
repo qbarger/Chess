@@ -14,4 +14,5 @@ public interface GameDao {
 
   public void clear();
 
+  public boolean isItEmpty();
 }
