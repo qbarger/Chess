@@ -13,8 +13,13 @@ public class MemoryGameDao implements GameDao{
   }
 
   @Override
-  public void getGame(){
-
+  public GameData getGame(int gameID) throws DataAccessException{
+    for(GameData game : gameInfo.values()){
+      if(game.gameID() == gameID){
+        return game;
+      }
+    }
+    throw new DataAccessException("Game does not exist.");
   }
 
   @Override
@@ -25,6 +30,11 @@ public class MemoryGameDao implements GameDao{
   @Override
   public void listGames(){
 
+  }
+
+  @Override
+  public int listSize(){
+    return gameInfo.size();
   }
 
   @Override

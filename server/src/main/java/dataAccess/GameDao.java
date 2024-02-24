@@ -6,11 +6,13 @@ public interface GameDao {
 
   public void createGame(GameData game);
 
-  public void getGame();
+  public GameData getGame(int gameID) throws DataAccessException;
 
   public void updateGame();
 
   public void listGames();
+
+  public int listSize();
 
   public void clear();
 
