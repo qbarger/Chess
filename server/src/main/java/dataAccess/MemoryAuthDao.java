@@ -13,7 +13,7 @@ public class MemoryAuthDao implements AuthDao{
   public void createAuth(String username){
     String authToken =UUID.randomUUID().toString();
     AuthData auth = new AuthData(authToken,username);
-    authInfo.put(authToken,auth);
+    authInfo.put(username,auth);
   }
 
   @Override

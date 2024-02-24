@@ -10,6 +10,11 @@ public class RegisterService {
   private AuthDao authDB;
   private UserDao userDB;
 
+  public RegisterService(UserDao userDB,AuthDao authDB){
+    this.userDB = userDB;
+    this.authDB = authDB;
+  }
+
   public String register(UserData user) throws DataAccessException{
     if(userDB.checkUser(user.username())) {
       throw new DataAccessException("Username already exists.");

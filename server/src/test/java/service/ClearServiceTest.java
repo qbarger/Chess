@@ -27,7 +27,7 @@ class ClearServiceTest {
   @Test
   void clear() {
     testObject.userDB.createUser(new UserData("qbarger","jellyfish","jelly@gmail.com"));
-    testObject.authDB.createAuth(new AuthData("authTOken","qbarger"));
+    testObject.authDB.createAuth("qbarger");
     testObject.gameDB.createGame(new GameData(2,"john","james","game0",new ChessGame()));
 
     testObject.clear();
