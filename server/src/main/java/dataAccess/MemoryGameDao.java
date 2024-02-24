@@ -2,6 +2,8 @@ package dataAccess;
 
 import model.GameData;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +30,12 @@ public class MemoryGameDao implements GameDao{
   }
 
   @Override
-  public void listGames(){
-
+  public ArrayList<GameData> listGames(){
+    ArrayList<GameData> gameList = new ArrayList<>();
+    for(GameData game : gameInfo.values()){
+      gameList.add(game);
+    }
+    return gameList;
   }
 
   @Override

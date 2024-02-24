@@ -2,6 +2,8 @@ package dataAccess;
 
 import model.GameData;
 
+import java.util.ArrayList;
+
 public interface GameDao {
 
   public void createGame(GameData game);
@@ -10,7 +12,7 @@ public interface GameDao {
 
   public void updateGame();
 
-  public void listGames();
+  public ArrayList<GameData> listGames();
 
   public int listSize();
 
