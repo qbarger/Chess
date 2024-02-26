@@ -25,8 +25,13 @@ public class MemoryGameDao implements GameDao{
   }
 
   @Override
-  public void updateGame(){
-
+  public GameData updateGame(GameData game){
+    for(String key : gameInfo.keySet()){
+      if(key == game.gameName()){
+        gameInfo.put(key,game);
+      }
+    }
+    return gameInfo.get(game.gameName());
   }
 
   @Override
