@@ -6,6 +6,7 @@ import dataAccess.GameDao;
 import dataAccess.UserDao;
 import model.AuthData;
 import model.GameData;
+import model.GameList;
 
 import java.util.ArrayList;
 
@@ -18,10 +19,11 @@ public class ListGamesService {
     this.gameDB = gameDB;
   }
 
-  public ArrayList<GameData> listGames(AuthData auth) throws DataAccessException {
+  public GameList listGames(AuthData auth) throws DataAccessException {
     AuthData checkAuth = authDB.getAuth(auth.username());
     if(checkAuth.authToken() == auth.authToken()){
-      return gameDB.listGames();
+      GameList gameList = new GameList(gameDB.listGames().gameList());
+      return gameList;
     }
     else {
       throw  new DataAccessException("Authorization not found.");

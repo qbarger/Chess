@@ -15,7 +15,7 @@ public class RegisterService {
     this.authDB = authDB;
   }
 
-  public String register(UserData user) throws DataAccessException{
+  public AuthData register(UserData user) throws DataAccessException{
     if(userDB.checkUser(user.username())) {
       throw new DataAccessException("Username already exists.");
     }
@@ -24,7 +24,7 @@ public class RegisterService {
       authDB.createAuth(user.username());
     }
     AuthData auth = authDB.getAuth(user.username());
-    return auth.authToken();
+    return auth;
   }
 
 }

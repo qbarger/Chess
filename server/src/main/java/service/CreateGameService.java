@@ -6,6 +6,7 @@ import dataAccess.DataAccessException;
 import dataAccess.GameDao;
 import model.AuthData;
 import model.GameData;
+import model.GameID;
 
 public class CreateGameService {
   private GameDao gameDB;
@@ -16,7 +17,7 @@ public class CreateGameService {
     this.gameDB = gameDB;
   }
 
-  public int createGame(AuthData auth, String gamename) throws DataAccessException {
+  public GameID createGame(AuthData auth, String gamename) throws DataAccessException {
     AuthData checkAuth = authDB.getAuth(auth.username());
     int gameID = gameDB.listSize() + 1;
     if(checkAuth.authToken() == auth.authToken()){
@@ -26,6 +27,7 @@ public class CreateGameService {
     else {
       throw new DataAccessException("Verification not found.");
     }
-    return gameID;
+    GameID id = new GameID(gameID);
+    return id;
   }
 }

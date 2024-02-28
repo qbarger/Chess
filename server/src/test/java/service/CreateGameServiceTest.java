@@ -4,6 +4,7 @@ import chess.ChessGame;
 import dataAccess.*;
 import model.AuthData;
 import model.GameData;
+import model.GameID;
 import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,10 +30,10 @@ class CreateGameServiceTest {
   @Test
   void createGame() throws DataAccessException {
     String authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
-    int gameID = testObject1.createGame(new AuthData(authToken,"qbarger"),"My Game");
+    GameID gameID = testObject1.createGame(new AuthData(authToken,"qbarger"),"My Game");
     GameData checkGame = new GameData(1,"","","My Game",new ChessGame());
 
-    GameData game = gameTestDB.getGame(gameID);
+    GameData game = gameTestDB.getGame(gameID.gameID());
     assertEquals(checkGame, game);
   }
 
@@ -40,7 +41,7 @@ class CreateGameServiceTest {
   void createGameFails() throws DataAccessException {
     try {
       String authToken=testObject2.register(new UserData("qbarger", "johnnyland1", "kingkong@gmail.com"));
-      int gameID=testObject1.createGame(new AuthData(authToken + "a", "qbarger"), "My Game");
+      GameID gameID=testObject1.createGame(new AuthData(authToken + "a", "qbarger"), "My Game");
       fail("Authtoken not correct.");
     }
     catch (DataAccessException d) {

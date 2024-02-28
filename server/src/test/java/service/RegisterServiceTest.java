@@ -22,17 +22,17 @@ class RegisterServiceTest {
 
   @Test
   void register() throws DataAccessException {
-    String auth = testObject.register(new UserData("qbarger", "bricks9", "brick@gmail.com"));
+    AuthData auth = testObject.register(new UserData("qbarger", "bricks9", "brick@gmail.com"));
     AuthData testAuth = authTestDB.getAuth("qbarger");
 
-    assertEquals(auth, testAuth.authToken());
+    assertEquals(auth.authToken(), testAuth.authToken());
   }
 
   @Test
   void registerFails() throws DataAccessException {
     try {
-      String auth=testObject.register(new UserData("duck", "over10", "duck@gmail.com"));
-      String auth2=testObject.register(new UserData("duck", "gambo", "jeff@gmail.com"));
+      AuthData auth=testObject.register(new UserData("duck", "over10", "duck@gmail.com"));
+      AuthData auth2=testObject.register(new UserData("duck", "gambo", "jeff@gmail.com"));
       fail("Expected a DataClassException to be thrown.");
     }
     catch (DataAccessException d){
