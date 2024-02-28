@@ -29,8 +29,8 @@ class CreateGameServiceTest {
   }
   @Test
   void createGame() throws DataAccessException {
-    String authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
-    GameID gameID = testObject1.createGame(new AuthData(authToken,"qbarger"),"My Game");
+    AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
+    GameID gameID = testObject1.createGame(new AuthData("qbarger", authToken.authToken()),"My Game");
     GameData checkGame = new GameData(1,"","","My Game",new ChessGame());
 
     GameData game = gameTestDB.getGame(gameID.gameID());
@@ -40,8 +40,8 @@ class CreateGameServiceTest {
   @Test
   void createGameFails() throws DataAccessException {
     try {
-      String authToken=testObject2.register(new UserData("qbarger", "johnnyland1", "kingkong@gmail.com"));
-      GameID gameID=testObject1.createGame(new AuthData(authToken + "a", "qbarger"), "My Game");
+      AuthData authToken=testObject2.register(new UserData("qbarger", "johnnyland1", "kingkong@gmail.com"));
+      GameID gameID=testObject1.createGame(new AuthData("qbarger", authToken.authToken() + "a"), "My Game");
       fail("Authtoken not correct.");
     }
     catch (DataAccessException d) {

@@ -11,8 +11,8 @@ import model.GameList;
 import java.util.ArrayList;
 
 public class ListGamesService {
-  private AuthDao authDB;
-  private GameDao gameDB;
+  public AuthDao authDB;
+  public GameDao gameDB;
 
   public ListGamesService(AuthDao authDB, GameDao gameDB){
     this.authDB = authDB;

@@ -9,8 +9,8 @@ import model.GameData;
 import model.JoinGameData;
 
 public class UpdateGameService {
-  private AuthDao authDB;
-  private GameDao gameDB;
+  public AuthDao authDB;
+  public GameDao gameDB;
 
   public UpdateGameService(AuthDao authDB, GameDao gameDB){
     this.authDB = authDB;

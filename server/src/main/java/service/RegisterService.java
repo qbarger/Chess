@@ -7,8 +7,8 @@ import model.AuthData;
 import model.UserData;
 
 public class RegisterService {
-  private AuthDao authDB;
-  private UserDao userDB;
+  public AuthDao authDB;
+  public UserDao userDB;
 
   public RegisterService(UserDao userDB,AuthDao authDB){
     this.userDB = userDB;

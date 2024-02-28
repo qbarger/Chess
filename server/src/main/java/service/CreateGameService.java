@@ -9,8 +9,8 @@ import model.GameData;
 import model.GameID;
 
 public class CreateGameService {
-  private GameDao gameDB;
-  private AuthDao authDB;
+  public GameDao gameDB;
+  public AuthDao authDB;
 
   public CreateGameService(AuthDao authDB,GameDao gameDB){
     this.authDB = authDB;

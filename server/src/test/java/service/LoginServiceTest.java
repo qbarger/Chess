@@ -24,17 +24,17 @@ class LoginServiceTest {
   }
   @Test
   void login() throws DataAccessException {
-    String auth0 =testObject0.register(new UserData("Mikal", "bridges", "traded@gmail.com"));
-    String auth1 =testObject1.login(new UserData("Mikal", "bridges", "traded@gmail.com"));
+    AuthData auth0 =testObject0.register(new UserData("Mikal", "bridges", "traded@gmail.com"));
+    AuthData auth1 =testObject1.login(new UserData("Mikal", "bridges", "traded@gmail.com"));
     AuthData testAuth = authTestDB.getAuth("Mikal");
 
-    assertEquals(auth1, testAuth.authToken());
+    assertEquals(auth1.authToken(), testAuth.authToken());
   }
 
   @Test
   void loginFails() throws DataAccessException {
     try {
-      String auth1 =testObject1.login(new UserData("Mikal", "bridges", "traded@gmail.com"));
+      AuthData auth1 =testObject1.login(new UserData("Mikal", "bridges", "traded@gmail.com"));
 
       fail("Expected a Data Class Exception to be thrown.");
     }

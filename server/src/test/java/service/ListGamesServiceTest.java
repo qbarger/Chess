@@ -31,8 +31,8 @@ class ListGamesServiceTest {
 
   @Test
   void listGames() throws DataAccessException {
-    String authToken = testObject2.register(new UserData("john","welovebears24","bear@gmail.com"));
-    AuthData auth = new AuthData(authToken,"john");
+    AuthData authToken = testObject2.register(new UserData("john","welovebears24","bear@gmail.com"));
+    AuthData auth = new AuthData("john", authToken.authToken());
     GameID gameID1 = testObject3.createGame(auth,"new Game");
     GameID gameID2 = testObject3.createGame(auth,"another Game");
     GameID gameID3 = testObject3.createGame(auth,"third Game");
@@ -52,10 +52,10 @@ class ListGamesServiceTest {
   @Test
   void listGamesFails() throws DataAccessException{
     try {
-      String authToken = testObject2.register(new UserData("john","welovebears24","bear@gmail.com"));
-      AuthData auth = new AuthData(authToken,"john");
+      AuthData authToken = testObject2.register(new UserData("john","welovebears24","bear@gmail.com"));
+      AuthData auth = new AuthData("john", authToken.authToken());
       GameID gameID1 = testObject3.createGame(auth,"new Game");
-      GameList gameList = testObject1.listGames(new AuthData(authToken + "a","john"));
+      GameList gameList = testObject1.listGames(new AuthData("john", authToken + "a"));
       fail("Authorization not found.");
     }
     catch (DataAccessException d) {

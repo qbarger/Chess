@@ -12,7 +12,7 @@ public class MemoryAuthDao implements AuthDao{
   @Override
   public void createAuth(String username){
     String authToken =UUID.randomUUID().toString();
-    AuthData auth = new AuthData(authToken,username);
+    AuthData auth = new AuthData(username,authToken);
     authInfo.put(username,auth);
   }
 
@@ -23,7 +23,7 @@ public class MemoryAuthDao implements AuthDao{
 
   @Override
   public void deleteAuth(AuthData auth){
-    AuthData tempAuth = new AuthData(null, auth.username());
+    AuthData tempAuth = new AuthData(auth.username(), null);
     authInfo.put(auth.username(), tempAuth);
   }
 

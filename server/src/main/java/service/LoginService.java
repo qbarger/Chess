@@ -8,19 +8,19 @@ import model.UserData;
 import org.eclipse.jetty.server.Authentication;
 
 public class LoginService {
-  private AuthDao authDB;
-  private UserDao userDB;
+  public AuthDao authDB;
+  public UserDao userDB;
 
   public LoginService(UserDao userDB, AuthDao authDB){
     this.userDB = userDB;
     this.authDB = authDB;
   }
 
-  public String login(UserData user) throws DataAccessException {
+  public AuthData login(UserData user) throws DataAccessException {
     if(userDB.checkUser(user.username())){
       authDB.createAuth(user.username());
       AuthData auth = authDB.getAuth(user.username());
-      return auth.authToken();
+      return auth;
     }
     else {
       throw new DataAccessException("Username does not exist.");

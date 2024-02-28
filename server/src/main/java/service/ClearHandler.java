@@ -19,7 +19,7 @@ public class ClearHandler {
     this.clearHandler = new ClearService(userDB, authDB, gameDB);
   }
 
-  public static Object clear(Request req, Response res){
+  public Object clear(Request req, Response res){
     res.status(200);
     return "{}";
   }

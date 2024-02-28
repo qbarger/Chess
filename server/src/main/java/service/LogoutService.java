@@ -6,8 +6,8 @@ import dataAccess.UserDao;
 import model.AuthData;
 
 public class LogoutService {
-  private UserDao userDB;
-  private AuthDao authDB;
+  public UserDao userDB;
+  public AuthDao authDB;
 
   public LogoutService(UserDao userDB, AuthDao authDB){
     this.userDB = userDB;
