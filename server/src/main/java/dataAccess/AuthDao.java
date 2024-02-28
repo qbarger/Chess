@@ -9,6 +9,8 @@ public interface AuthDao {
 
   public void deleteAuth(AuthData auth);
 
+  public boolean checkAuth(String authToken);
+
   public void clear();
 
   public boolean isItEmpty();

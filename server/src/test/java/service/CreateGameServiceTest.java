@@ -2,10 +2,7 @@ package service;
 
 import chess.ChessGame;
 import dataAccess.*;
-import model.AuthData;
-import model.GameData;
-import model.GameID;
-import model.UserData;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +27,8 @@ class CreateGameServiceTest {
   @Test
   void createGame() throws DataAccessException {
     AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
-    GameID gameID = testObject1.createGame(new AuthData("qbarger", authToken.authToken()),"My Game");
+    CreateGameData gameName = new CreateGameData("My Game");
+    GameID gameID = testObject1.createGame(new AuthData("qbarger", authToken.authToken()),gameName);
     GameData checkGame = new GameData(1,"","","My Game",new ChessGame());
 
     GameData game = gameTestDB.getGame(gameID.gameID());
@@ -41,7 +39,8 @@ class CreateGameServiceTest {
   void createGameFails() throws DataAccessException {
     try {
       AuthData authToken=testObject2.register(new UserData("qbarger", "johnnyland1", "kingkong@gmail.com"));
-      GameID gameID=testObject1.createGame(new AuthData("qbarger", authToken.authToken() + "a"), "My Game");
+      CreateGameData gameName = new CreateGameData("My Game");
+      GameID gameID=testObject1.createGame(new AuthData("qbarger", authToken.authToken() + "a"), gameName);
       fail("Authtoken not correct.");
     }
     catch (DataAccessException d) {

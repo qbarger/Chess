@@ -26,9 +26,8 @@ class LogoutServiceTest {
   void logout() throws DataAccessException {
     AuthData auth1 = testObject1.register(new UserData("john","3:16","saint@gmail.com"));
     testObject2.logout(new AuthData("john", auth1.authToken()));
-    AuthData tempAuth = new AuthData("john", null);
 
-    assertEquals(tempAuth,authTestDB.getAuth("john"));
+    assertEquals(null,authTestDB.getAuth("john"));
   }
 
   @Test

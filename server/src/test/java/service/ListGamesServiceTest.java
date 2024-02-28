@@ -33,9 +33,12 @@ class ListGamesServiceTest {
   void listGames() throws DataAccessException {
     AuthData authToken = testObject2.register(new UserData("john","welovebears24","bear@gmail.com"));
     AuthData auth = new AuthData("john", authToken.authToken());
-    GameID gameID1 = testObject3.createGame(auth,"new Game");
-    GameID gameID2 = testObject3.createGame(auth,"another Game");
-    GameID gameID3 = testObject3.createGame(auth,"third Game");
+    CreateGameData gamename1 = new CreateGameData("new Game");
+    GameID gameID1 = testObject3.createGame(auth,gamename1);
+    CreateGameData gamename2 = new CreateGameData("another Game");
+    GameID gameID2 = testObject3.createGame(auth,gamename2);
+    CreateGameData gamename3 = new CreateGameData("third Game");
+    GameID gameID3 = testObject3.createGame(auth,gamename3);
 
     ArrayList<GameData> checkList = new ArrayList<>();
     GameData game1 = new GameData(1,"","","new Game",new ChessGame());
@@ -54,7 +57,8 @@ class ListGamesServiceTest {
     try {
       AuthData authToken = testObject2.register(new UserData("john","welovebears24","bear@gmail.com"));
       AuthData auth = new AuthData("john", authToken.authToken());
-      GameID gameID1 = testObject3.createGame(auth,"new Game");
+      CreateGameData gamename = new CreateGameData("new Game");
+      GameID gameID1 = testObject3.createGame(auth,gamename);
       GameList gameList = testObject1.listGames(new AuthData("john", authToken + "a"));
       fail("Authorization not found.");
     }

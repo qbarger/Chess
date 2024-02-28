@@ -31,7 +31,8 @@ class UpdateGameServiceTest {
   void updateGame() throws DataAccessException{
     AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
     AuthData auth = new AuthData("qbarger", authToken.authToken());
-    GameID gameID = testObject3.createGame(auth,"My Game");
+    CreateGameData gamename = new CreateGameData("My Game");
+    GameID gameID = testObject3.createGame(auth,gamename);
     GameData newGame = new GameData(gameID.gameID(),"Jeff","John","My Game",new ChessGame());
     GameData game = testObject1.updateGame(auth,newGame);
 
@@ -43,7 +44,8 @@ class UpdateGameServiceTest {
     try {
       AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
       AuthData auth = new AuthData("qbarger", authToken.authToken());
-      GameID gameID = testObject3.createGame(auth,"My Game");
+      CreateGameData gamename = new CreateGameData("My Game");
+      GameID gameID = testObject3.createGame(auth,gamename);
       GameData newGame = new GameData(gameID.gameID(),"Jeff","John","My Game",new ChessGame());
       GameData game = testObject1.updateGame(new AuthData("qbarger", authToken.authToken() + "b"), newGame);
       fail("Expected to say Authorization not found.");
@@ -57,7 +59,8 @@ class UpdateGameServiceTest {
   void joinGame() throws DataAccessException {
     AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
     AuthData auth = new AuthData("qbarger", authToken.authToken());
-    GameID gameID = testObject3.createGame(auth, "My Game");
+    CreateGameData gamename = new CreateGameData("My Game");
+    GameID gameID = testObject3.createGame(auth, gamename);
     GameData newGame = new GameData(gameID.gameID(),"","qbarger","My Game",new ChessGame());
     JoinGameData add = new JoinGameData("BLACK", gameID.gameID());
     GameData game = testObject1.joinGame(add,auth);
@@ -70,7 +73,8 @@ class UpdateGameServiceTest {
     try {
       AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
       AuthData auth = new AuthData("qbarger", authToken.authToken());
-      GameID gameID = testObject3.createGame(auth, "My Game");
+      CreateGameData gamename = new CreateGameData("My Game");
+      GameID gameID = testObject3.createGame(auth, gamename);
       GameData newGame = new GameData(gameID.gameID(),"","qbarger","My Game",new ChessGame());
       JoinGameData add = new JoinGameData("BLACK", gameID.gameID());
       GameData game = testObject1.joinGame(add, new AuthData("qbarger", authToken.authToken() + "b"));
