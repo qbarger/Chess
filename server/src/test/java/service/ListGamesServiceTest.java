@@ -48,7 +48,7 @@ class ListGamesServiceTest {
     checkList.add(game3);
     checkList.add(game1);
 
-    GameList gameList = testObject1.listGames(auth);
+    GameList gameList = testObject1.listGames(authToken.authToken());
     assertEquals(checkList, gameList.gameList());
   }
 
@@ -59,7 +59,7 @@ class ListGamesServiceTest {
       AuthData auth = new AuthData("john", authToken.authToken());
       CreateGameData gamename = new CreateGameData("new Game");
       GameID gameID1 = testObject3.createGame(auth.authToken(),gamename);
-      GameList gameList = testObject1.listGames(new AuthData("john", authToken + "a"));
+      GameList gameList = testObject1.listGames(authToken + "a");
       fail("Authorization not found.");
     }
     catch (DataAccessException d) {

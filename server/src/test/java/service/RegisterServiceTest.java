@@ -23,7 +23,7 @@ class RegisterServiceTest {
   @Test
   void register() throws DataAccessException {
     AuthData auth = testObject.register(new UserData("qbarger", "bricks9", "brick@gmail.com"));
-    AuthData testAuth = authTestDB.getAuth("qbarger");
+    AuthData testAuth = authTestDB.getAuth(auth.authToken());
 
     assertEquals(auth.authToken(), testAuth.authToken());
   }

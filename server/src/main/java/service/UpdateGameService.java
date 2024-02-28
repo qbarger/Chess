@@ -18,8 +18,7 @@ public class UpdateGameService {
   }
 
   public GameData updateGame(String authToken, GameData game) throws DataAccessException {
-    AuthData checkAuth = authDB.getAuth(authToken);
-    if(checkAuth.authToken() == authToken){
+    if(authDB.checkAuth(authToken)){
       gameDB.updateGame(game);
       return game;
     }
@@ -29,17 +28,17 @@ public class UpdateGameService {
   }
 
   public GameData joinGame(JoinGameData info, String authToken) throws DataAccessException{
-    AuthData checkAuth = authDB.getAuth(authToken);
-    if(checkAuth.authToken() == authToken){
+    AuthData auth = authDB.getAuth(authToken);
+    if(authDB.checkAuth(authToken)){
       if(info.playerColor() == "WHITE"){
         GameData game = gameDB.getGame(info.gameID());
-        GameData newGame = new GameData(game.gameID(), checkAuth.username(), game.blackUsername(), game.gameName(), new ChessGame());
+        GameData newGame = new GameData(game.gameID(), auth.username(), game.blackUsername(), game.gameName(), new ChessGame());
         gameDB.updateGame(newGame);
         return newGame;
       }
       else {
         GameData game = gameDB.getGame(info.gameID());
-        GameData newGame = new GameData(game.gameID(), game.whiteUsername(), checkAuth.username(), game.gameName(), new ChessGame());
+        GameData newGame = new GameData(game.gameID(), game.whiteUsername(), auth.username(), game.gameName(), new ChessGame());
         gameDB.updateGame(newGame);
         return newGame;
       }

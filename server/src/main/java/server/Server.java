@@ -24,12 +24,14 @@ public class Server {
         LoginService loginService = new LoginService(userDB,authDB);
         LogoutService logoutService = new LogoutService(userDB,authDB);
         CreateGameService createGameService = new CreateGameService(authDB, gameDB);
+        ListGamesService listGamesService = new ListGamesService(authDB, gameDB);
 
         Spark.delete("/db", (req, res) -> (new ClearHandler(clearService.userDB, clearService.authDB, clearService.gameDB)).clear(req, res));
         Spark.post("/user", (req, res) -> (new RegisterHandler(registerService.userDB, registerService.authDB).register(req, res)));
         Spark.post("/session", (req, res) -> (new LoginHandler(loginService.userDB, loginService.authDB).login(req, res)));
         Spark.delete("/session", (req, res) -> (new LogoutHandler(logoutService.userDB, logoutService.authDB).logout(req, res)));
         Spark.post("/game", (req, res) -> (new CreateGameHandler(createGameService.gameDB, createGameService.authDB).createGame(req, res)));
+        Spark.get("/game", (req, res) -> (new ListGamesHandler(listGamesService.authDB, listGamesService.gameDB).listGames(req, res)));
         // Register your endpoints and handle exceptions here.
 
         Spark.awaitInitialization();

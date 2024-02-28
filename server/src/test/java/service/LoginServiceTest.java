@@ -26,7 +26,7 @@ class LoginServiceTest {
   void login() throws DataAccessException {
     AuthData auth0 =testObject0.register(new UserData("Mikal", "bridges", "traded@gmail.com"));
     AuthData auth1 =testObject1.login(new UserData("Mikal", "bridges", "traded@gmail.com"));
-    AuthData testAuth = authTestDB.getAuth("Mikal");
+    AuthData testAuth = authTestDB.getAuth(auth1.authToken());
 
     assertEquals(auth1.authToken(), testAuth.authToken());
   }

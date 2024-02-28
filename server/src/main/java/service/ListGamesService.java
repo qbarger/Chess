@@ -19,9 +19,8 @@ public class ListGamesService {
     this.gameDB = gameDB;
   }
 
-  public GameList listGames(AuthData auth) throws DataAccessException {
-    AuthData checkAuth = authDB.getAuth(auth.username());
-    if(checkAuth.authToken() == auth.authToken()){
+  public GameList listGames(String authToken) throws DataAccessException {
+    if(authDB.checkAuth(authToken)){
       GameList gameList = new GameList(gameDB.listGames().gameList());
       return gameList;
     }
