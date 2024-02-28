@@ -15,9 +15,9 @@ public class LogoutService {
     this.authDB = authDB;
   }
 
-  public void logout(AuthData auth) throws DataAccessException {
-    if(userDB.checkUser(auth.username())){
-      authDB.deleteAuth(auth);
+  public void logout(String authToken) throws DataAccessException {
+    if(authDB.checkAuth(authToken)){
+      authDB.deleteAuth(authToken);
     }
     else {
       throw new DataAccessException("User could not be found.");

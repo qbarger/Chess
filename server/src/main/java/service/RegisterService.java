@@ -21,10 +21,9 @@ public class RegisterService {
     }
     else {
       userDB.createUser(user);
-      authDB.createAuth(user.username());
+      AuthData auth = authDB.createAuth(user.username());
+      return auth;
     }
-    AuthData auth = authDB.getAuth(user.username());
-    return auth;
   }
 
 }

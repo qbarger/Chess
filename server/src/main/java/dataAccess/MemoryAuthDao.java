@@ -10,25 +10,26 @@ public class MemoryAuthDao implements AuthDao{
   private Map<String, AuthData> authInfo = new HashMap<>();
 
   @Override
-  public void createAuth(String username){
+  public AuthData createAuth(String username){
     String authToken =UUID.randomUUID().toString();
     AuthData auth = new AuthData(username, authToken);
-    authInfo.put(username,auth);
+    authInfo.put(authToken,auth);
+    return auth;
   }
 
   @Override
-  public AuthData getAuth(String username){
-    return authInfo.get(username);
+  public AuthData getAuth(String authToken){
+    return authInfo.get(authToken);
   }
 
   @Override
-  public void deleteAuth(AuthData auth){
-    authInfo.remove(auth.username());
+  public void deleteAuth(String authToken){
+    authInfo.remove(authToken);
   }
 
   @Override
   public boolean checkAuth(String authToken){
-    if(authInfo.containsValue(authToken)){
+    if(authInfo.containsKey(authToken)){
       return true;
     }
     else {

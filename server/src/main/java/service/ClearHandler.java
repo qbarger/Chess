@@ -20,6 +20,7 @@ public class ClearHandler {
   }
 
   public Object clear(Request req, Response res){
+    clearHandler.clear();
     res.status(200);
     return "{}";
   }

@@ -18,10 +18,9 @@ public class CreateGameService {
     this.gameDB = gameDB;
   }
 
-  public GameID createGame(AuthData auth, CreateGameData gamename) throws DataAccessException {
-    AuthData checkAuth = authDB.getAuth(auth.username());
+  public GameID createGame(String authToken, CreateGameData gamename) throws DataAccessException {
     int gameID = gameDB.listSize() + 1;
-    if(checkAuth.authToken() == auth.authToken()){
+    if(authDB.getAuth(authToken) != null){
       GameData game = new GameData(gameID,"","",gamename.gameName(),new ChessGame());
       gameDB.createGame(game);
     }

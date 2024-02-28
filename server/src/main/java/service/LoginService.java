@@ -18,8 +18,7 @@ public class LoginService {
 
   public AuthData login(UserData user) throws DataAccessException {
     if(userDB.checkUser(user.username())){
-      authDB.createAuth(user.username());
-      AuthData auth = authDB.getAuth(user.username());
+      AuthData auth = authDB.createAuth(user.username());
       return auth;
     }
     else {

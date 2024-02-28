@@ -25,7 +25,7 @@ class LogoutServiceTest {
   @Test
   void logout() throws DataAccessException {
     AuthData auth1 = testObject1.register(new UserData("john","3:16","saint@gmail.com"));
-    testObject2.logout(new AuthData("john", auth1.authToken()));
+    testObject2.logout(auth1.authToken());
 
     assertEquals(null,authTestDB.getAuth("john"));
   }
@@ -33,7 +33,7 @@ class LogoutServiceTest {
   @Test
   void logoutFails() throws DataAccessException {
     try {
-      testObject2.logout(new AuthData("0a0a3c31-8609-4af7-b99c-81ac014e265e", "john"));
+      testObject2.logout("0a0a3c31-8609-4af7-b99c-81ac014e265e");
       fail("Expected a Data Access Exception to be thrown.");
     }
     catch (DataAccessException d){

@@ -21,7 +21,8 @@ public class LogoutHandler {
 
   public Object logout(Request req, Response res) throws DataAccessException {
     String authToken = req.headers("authorization");
-    if(authToken == null){
+    if(authToken != null){
+      logoutService.logout(authToken);
       res.status(200);
     }
     else {

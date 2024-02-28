@@ -2,6 +2,7 @@ package service;
 
 import com.google.gson.Gson;
 import dataAccess.AuthDao;
+import dataAccess.DataAccessException;
 import dataAccess.GameDao;
 import model.AuthData;
 import model.CreateGameData;
@@ -19,9 +20,17 @@ public class CreateGameHandler {
     this.createGameService = new CreateGameService(authDB, gameDB);
   }
 
-  public Object createGame(Request req, Response res){
+  public Object createGame(Request req, Response res) throws DataAccessException {
     var create = new Gson().fromJson(req.body(), CreateGameData.class);
     String authToken = req.headers("authorization");
-    return create;
+    if(authToken != null){
+      var gameID = createGameService.createGame(authToken, create);
+      res.status(200);
+      return new Gson().toJson(gameID);
+    }
+    else {
+      res.status(400);
+      return "{}";
+    }
   }
 }
