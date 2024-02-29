@@ -49,7 +49,7 @@ class ListGamesServiceTest {
     checkList.add(game3);
 
     GameList gameList = testObject1.listGames(authToken.authToken());
-    assertEquals(checkList, gameList.gameList());
+    assertEquals(checkList, gameList.games());
   }
 
   @Test

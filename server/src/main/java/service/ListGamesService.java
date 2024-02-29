@@ -3,12 +3,7 @@ package service;
 import dataAccess.AuthDao;
 import dataAccess.DataAccessException;
 import dataAccess.GameDao;
-import dataAccess.UserDao;
-import model.AuthData;
-import model.GameData;
 import model.GameList;
-
-import java.util.ArrayList;
 
 public class ListGamesService {
   public AuthDao authDB;
@@ -21,7 +16,7 @@ public class ListGamesService {
 
   public GameList listGames(String authToken) throws DataAccessException {
     if(authDB.checkAuth(authToken)){
-      GameList gameList = new GameList(gameDB.listGames().gameList());
+      GameList gameList = new GameList(gameDB.listGames().games());
       return gameList;
     }
     else {
