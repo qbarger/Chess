@@ -37,7 +37,7 @@ class LogoutServiceTest {
       fail("Expected a Data Access Exception to be thrown.");
     }
     catch (DataAccessException d){
-      assertEquals("User could not be found.", d.getMessage());
+      assertEquals("Error: unauthorized", d.getMessage());
     }
   }
 }

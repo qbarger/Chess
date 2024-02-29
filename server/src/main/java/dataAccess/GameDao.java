@@ -2,6 +2,7 @@ package dataAccess;
 
 import model.GameData;
 import model.GameList;
+import model.JoinGameData;
 
 import java.util.ArrayList;
 
@@ -9,9 +10,9 @@ public interface GameDao {
 
   public void createGame(GameData game);
 
-  public GameData getGame(int gameID) throws DataAccessException;
+  public GameData getGame(int gameID);
 
-  public GameData updateGame(GameData game);
+  public void joinGame(GameData game);
 
   public GameList listGames();
 

@@ -29,7 +29,7 @@ class CreateGameServiceTest {
     AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
     CreateGameData gameName = new CreateGameData("My Game");
     GameID gameID = testObject1.createGame(authToken.authToken(), gameName);
-    GameData checkGame = new GameData(1,"","","My Game",new ChessGame());
+    GameData checkGame = new GameData(1,null,null,"My Game",new ChessGame());
 
     GameData game = gameTestDB.getGame(gameID.gameID());
     assertEquals(checkGame, game);
@@ -44,7 +44,7 @@ class CreateGameServiceTest {
       fail("Authtoken not correct.");
     }
     catch (DataAccessException d) {
-      assertEquals("Verification not found.", d.getMessage());
+      assertEquals("Error: unauthorized", d.getMessage());
     }
   }
 }

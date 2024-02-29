@@ -17,12 +17,12 @@ public class LoginService {
   }
 
   public AuthData login(UserData user) throws DataAccessException {
-    if(userDB.checkUser(user.username())){
-      AuthData auth = authDB.createAuth(user.username());
+    if(userDB.checkUser(user.username()) && userDB.checkPassword(user)){
+      AuthData auth=authDB.createAuth(user.username());
       return auth;
     }
     else {
-      throw new DataAccessException("Username does not exist.");
+      throw new DataAccessException("Error: unauthorized", 401);
     }
   }
 }

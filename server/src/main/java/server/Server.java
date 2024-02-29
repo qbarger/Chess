@@ -1,8 +1,12 @@
 package server;
 
+import com.google.gson.Gson;
 import dataAccess.*;
+import model.ErrorData;
 import service.*;
 import spark.*;
+
+import javax.xml.crypto.Data;
 
 public class Server {
 
@@ -25,6 +29,7 @@ public class Server {
         LogoutService logoutService = new LogoutService(userDB,authDB);
         CreateGameService createGameService = new CreateGameService(authDB, gameDB);
         ListGamesService listGamesService = new ListGamesService(authDB, gameDB);
+        UpdateGameService updateGameService = new UpdateGameService(authDB, gameDB);
 
         Spark.delete("/db", (req, res) -> (new ClearHandler(clearService.userDB, clearService.authDB, clearService.gameDB)).clear(req, res));
         Spark.post("/user", (req, res) -> (new RegisterHandler(registerService.userDB, registerService.authDB).register(req, res)));
@@ -32,6 +37,8 @@ public class Server {
         Spark.delete("/session", (req, res) -> (new LogoutHandler(logoutService.userDB, logoutService.authDB).logout(req, res)));
         Spark.post("/game", (req, res) -> (new CreateGameHandler(createGameService.gameDB, createGameService.authDB).createGame(req, res)));
         Spark.get("/game", (req, res) -> (new ListGamesHandler(listGamesService.authDB, listGamesService.gameDB).listGames(req, res)));
+        Spark.put("/game", (req, res) -> (new UpdateGameHandler(updateGameService.authDB, updateGameService.gameDB).joinGame(req, res)));
+        Spark.exception(DataAccessException.class, this::exceptionHandler);
         // Register your endpoints and handle exceptions here.
 
         Spark.awaitInitialization();
@@ -41,5 +48,10 @@ public class Server {
     public void stop() {
         Spark.stop();
         Spark.awaitStop();
+    }
+
+    private void exceptionHandler(DataAccessException ex, Request req, Response res){
+        res.status(ex.getStatusCode());
+        res.body(new Gson().toJson(new ErrorData(ex.getMessage())));
     }
 }

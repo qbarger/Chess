@@ -36,7 +36,7 @@ class RegisterServiceTest {
       fail("Expected a DataClassException to be thrown.");
     }
     catch (DataAccessException d){
-      assertEquals("Username already exists.", d.getMessage());
+      assertEquals("Error: already taken", d.getMessage());
     }
   }
 }

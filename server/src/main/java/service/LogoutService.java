@@ -20,7 +20,7 @@ public class LogoutService {
       authDB.deleteAuth(authToken);
     }
     else {
-      throw new DataAccessException("User could not be found.");
+      throw new DataAccessException("Error: unauthorized", 401);
     }
   }
 }

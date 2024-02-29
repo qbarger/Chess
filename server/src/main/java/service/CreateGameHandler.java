@@ -28,9 +28,6 @@ public class CreateGameHandler {
       res.status(200);
       return new Gson().toJson(gameID);
     }
-    else {
-      res.status(400);
-      return "{}";
-    }
+    return "{}";
   }
 }

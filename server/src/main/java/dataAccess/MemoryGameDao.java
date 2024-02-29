@@ -2,45 +2,31 @@ package dataAccess;
 
 import model.GameData;
 import model.GameList;
+import model.JoinGameData;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MemoryGameDao implements GameDao{
-  private Map<String, GameData> gameInfo = new HashMap<>();
+  private Map<Integer, GameData> gameInfo = new HashMap<>();
   @Override
   public void createGame(GameData game){
-    gameInfo.put(game.gameName(), game);
+    gameInfo.put(game.gameID(), game);
   }
 
   @Override
-  public GameData getGame(int gameID) throws DataAccessException{
-    for(GameData game : gameInfo.values()){
-      if(game.gameID() == gameID){
-        return game;
-      }
-    }
-    throw new DataAccessException("Game does not exist.");
+  public GameData getGame(int gameID) {
+    return gameInfo.get(gameID);
   }
 
   @Override
-  public GameData updateGame(GameData game){
-    for(String key : gameInfo.keySet()){
-      if(key == game.gameName()){
-        gameInfo.put(key,game);
-      }
-    }
-    return gameInfo.get(game.gameName());
+  public void joinGame(GameData game){
+    gameInfo.put(game.gameID(), game);
   }
 
   @Override
   public GameList listGames(){
     ArrayList<GameData> list = new ArrayList<>();
-    for(GameData game : gameInfo.values()){
-      list.add(game);
-    }
+    list.addAll(gameInfo.values());
     GameList gameList = new GameList(list);
     return gameList;
   }
@@ -57,7 +43,7 @@ public class MemoryGameDao implements GameDao{
 
   @Override
   public boolean isItEmpty(){
-    if(gameInfo.size() == 0){
+    if(gameInfo.isEmpty()){
       return true;
     }
     return false;

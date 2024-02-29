@@ -25,9 +25,7 @@ public class LogoutHandler {
       logoutService.logout(authToken);
       res.status(200);
     }
-    else {
-      res.status(500);
-    }
+
     return "{}";
   }
 }

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import dataAccess.AuthDao;
 import dataAccess.DataAccessException;
 import dataAccess.GameDao;
+import model.GameData;
+import model.GameList;
 import spark.Request;
 import spark.Response;
 
@@ -22,13 +24,9 @@ public class ListGamesHandler {
     String authToken = req.headers("authorization");
     if(authToken != null){
       res.status(200);
-      var list = listGamesService.listGames(authToken);
-      res.status(200);
+      GameList list = listGamesService.listGames(authToken);
       return new Gson().toJson(list);
     }
-    else {
-      res.status(401);
-      return "{}";
-    }
+    return "{}";
   }
 }

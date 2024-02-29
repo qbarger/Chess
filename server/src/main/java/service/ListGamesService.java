@@ -25,7 +25,7 @@ public class ListGamesService {
       return gameList;
     }
     else {
-      throw  new DataAccessException("Authorization not found.");
+      throw  new DataAccessException("Error: unauthorized", 401);
     }
   }
 }

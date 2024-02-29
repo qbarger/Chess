@@ -11,6 +11,8 @@ public interface UserDao {
 
   public boolean checkUser(String username);
 
+  public boolean checkPassword(UserData user);
+
   public void clear();
 
   public boolean isItEmpty();

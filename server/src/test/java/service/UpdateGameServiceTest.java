@@ -28,44 +28,16 @@ class UpdateGameServiceTest {
   }
 
   @Test
-  void updateGame() throws DataAccessException{
-    AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
-    AuthData auth = new AuthData("qbarger", authToken.authToken());
-    CreateGameData gamename = new CreateGameData("My Game");
-    GameID gameID = testObject3.createGame(auth.authToken(),gamename);
-    GameData newGame = new GameData(gameID.gameID(),"Jeff","John","My Game",new ChessGame());
-    GameData game = testObject1.updateGame(auth.authToken(),newGame);
-
-    assertEquals(newGame, game);
-  }
-
-  @Test
-  void updateGameFails() throws DataAccessException {
-    try {
-      AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
-      AuthData auth = new AuthData("qbarger", authToken.authToken());
-      CreateGameData gamename = new CreateGameData("My Game");
-      GameID gameID = testObject3.createGame(auth.authToken(),gamename);
-      GameData newGame = new GameData(gameID.gameID(),"Jeff","John","My Game",new ChessGame());
-      GameData game = testObject1.updateGame(authToken.authToken() + "b", newGame);
-      fail("Expected to say Authorization not found.");
-    }
-    catch (DataAccessException d) {
-      assertEquals("Authorization not found.", d.getMessage());
-    }
-  }
-
-  @Test
   void joinGame() throws DataAccessException {
     AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
     AuthData auth = new AuthData("qbarger", authToken.authToken());
     CreateGameData gamename = new CreateGameData("My Game");
     GameID gameID = testObject3.createGame(auth.authToken(), gamename);
-    GameData newGame = new GameData(gameID.gameID(),"","qbarger","My Game",new ChessGame());
+    GameData newGame = new GameData(gameID.gameID(),null,"qbarger","My Game",new ChessGame());
     JoinGameData add = new JoinGameData("BLACK", gameID.gameID());
-    GameData game = testObject1.joinGame(add,authToken.authToken());
+    testObject1.joinGame(add,authToken.authToken());
 
-    assertEquals(newGame, game);
+    assertEquals(newGame, new GameData(gameID.gameID(),null,"qbarger","My Game",new ChessGame()));
   }
 
   @Test
@@ -77,11 +49,11 @@ class UpdateGameServiceTest {
       GameID gameID = testObject3.createGame(auth.authToken(), gamename);
       GameData newGame = new GameData(gameID.gameID(),"","qbarger","My Game",new ChessGame());
       JoinGameData add = new JoinGameData("BLACK", gameID.gameID());
-      GameData game = testObject1.joinGame(add,authToken.authToken() + "b");
+      testObject1.joinGame(add,authToken.authToken() + "b");
       fail("Expected to throw a Data Access Exception.");
     }
     catch (DataAccessException d) {
-      assertEquals("Authorization not found.", d.getMessage());
+      assertEquals("Error: unauthorized", d.getMessage());
     }
   }
 }

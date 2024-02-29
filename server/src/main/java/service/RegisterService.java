@@ -17,7 +17,10 @@ public class RegisterService {
 
   public AuthData register(UserData user) throws DataAccessException{
     if(userDB.checkUser(user.username())) {
-      throw new DataAccessException("Username already exists.");
+      throw new DataAccessException("Error: already taken", 403);
+    }
+    else if(user.username() == null || user.password() == null || user.email() == null) {
+      throw new DataAccessException("Error: bad request", 400);
     }
     else {
       userDB.createUser(user);

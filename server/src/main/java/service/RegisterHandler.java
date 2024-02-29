@@ -25,9 +25,6 @@ public class RegisterHandler {
     if(token != null) {
       res.status(200);
     }
-    else {
-      res.status(400);
-    }
     return new Gson().toJson(token);
   }
 }

@@ -3,6 +3,7 @@ import model.UserData;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class MemoryUserDao implements UserDao{
   private Map<String, UserData> userInfo = new HashMap<>();
@@ -25,13 +26,24 @@ public class MemoryUserDao implements UserDao{
   }
 
   @Override
+  public boolean checkPassword(UserData user){
+    UserData check = userInfo.get(user.username());
+    if(Objects.equals(check.password(), user.password())){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  @Override
   public void clear(){
     userInfo.clear();
   }
 
   @Override
   public boolean isItEmpty(){
-    if(userInfo.size() == 0){
+    if(userInfo.isEmpty()){
       return true;
     }
     return false;

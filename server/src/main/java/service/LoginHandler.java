@@ -25,9 +25,7 @@ public class LoginHandler {
     if(token != null){
       res.status(200);
     }
-    else {
-      res.status(401);
-    }
+
     return new Gson().toJson(token);
   }
 }

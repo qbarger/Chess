@@ -39,7 +39,7 @@ class LoginServiceTest {
       fail("Expected a Data Class Exception to be thrown.");
     }
     catch (DataAccessException d){
-      assertEquals("Username does not exist.", d.getMessage());
+      assertEquals("Error: unauthorized", d.getMessage());
     }
   }
 }

@@ -21,11 +21,11 @@ public class CreateGameService {
   public GameID createGame(String authToken, CreateGameData gamename) throws DataAccessException {
     int gameID = gameDB.listSize() + 1;
     if(authDB.checkAuth(authToken)){
-      GameData game = new GameData(gameID,"","",gamename.gameName(),new ChessGame());
+      GameData game = new GameData(gameID,null,null,gamename.gameName(),new ChessGame());
       gameDB.createGame(game);
     }
     else {
-      throw new DataAccessException("Verification not found.");
+      throw new DataAccessException("Error: unauthorized", 401);
     }
     GameID id = new GameID(gameID);
     return id;
