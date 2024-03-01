@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CreateGameServiceTest {
 
-  public CreateGameService testObject1;
-  public RegisterService testObject2;
+  public CreateGameService createGameService;
+  public RegisterService registerService;
   public UserDao userTestDB;
   public AuthDao authTestDB;
   public GameDao gameTestDB;
@@ -21,14 +21,14 @@ class CreateGameServiceTest {
     userTestDB = new MemoryUserDao();
     authTestDB = new MemoryAuthDao();
     gameTestDB = new MemoryGameDao();
-    testObject1 = new CreateGameService(authTestDB,gameTestDB);
-    testObject2 = new RegisterService(userTestDB,authTestDB);
+    createGameService = new CreateGameService(authTestDB,gameTestDB);
+    registerService = new RegisterService(userTestDB,authTestDB);
   }
   @Test
   void createGame() throws DataAccessException {
-    AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
+    AuthData authToken = registerService.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
     CreateGameData gameName = new CreateGameData("My Game");
-    GameID gameID = testObject1.createGame(authToken.authToken(), gameName);
+    GameID gameID = createGameService.createGame(authToken.authToken(), gameName);
     GameData checkGame = new GameData(1,null,null,"My Game",new ChessGame());
 
     GameData game = gameTestDB.getGame(gameID.gameID());
@@ -38,13 +38,13 @@ class CreateGameServiceTest {
   @Test
   void createGameFails() throws DataAccessException {
     try {
-      AuthData authToken=testObject2.register(new UserData("qbarger", "johnnyland1", "kingkong@gmail.com"));
+      AuthData authToken=registerService.register(new UserData("qbarger", "johnnyland1", "kingkong@gmail.com"));
       CreateGameData gameName = new CreateGameData("My Game");
-      GameID gameID=testObject1.createGame(authToken.authToken() + "a", gameName);
+      GameID gameID=createGameService.createGame(authToken.authToken() + "a", gameName);
       fail("Authtoken not correct.");
     }
-    catch (DataAccessException d) {
-      assertEquals("Error: unauthorized", d.getMessage());
+    catch (DataAccessException error) {
+      assertEquals("Error: unauthorized", error.getMessage());
     }
   }
 }

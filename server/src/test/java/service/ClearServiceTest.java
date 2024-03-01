@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClearServiceTest {
-  public ClearService testObject;
+  public ClearService clearService;
   public UserDao userTestDB;
   public AuthDao authTestDB;
   public GameDao gameTestDB;
@@ -21,19 +21,19 @@ class ClearServiceTest {
     userTestDB = new MemoryUserDao();
     authTestDB = new MemoryAuthDao();
     gameTestDB = new MemoryGameDao();
-    testObject = new ClearService(userTestDB,authTestDB,gameTestDB);
+    clearService = new ClearService(userTestDB,authTestDB,gameTestDB);
   }
 
   @Test
   void clear() {
-    testObject.userDB.createUser(new UserData("qbarger","jellyfish","jelly@gmail.com"));
-    testObject.authDB.createAuth("qbarger");
-    testObject.gameDB.createGame(new GameData(2,"john","james","game0",new ChessGame()));
+    clearService.userDB.createUser(new UserData("qbarger","jellyfish","jelly@gmail.com"));
+    clearService.authDB.createAuth("qbarger");
+    clearService.gameDB.createGame(new GameData(2,"john","james","game0",new ChessGame()));
 
-    testObject.clear();
+    clearService.clear();
 
-    assertEquals(true,testObject.userDB.isItEmpty());
-    assertEquals(true,testObject.authDB.isItEmpty());
-    assertEquals(true,testObject.gameDB.isItEmpty());
+    assertEquals(true,clearService.userDB.isItEmpty());
+    assertEquals(true,clearService.authDB.isItEmpty());
+    assertEquals(true,clearService.gameDB.isItEmpty());
   }
 }

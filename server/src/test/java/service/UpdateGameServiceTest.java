@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UpdateGameServiceTest {
 
-  public UpdateGameService testObject1;
-  public RegisterService testObject2;
-  public CreateGameService testObject3;
+  public UpdateGameService updateGameService;
+  public RegisterService registerService;
+  public CreateGameService createGameService;
   public GameDao gameTestDB;
   public AuthDao authTestDB;
   public UserDao userTestDB;
@@ -22,20 +22,20 @@ class UpdateGameServiceTest {
     userTestDB = new MemoryUserDao();
     authTestDB = new MemoryAuthDao();
     gameTestDB = new MemoryGameDao();
-    testObject1 = new UpdateGameService(authTestDB,gameTestDB);
-    testObject2 = new RegisterService(userTestDB,authTestDB);
-    testObject3 = new CreateGameService(authTestDB,gameTestDB);
+    updateGameService = new UpdateGameService(authTestDB,gameTestDB);
+    registerService = new RegisterService(userTestDB,authTestDB);
+    createGameService = new CreateGameService(authTestDB,gameTestDB);
   }
 
   @Test
   void joinGame() throws DataAccessException {
-    AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
+    AuthData authToken = registerService.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
     AuthData auth = new AuthData("qbarger", authToken.authToken());
-    CreateGameData gamename = new CreateGameData("My Game");
-    GameID gameID = testObject3.createGame(auth.authToken(), gamename);
+    CreateGameData gameName = new CreateGameData("My Game");
+    GameID gameID = createGameService.createGame(auth.authToken(), gameName);
     GameData newGame = new GameData(gameID.gameID(),null,"qbarger","My Game",new ChessGame());
     JoinGameData add = new JoinGameData("BLACK", gameID.gameID());
-    testObject1.joinGame(add,authToken.authToken());
+    updateGameService.joinGame(add,authToken.authToken());
 
     assertEquals(newGame, new GameData(gameID.gameID(),null,"qbarger","My Game",new ChessGame()));
   }
@@ -43,17 +43,17 @@ class UpdateGameServiceTest {
   @Test
   void joinGameFails() throws DataAccessException {
     try {
-      AuthData authToken = testObject2.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
+      AuthData authToken = registerService.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
       AuthData auth = new AuthData("qbarger", authToken.authToken());
-      CreateGameData gamename = new CreateGameData("My Game");
-      GameID gameID = testObject3.createGame(auth.authToken(), gamename);
+      CreateGameData gameName = new CreateGameData("My Game");
+      GameID gameID = createGameService.createGame(auth.authToken(), gameName);
       GameData newGame = new GameData(gameID.gameID(),"","qbarger","My Game",new ChessGame());
       JoinGameData add = new JoinGameData("BLACK", gameID.gameID());
-      testObject1.joinGame(add,authToken.authToken() + "b");
+      updateGameService.joinGame(add,authToken.authToken() + "b");
       fail("Expected to throw a Data Access Exception.");
     }
-    catch (DataAccessException d) {
-      assertEquals("Error: unauthorized", d.getMessage());
+    catch (DataAccessException error) {
+      assertEquals("Error: unauthorized", error.getMessage());
     }
   }
 }
