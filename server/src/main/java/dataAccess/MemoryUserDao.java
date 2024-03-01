@@ -14,10 +14,6 @@ public class MemoryUserDao implements UserDao{
   }
 
   @Override
-  public UserData getUser(String username){
-    return userInfo.get(username);
-  }
-
   public boolean checkUser(String username){
     if(userInfo.containsKey(username)){
       return true;
@@ -41,11 +37,4 @@ public class MemoryUserDao implements UserDao{
     userInfo.clear();
   }
 
-  @Override
-  public boolean isItEmpty(){
-    if(userInfo.isEmpty()){
-      return true;
-    }
-    return false;
-  }
 }

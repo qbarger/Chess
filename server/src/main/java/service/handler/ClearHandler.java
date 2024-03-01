@@ -1,8 +1,9 @@
-package service;
+package service.handler;
 
 import dataAccess.AuthDao;
 import dataAccess.GameDao;
 import dataAccess.UserDao;
+import service.ClearService;
 import spark.Request;
 import spark.Response;
 

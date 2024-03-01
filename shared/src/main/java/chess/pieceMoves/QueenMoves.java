@@ -1,17 +1,19 @@
-package chess;
+package chess.pieceMoves;
+
+import chess.ChessBoard;
+import chess.ChessMove;
+import chess.ChessPosition;
 
 import java.util.ArrayList;
 
 public class QueenMoves {
-  private ChessMove move;
-  private ChessPosition new_position;
   private BishopMoves bishop;
   private RookMoves rook;
 
   public ArrayList<ChessMove> getQueenMoves(ChessPosition position, ChessBoard board) {
     ArrayList<ChessMove> moveList=new ArrayList<>();
-    ArrayList<ChessMove> diagonalList=new ArrayList<>();
-    ArrayList<ChessMove> straightList=new ArrayList<>();
+    ArrayList<ChessMove> diagonalList;
+    ArrayList<ChessMove> straightList;
     bishop = new BishopMoves();
     rook = new RookMoves();
 
