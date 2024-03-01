@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class KnightMoves {
   private ChessMove move;
-  private ChessPosition new_position;
+  private ChessPosition newPosition;
 
   public ArrayList<ChessMove> getKnightMoves(ChessPosition position, ChessBoard board) {
     ArrayList<ChessMove> moveList=new ArrayList<>();
@@ -16,15 +16,15 @@ public class KnightMoves {
     int rowLimit = row + 2;
     int colLimit = col + 1;
     if(rowLimit < 9 && colLimit < 9){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
         }
       }
@@ -34,15 +34,15 @@ public class KnightMoves {
     rowLimit = row + 2;
     colLimit = col - 1;
     if(rowLimit < 9 && colLimit > 0){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
         }
       }
@@ -52,15 +52,15 @@ public class KnightMoves {
     rowLimit = row - 2;
     colLimit = col + 1;
     if(rowLimit > 0 && colLimit < 9){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
         }
       }
@@ -70,15 +70,15 @@ public class KnightMoves {
     rowLimit = row - 2;
     colLimit = col - 1;
     if(rowLimit > 0 && colLimit > 0){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
         }
       }
@@ -88,15 +88,15 @@ public class KnightMoves {
     rowLimit = row + 1;
     colLimit = col + 2;
     if(rowLimit < 9 && colLimit < 9){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
         }
       }
@@ -106,15 +106,15 @@ public class KnightMoves {
     rowLimit = row - 1;
     colLimit = col + 2;
     if(rowLimit > 0 && colLimit < 9){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
         }
       }
@@ -124,15 +124,15 @@ public class KnightMoves {
     rowLimit = row + 1;
     colLimit = col - 2;
     if(rowLimit < 9 && colLimit > 0){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
         }
       }
@@ -142,15 +142,15 @@ public class KnightMoves {
     rowLimit = row - 1;
     colLimit = col - 2;
     if(rowLimit > 0 && colLimit > 0){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
         }
       }

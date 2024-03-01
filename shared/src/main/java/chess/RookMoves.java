@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class RookMoves {
   private ChessMove move;
-  private ChessPosition new_position;
+  private ChessPosition newPosition;
 
   public ArrayList<ChessMove> getRookMoves(ChessPosition position, ChessBoard board) {
     ArrayList<ChessMove> moveList=new ArrayList<>();
@@ -17,15 +17,15 @@ public class RookMoves {
     int colLimit = col;
 
     while(rowLimit < 9){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
           break;
         }
@@ -41,15 +41,15 @@ public class RookMoves {
     colLimit = col;
 
     while(rowLimit > 0){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
           break;
         }
@@ -65,15 +65,15 @@ public class RookMoves {
     colLimit = col + 1;
 
     while(colLimit < 9){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
           break;
         }
@@ -89,15 +89,15 @@ public class RookMoves {
     colLimit = col - 1;
 
     while(colLimit > 0){
-      new_position = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(new_position) == null){
-        move = new ChessMove(position,new_position,null);
+      newPosition = new ChessPosition(rowLimit,colLimit);
+      if(board.getPiece(newPosition) == null){
+        move = new ChessMove(position,newPosition,null);
         moveList.add(move);
       }
       else {
-        ChessPiece other = board.getPiece(new_position);
+        ChessPiece other = board.getPiece(newPosition);
         if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,new_position,null);
+          move = new ChessMove(position,newPosition,null);
           moveList.add(move);
           break;
         }
