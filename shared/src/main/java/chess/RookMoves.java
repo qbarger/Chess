@@ -13,11 +13,11 @@ public class RookMoves {
     int col=position.getColumn();
 
     /* Up */
-    int i = row + 1;
-    int j = col;
+    int rowLimit = row + 1;
+    int colLimit = col;
 
-    while(i < 9){
-      new_position = new ChessPosition(i,j);
+    while(rowLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -33,15 +33,15 @@ public class RookMoves {
           break;
         }
       }
-      i++;
+      rowLimit++;
     }
 
     /* Down */
-    i = row - 1;
-    j = col;
+    rowLimit = row - 1;
+    colLimit = col;
 
-    while(i > 0){
-      new_position = new ChessPosition(i,j);
+    while(rowLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -57,15 +57,15 @@ public class RookMoves {
           break;
         }
       }
-      i--;
+      rowLimit--;
     }
 
     /* Right */
-    i = row;
-    j = col + 1;
+    rowLimit = row;
+    colLimit = col + 1;
 
-    while(j < 9){
-      new_position = new ChessPosition(i,j);
+    while(colLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -81,15 +81,15 @@ public class RookMoves {
           break;
         }
       }
-      j++;
+      colLimit++;
     }
 
     /* Left */
-    i = row;
-    j = col - 1;
+    rowLimit = row;
+    colLimit = col - 1;
 
-    while(j > 0){
-      new_position = new ChessPosition(i,j);
+    while(colLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -105,7 +105,7 @@ public class RookMoves {
           break;
         }
       }
-      j--;
+      colLimit--;
     }
 
     return moveList;

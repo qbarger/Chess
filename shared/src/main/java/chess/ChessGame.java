@@ -110,9 +110,9 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        for(int i = 1;i < 9;i++){
-            for(int j = 1;j < 9;j++){
-                ChessPosition position = new ChessPosition(i,j);
+        for(int row = 1;row < 9;row++){
+            for(int col = 1;col < 9;col++){
+                ChessPosition position = new ChessPosition(row,col);
                 if(board.getPiece(position) != null) {
                     ChessPiece piece=board.getPiece(position);
                     if (piece.getTeamColor() != teamColor) {
@@ -157,9 +157,9 @@ public class ChessGame {
     public boolean isInStalemate(TeamColor teamColor) {
         ChessBoard placeHolder = new ChessBoard(board);
         Collection<ChessMove> moveList;
-        for(int i = 1;i < 9;i++){
-            for(int j = 1;j < 9;j++){
-                ChessPosition position = new ChessPosition(i,j);
+        for(int row = 1;row < 9;row++){
+            for(int col = 1;col < 9;col++){
+                ChessPosition position = new ChessPosition(row,col);
                 if(board.getPiece(position) != null) {
                     piece=board.getPiece(position);
                     if (piece.getTeamColor() == teamColor) {

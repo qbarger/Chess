@@ -50,8 +50,8 @@ public class Server {
         Spark.awaitStop();
     }
 
-    private void exceptionHandler(DataAccessException ex, Request req, Response res){
-        res.status(ex.getStatusCode());
-        res.body(new Gson().toJson(new ErrorData(ex.getMessage())));
+    private void exceptionHandler(DataAccessException exception, Request req, Response res){
+        res.status(exception.getStatusCode());
+        res.body(new Gson().toJson(new ErrorData(exception.getMessage())));
     }
 }

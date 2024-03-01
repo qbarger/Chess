@@ -13,10 +13,10 @@ public class KnightMoves {
     int col=position.getColumn();
 
     /* Up 2 Right 1 */
-    int i = row + 2;
-    int j = col + 1;
-    if(i < 9 && j < 9){
-      new_position = new ChessPosition(i,j);
+    int rowLimit = row + 2;
+    int colLimit = col + 1;
+    if(rowLimit < 9 && colLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -31,10 +31,10 @@ public class KnightMoves {
     }
 
     /* Up 2 Left 1 */
-    i = row + 2;
-    j = col - 1;
-    if(i < 9 && j > 0){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row + 2;
+    colLimit = col - 1;
+    if(rowLimit < 9 && colLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -49,10 +49,10 @@ public class KnightMoves {
     }
 
     /* Down 2 Right 1 */
-    i = row - 2;
-    j = col + 1;
-    if(i > 0 && j < 9){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row - 2;
+    colLimit = col + 1;
+    if(rowLimit > 0 && colLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -67,10 +67,10 @@ public class KnightMoves {
     }
 
     /* Down 2 Left 1 */
-    i = row - 2;
-    j = col - 1;
-    if(i > 0 && j > 0){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row - 2;
+    colLimit = col - 1;
+    if(rowLimit > 0 && colLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -85,10 +85,10 @@ public class KnightMoves {
     }
 
     /* Right 2 Up 1 */
-    i = row + 1;
-    j = col + 2;
-    if(i < 9 && j < 9){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row + 1;
+    colLimit = col + 2;
+    if(rowLimit < 9 && colLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -103,10 +103,10 @@ public class KnightMoves {
     }
 
     /* Right 2 Down 1 */
-    i = row - 1;
-    j = col + 2;
-    if(i > 0 && j < 9){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row - 1;
+    colLimit = col + 2;
+    if(rowLimit > 0 && colLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -121,10 +121,10 @@ public class KnightMoves {
     }
 
     /* Left 2 Up 1 */
-    i = row + 1;
-    j = col - 2;
-    if(i < 9 && j > 0){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row + 1;
+    colLimit = col - 2;
+    if(rowLimit < 9 && colLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -139,10 +139,10 @@ public class KnightMoves {
     }
 
     /* Left 2 Down 1 */
-    i = row - 1;
-    j = col - 2;
-    if(i > 0 && j > 0){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row - 1;
+    colLimit = col - 2;
+    if(rowLimit > 0 && colLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);

@@ -13,10 +13,10 @@ public class KingMoves {
     int col =position.getColumn();
 
     /* Up */
-    int i = row + 1;
-    int j = col;
-    if(i < 9){
-      new_position = new ChessPosition(i,j);
+    int rowLimit = row + 1;
+    int colLimit = col;
+    if(rowLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -31,10 +31,10 @@ public class KingMoves {
     }
 
     /* Down */
-    i = row - 1;
-    j = col;
-    if(i > 0){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row - 1;
+    colLimit = col;
+    if(rowLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -49,10 +49,10 @@ public class KingMoves {
     }
 
     /* Right */
-    i = row;
-    j = col + 1;
-    if(j < 9){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row;
+    colLimit = col + 1;
+    if(colLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -67,10 +67,10 @@ public class KingMoves {
     }
 
     /* Left */
-    i = row;
-    j = col - 1;
-    if(j > 0){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row;
+    colLimit = col - 1;
+    if(colLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -85,10 +85,10 @@ public class KingMoves {
     }
 
     /* Upper right */
-    i = row + 1;
-    j = col + 1;
-    if(i < 9 && j < 9){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row + 1;
+    colLimit = col + 1;
+    if(rowLimit < 9 && colLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -103,10 +103,10 @@ public class KingMoves {
     }
 
     /* Upper Left */
-    i = row + 1;
-    j = col - 1;
-    if(i < 9 && j > 0){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row + 1;
+    colLimit = col - 1;
+    if(rowLimit < 9 && colLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -121,10 +121,10 @@ public class KingMoves {
     }
 
     /* Lower Right */
-    i = row - 1;
-    j = col + 1;
-    if(i > 0 && j < 9){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row - 1;
+    colLimit = col + 1;
+    if(rowLimit > 0 && colLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -139,10 +139,10 @@ public class KingMoves {
     }
 
     /* Lower left */
-    i = row - 1;
-    j = col - 1;
-    if(i > 0 && j > 0){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row - 1;
+    colLimit = col - 1;
+    if(rowLimit > 0 && colLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);

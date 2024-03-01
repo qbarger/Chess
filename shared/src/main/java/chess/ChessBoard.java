@@ -21,9 +21,9 @@ public class ChessBoard {
 
     public ChessBoard(ChessBoard originalBoard) {
         this();
-        for(int i = 1;i < 9;i++){
-            for(int j = 1;j < 9;j++){
-                ChessPosition position = new ChessPosition(i,j);
+        for(int row = 1;row < 9;row++){
+            for(int col = 1;col < 9;col++){
+                ChessPosition position = new ChessPosition(row,col);
                 ChessPiece piece=originalBoard.getPiece(position);
                 this.addPiece(position, piece);
             }
@@ -56,9 +56,9 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        for(int i = 0;i < 8;i++){
-            for(int j = 0;j < 8;j++){
-                setPieces(i,j);
+        for(int row = 0;row < 8;row++){
+            for(int col = 0;col < 8;col++){
+                setPieces(row,col);
             }
         }
     }

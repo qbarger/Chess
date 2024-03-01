@@ -13,10 +13,10 @@ public class BishopMoves {
     int col =position.getColumn();
 
     /* Upper right */
-    int i = row + 1;
-    int j = col + 1;
-    while(i < 9 && j < 9){
-      new_position = new ChessPosition(i,j);
+    int rowLimit = row + 1;
+    int colLimit = col + 1;
+    while(rowLimit < 9 && colLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -32,15 +32,15 @@ public class BishopMoves {
           break;
         }
       }
-      i++;
-      j++;
+      rowLimit++;
+      colLimit++;
     }
 
     /* Upper left */
-    i = row + 1;
-    j = col - 1;
-    while(i < 9 && j > 0){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row + 1;
+    colLimit = col - 1;
+    while(rowLimit < 9 && colLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -56,15 +56,15 @@ public class BishopMoves {
           break;
         }
       }
-      i++;
-      j--;
+      rowLimit++;
+      colLimit--;
     }
 
     /* Lower Left */
-    i = row - 1;
-    j = col - 1;
-    while(i > 0 && j > 0){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row - 1;
+    colLimit = col - 1;
+    while(rowLimit > 0 && colLimit > 0){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -80,15 +80,15 @@ public class BishopMoves {
           break;
         }
       }
-      i--;
-      j--;
+      rowLimit--;
+      colLimit--;
     }
 
     /* Lower right */
-    i = row - 1;
-    j = col + 1;
-    while(i > 0 && j < 9){
-      new_position = new ChessPosition(i,j);
+    rowLimit = row - 1;
+    colLimit = col + 1;
+    while(rowLimit > 0 && colLimit < 9){
+      new_position = new ChessPosition(rowLimit,colLimit);
       if(board.getPiece(new_position) == null){
         move = new ChessMove(position,new_position,null);
         moveList.add(move);
@@ -104,8 +104,8 @@ public class BishopMoves {
           break;
         }
       }
-      i--;
-      j++;
+      rowLimit--;
+      colLimit++;
     }
 
     return moveList;
