@@ -11,6 +11,8 @@ public class BishopMoves {
   private ChessMove move;
   private ChessPosition newPosition;
 
+  private boolean stop;
+
   public ArrayList<ChessMove> getBishopMoves(ChessPosition position, ChessBoard board){
     ArrayList<ChessMove> moveList = new ArrayList<>();
     ChessPiece piece = board.getPiece(position);
@@ -21,22 +23,8 @@ public class BishopMoves {
     int rowLimit = row + 1;
     int colLimit = col + 1;
     while(rowLimit < 9 && colLimit < 9){
-      newPosition = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(newPosition) == null){
-        move = new ChessMove(position,newPosition,null);
-        moveList.add(move);
-      }
-      else {
-        ChessPiece other = board.getPiece(newPosition);
-        if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,newPosition,null);
-          moveList.add(move);
-          break;
-        }
-        else {
-          break;
-        }
-      }
+      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      if(this.stop){break;}
       rowLimit++;
       colLimit++;
     }
@@ -45,22 +33,8 @@ public class BishopMoves {
     rowLimit = row + 1;
     colLimit = col - 1;
     while(rowLimit < 9 && colLimit > 0){
-      newPosition = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(newPosition) == null){
-        move = new ChessMove(position,newPosition,null);
-        moveList.add(move);
-      }
-      else {
-        ChessPiece other = board.getPiece(newPosition);
-        if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,newPosition,null);
-          moveList.add(move);
-          break;
-        }
-        else {
-          break;
-        }
-      }
+      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      if(this.stop){break;}
       rowLimit++;
       colLimit--;
     }
@@ -69,22 +43,8 @@ public class BishopMoves {
     rowLimit = row - 1;
     colLimit = col - 1;
     while(rowLimit > 0 && colLimit > 0){
-      newPosition = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(newPosition) == null){
-        move = new ChessMove(position,newPosition,null);
-        moveList.add(move);
-      }
-      else {
-        ChessPiece other = board.getPiece(newPosition);
-        if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,newPosition,null);
-          moveList.add(move);
-          break;
-        }
-        else {
-          break;
-        }
-      }
+      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      if(this.stop){break;}
       rowLimit--;
       colLimit--;
     }
@@ -93,26 +53,33 @@ public class BishopMoves {
     rowLimit = row - 1;
     colLimit = col + 1;
     while(rowLimit > 0 && colLimit < 9){
-      newPosition = new ChessPosition(rowLimit,colLimit);
-      if(board.getPiece(newPosition) == null){
-        move = new ChessMove(position,newPosition,null);
-        moveList.add(move);
-      }
-      else {
-        ChessPiece other = board.getPiece(newPosition);
-        if(other.getTeamColor() != piece.getTeamColor()){
-          move = new ChessMove(position,newPosition,null);
-          moveList.add(move);
-          break;
-        }
-        else {
-          break;
-        }
-      }
+      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      if(this.stop){break;}
       rowLimit--;
       colLimit++;
     }
 
+    return moveList;
+  }
+
+  private ArrayList<ChessMove> addMove(int rowLimit, int colLimit, ChessPiece piece, ChessPosition position, ChessBoard board, ArrayList<ChessMove> moveList){
+    this.stop = false;
+    newPosition = new ChessPosition(rowLimit,colLimit);
+    if(board.getPiece(newPosition) == null){
+      move = new ChessMove(position,newPosition,null);
+      moveList.add(move);
+    }
+    else {
+      ChessPiece other = board.getPiece(newPosition);
+      if(other.getTeamColor() != piece.getTeamColor()){
+        move = new ChessMove(position,newPosition,null);
+        moveList.add(move);
+        this.stop = true;
+      }
+      else {
+        this.stop = true;
+      }
+    }
     return moveList;
   }
 }
