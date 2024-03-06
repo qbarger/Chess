@@ -1,11 +1,12 @@
-package dataAccess;
+package dataAccess.memoryDAOs;
+import dataAccess.UserDao;
 import model.UserData;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class MemoryUserDao implements UserDao{
+public class MemoryUserDao implements UserDao {
   private Map<String, UserData> userInfo = new HashMap<>();
 
   @Override

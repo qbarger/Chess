@@ -5,11 +5,11 @@ import org.eclipse.jetty.server.Authentication;
 
 public interface UserDao {
 
-  public void createUser(UserData user);
+  public void createUser(UserData user) throws DataAccessException;
 
-  public boolean checkUser(String username);
+  public boolean checkUser(String username) throws DataAccessException;
 
   public boolean checkPassword(UserData user);
 
-  public void clear();
+  public void clear() throws DataAccessException;
 }

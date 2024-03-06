@@ -2,6 +2,9 @@ package server;
 
 import com.google.gson.Gson;
 import dataAccess.*;
+import dataAccess.memoryDAOs.MemoryAuthDao;
+import dataAccess.memoryDAOs.MemoryGameDao;
+import dataAccess.memoryDAOs.MemoryUserDao;
 import model.ErrorData;
 import service.*;
 import service.handler.*;

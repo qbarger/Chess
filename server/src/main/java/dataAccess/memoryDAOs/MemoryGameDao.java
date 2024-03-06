@@ -1,12 +1,13 @@
-package dataAccess;
+package dataAccess.memoryDAOs;
 
+import dataAccess.GameDao;
 import model.GameData;
 import model.GameList;
 import model.JoinGameData;
 
 import java.util.*;
 
-public class MemoryGameDao implements GameDao{
+public class MemoryGameDao implements GameDao {
   private Map<Integer, GameData> gameInfo = new HashMap<>();
   @Override
   public void createGame(GameData game){
