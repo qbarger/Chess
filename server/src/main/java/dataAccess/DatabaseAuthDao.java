@@ -76,7 +76,7 @@ public class DatabaseAuthDao implements AuthDao{
             ps.setString(i + 1, u);
           } else if (param instanceof Integer u) {
             ps.setInt(i + 1, u);
-          } else if (param instanceof UserData u) {
+          } else if (param instanceof AuthData u) {
             ps.setString(i + 1, u.toString());
           } else if (param == null) {
             ps.setNull(i + 1, NULL);
