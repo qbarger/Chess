@@ -29,13 +29,29 @@ public class DatabaseAuthDao implements AuthDao{
   }
 
   @Override
-  public void deleteAuth(String authToken) {
-
+  public void deleteAuth(String authToken) throws DataAccessException{
+    DatabaseManager databaseManager = new DatabaseManager();
+    databaseManager.configureDatabase();
+    var statement = "Delete From Auth Where authToken = ?";
+    executeCommand(statement, authToken);
   }
 
   @Override
-  public boolean checkAuth(String authToken) {
-    return false;
+  public boolean checkAuth(String authToken) throws DataAccessException{
+    DatabaseManager databaseManager = new DatabaseManager();
+    databaseManager.configureDatabase();
+    try (var conn = DatabaseManager.getConnection()) {
+      var statement="Select authToken From Auth Where authToken = ?";
+      try (var ps = conn.prepareStatement(statement)){
+        ps.setString(1, authToken);
+        try(var rs = ps.executeQuery()){
+          return rs.next();
+        }
+      }
+    }
+    catch (SQLException exception){
+      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 500);
+    }
   }
 
   @Override
