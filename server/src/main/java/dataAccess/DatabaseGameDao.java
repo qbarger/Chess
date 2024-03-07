@@ -1,17 +1,25 @@
 package dataAccess;
 
+import chess.ChessGame;
+import com.google.gson.Gson;
 import model.GameData;
 import model.GameList;
 import model.UserData;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static java.sql.Types.NULL;
 
 public class DatabaseGameDao implements GameDao{
   @Override
-  public void createGame(GameData game) {
-
+  public void createGame(GameData game) throws DataAccessException{
+    DatabaseManager databaseManager = new DatabaseManager();
+    databaseManager.configureDatabase();
+    var statement = "Insert into Game (gameID, whiteUsername, blackUsername, gameName, game, json) Values (?,?,?,?,?,?)";
+    var json = new Gson().toJson(game);
+    var gameString = new Gson().toJson(new ChessGame());
+    executeCommand(statement, game.gameID(), game.whiteUsername(), game.blackUsername(), game.gameName(), gameString, json);
   }
 
   @Override
@@ -30,8 +38,21 @@ public class DatabaseGameDao implements GameDao{
   }
 
   @Override
-  public int listSize() {
-    return 0;
+  public int listSize() throws DataAccessException{
+    int size = 0;
+    try (var conn = DatabaseManager.getConnection()) {
+      var statement = "SELECT gameID, FROM Game";
+      try (var ps = conn.prepareStatement(statement)) {
+        try (var rs = ps.executeQuery()) {
+          while (rs.next()) {
+            size++;
+          }
+        }
+      }
+      return size;
+    } catch (Exception e) {
+      throw new DataAccessException("Unable to read data: %s", 500);
+    }
   }
 
   @Override

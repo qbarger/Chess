@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface GameDao {
 
-  public void createGame(GameData game);
+  public void createGame(GameData game) throws DataAccessException;
 
   public GameData getGame(int gameID);
 
@@ -16,7 +16,7 @@ public interface GameDao {
 
   public GameList listGames();
 
-  public int listSize();
+  public int listSize() throws DataAccessException;
 
   public void clear() throws DataAccessException;
 

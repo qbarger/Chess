@@ -72,13 +72,19 @@ public class DatabaseUserDao implements UserDao{
     DatabaseManager databaseManager = new DatabaseManager();
     databaseManager.configureDatabase();
     try (var conn = DatabaseManager.getConnection()) {
-      var statement="Select password From User Where password = ?";
+      var statement="Select password From User Where username = ?";
       try (var ps = conn.prepareStatement(statement)){
-        ps.setString(1, user.password());
+        ps.setString(1, user.username());
         try(var rs = ps.executeQuery()){
-          String password = rs.getString("password");
-          boolean passwordMatches = BCrypt.checkpw(user.password(), password);
-          return passwordMatches;
+          if(rs.next()) {
+            String password=rs.getString("password");
+            BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+            boolean passwordMatches=encoder.matches(user.password(), password);
+            return passwordMatches;
+          }
+          else {
+            throw new DataAccessException("Unable to read data: %s", 500);
+          }
         }
       }
     }
