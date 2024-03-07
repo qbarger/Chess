@@ -3,6 +3,8 @@ package dataAccess;
 import com.google.gson.Gson;
 import com.mysql.cj.x.protobuf.MysqlxCrud;
 import model.UserData;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +17,10 @@ public class DatabaseUserDao implements UserDao{
   public void createUser(UserData user) throws DataAccessException{
     DatabaseManager databaseManager = new DatabaseManager();
     databaseManager.configureDatabase();
+    String hashedPassword = storeUserPassword(user.password());
     var statement = "Insert into User (username, password, email, json) Values (?,?,?,?)";
     var json = new Gson().toJson(user);
-    executeCommand(statement, user.username(), user.password(), user.email(), json);
+    executeCommand(statement, user.username(), hashedPassword, user.email(), json);
   }
 
   @Override
@@ -40,11 +43,12 @@ public class DatabaseUserDao implements UserDao{
 
   @Override
   public boolean checkPassword(UserData user) throws DataAccessException{
-    DatabaseManager databaseManager = new DatabaseManager();
-    databaseManager.configureDatabase();
-    var statement = "Select password From User";
-    var json = new Gson().toJson(user.password());
-    return true;
+    if(verifyUser(user)){
+      return true;
+    }
+    else {
+      throw new DataAccessException("Incorrect password: %s", 500);
+    }
   }
 
   @Override
@@ -53,6 +57,34 @@ public class DatabaseUserDao implements UserDao{
     databaseManager.configureDatabase();
     var statement = "Truncate User";
     executeCommand(statement);
+  }
+
+  private String storeUserPassword(String password) throws DataAccessException{
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    String hashedPassword = encoder.encode(password);
+
+    // write the hashed password in database along with the user's other information
+    return hashedPassword;
+  }
+
+  private boolean verifyUser(UserData user) throws DataAccessException{
+    // read the previously hashed password from the database
+    DatabaseManager databaseManager = new DatabaseManager();
+    databaseManager.configureDatabase();
+    try (var conn = DatabaseManager.getConnection()) {
+      var statement="Select password From User Where password = ?";
+      try (var ps = conn.prepareStatement(statement)){
+        ps.setString(1, user.password());
+        try(var rs = ps.executeQuery()){
+          String password = rs.getString("password");
+          boolean passwordMatches = BCrypt.checkpw(user.password(), password);
+          return passwordMatches;
+        }
+      }
+    }
+    catch (SQLException exception){
+      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 500);
+    }
   }
 
   private void executeCommand(String statement, Object...params) throws DataAccessException{

@@ -43,10 +43,15 @@ class DatabaseUserDaoTest {
   }
 
   @Test
-  void checkPassword() {
+  void checkPassword() throws DataAccessException{
+    UserData user = new UserData("username", "password", "email");
+    databaseUserDao.createUser(user);
+    boolean check = databaseUserDao.checkPassword(user);
+    assertEquals(true, check);
   }
 
   @Test
-  void clear() {
+  void checkPasswordFails() {
+
   }
 }

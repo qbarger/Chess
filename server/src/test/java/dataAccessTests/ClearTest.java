@@ -31,7 +31,7 @@ class ClearTest {
 
   @Test
   void clearAuth() throws DataAccessException {
-    AuthData auth = databaseAuthDao.createAuth("username");
+    AuthData auth = databaseAuthDao.createAuth("steve");
     databaseAuthDao.clear();
     assertEquals(null, databaseAuthDao.getAuth(auth.authToken()));
   }
