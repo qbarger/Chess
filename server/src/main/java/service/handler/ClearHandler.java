@@ -1,6 +1,7 @@
 package service.handler;
 
 import dataAccess.AuthDao;
+import dataAccess.DataAccessException;
 import dataAccess.GameDao;
 import dataAccess.UserDao;
 import service.ClearService;
@@ -20,7 +21,7 @@ public class ClearHandler {
     this.clearHandler = new ClearService(userDB, authDB, gameDB);
   }
 
-  public Object clear(Request req, Response res){
+  public Object clear(Request req, Response res) throws DataAccessException {
     clearHandler.clear();
     res.status(200);
     return "{}";

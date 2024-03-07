@@ -9,7 +9,7 @@ public interface UserDao {
 
   public boolean checkUser(String username) throws DataAccessException;
 
-  public boolean checkPassword(UserData user);
+  public boolean checkPassword(UserData user) throws DataAccessException;
 
   public void clear() throws DataAccessException;
 }

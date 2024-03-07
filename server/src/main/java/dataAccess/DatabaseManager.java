@@ -30,7 +30,6 @@ public class DatabaseManager {
             throw new RuntimeException("unable to process db.properties. " + ex.getMessage());
         }
     }
-
     /**
      * Creates the database if it does not already exist.
      */
@@ -65,6 +64,42 @@ public class DatabaseManager {
             return conn;
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage(), 500);
+        }
+    }
+
+    private final String[] createStatements ={"""
+            CREATE TABLE IF NOT EXISTS  User (
+              `username` varchar(256) NOT NULL,
+              `password` varchar(256) NOT NULL,
+              `email` varchar(256) NOT NULL,
+              `json` TEXT DEFAULT NULL,
+              PRIMARY KEY (`username`),
+              INDEX(password),
+              INDEX(email)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS Auth (
+                `authToken` varchar(256) NOT NULL,
+                `username` varchar(256) NOT NULL,
+                `json` TEXT DEFAULT NULL,
+                PRIMARY KEY (`authToken`),
+                INDEX(username)
+            )   ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+            """
+    };
+
+
+    public void configureDatabase() throws DataAccessException {
+        DatabaseManager.createDatabase();
+        try (var conn = DatabaseManager.getConnection()) {
+            for (var statement : createStatements) {
+                try (var preparedStatement = conn.prepareStatement(statement)) {
+                    preparedStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataAccessException(String.format("Unable to configure database: %s", ex.getMessage()), 500);
         }
     }
 }

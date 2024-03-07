@@ -22,9 +22,9 @@ public class Server {
 
         Spark.staticFiles.location("web");
 
-        UserDao userDB = new MemoryUserDao();
-        AuthDao authDB = new MemoryAuthDao();
-        GameDao gameDB = new MemoryGameDao();
+        UserDao userDB = new DatabaseUserDao();
+        AuthDao authDB = new DatabaseAuthDao();
+        GameDao gameDB = new DatabaseGameDao();
         ClearService clearService = new ClearService(userDB, authDB, gameDB);
         RegisterService registerService = new RegisterService(userDB, authDB);
         LoginService loginService = new LoginService(userDB,authDB);

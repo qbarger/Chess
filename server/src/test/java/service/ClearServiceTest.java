@@ -27,9 +27,9 @@ class ClearServiceTest {
   }
 
   @Test
-  void clear() {
-    clearService.userDB.createUser(new UserData("qbarger","jellyfish","jelly@gmail.com"));
-    clearService.authDB.createAuth("qbarger");
+  void clear() throws DataAccessException{
+    //clearService.userDB.createUser(new UserData("qbarger","jellyfish","jelly@gmail.com"));
+    //clearService.authDB.createAuth("qbarger");
     clearService.gameDB.createGame(new GameData(2,"john","james","game0",new ChessGame()));
 
     clearService.clear();
