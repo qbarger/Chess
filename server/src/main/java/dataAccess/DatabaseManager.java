@@ -86,6 +86,20 @@ public class DatabaseManager {
                 PRIMARY KEY (`authToken`),
                 INDEX(username)
             )   ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS Game (
+                `gameID` int NOT NULL AUTO_INCREMENT,
+                `whiteUsername` varchar(256),
+                `blackUsername` varchar(256),
+                `gameName` varchar(256),
+                `game` TEXT DEFAULT NULL,
+                `json` TEXT DEFAULT NULL,
+                PRIMARY KEY (`gameID`),
+                INDEX(whiteUsername),
+                INDEX(blackUsername),
+                INDEX(gameName)
+            )   ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
             """
     };
 

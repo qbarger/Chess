@@ -18,7 +18,7 @@ public interface GameDao {
 
   public int listSize();
 
-  public void clear();
+  public void clear() throws DataAccessException;
 
   public boolean isItEmpty();
 }

@@ -43,6 +43,7 @@ public class DatabaseAuthDao implements AuthDao{
     DatabaseManager databaseManager = new DatabaseManager();
     databaseManager.configureDatabase();
     var statement = "Truncate Auth";
+    executeCommand(statement);
   }
 
   @Override
