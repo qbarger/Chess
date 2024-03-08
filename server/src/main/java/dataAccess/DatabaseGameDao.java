@@ -25,8 +25,29 @@ public class DatabaseGameDao implements GameDao{
   }
 
   @Override
-  public GameData getGame(int gameID) {
-    return null;
+  public GameData getGame(int gameID) throws DataAccessException{
+    DatabaseManager databaseManager = new DatabaseManager();
+    databaseManager.configureDatabase();
+    try (var conn = DatabaseManager.getConnection()){
+      var statement = "Select gameID, json From Game Where gameID = ?";
+      try (var ps = conn.prepareStatement(statement)){
+        ps.setInt(1, gameID);
+        try (var rs = ps.executeQuery()){
+          if(rs.next()){
+            var json = rs.getString("json");
+            var game = new Gson().fromJson(json, GameData.class);
+            return game;
+          }
+          else {
+            throw new DataAccessException("Game not found.", 500);
+          }
+        }
+      }
+    } catch (DataAccessException exception) {
+      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 500);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
@@ -40,17 +61,17 @@ public class DatabaseGameDao implements GameDao{
   }
 
   @Override
-  public int listSize() throws DataAccessException{
-    listSize++;
-    return listSize;
-  }
-
-  @Override
   public void clear() throws DataAccessException{
     DatabaseManager databaseManager = new DatabaseManager();
     databaseManager.configureDatabase();
     var statement = "Truncate Game";
     executeCommand(statement);
+  }
+
+  @Override
+  public int getListSize(){
+    this.listSize++;
+    return listSize;
   }
 
   @Override

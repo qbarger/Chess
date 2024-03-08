@@ -20,12 +20,14 @@ class DatabaseAuthDaoTest {
 
   @Test
   void createAuth() throws DataAccessException {
+    databaseAuthDao.clear();
     AuthData auth = databaseAuthDao.createAuth("username");
     assertTrue(databaseAuthDao.checkAuth(auth.authToken()));
   }
 
   @Test
   void createAuthFails() throws DataAccessException{
+    databaseAuthDao.clear();
     AuthData auth=databaseAuthDao.createAuth("username");
     assertEquals(false, databaseAuthDao.checkAuth(auth.authToken() + "a"));
   }
@@ -35,7 +37,13 @@ class DatabaseAuthDaoTest {
   }
 
   @Test
+  void getAuthFails() {
+
+  }
+
+  @Test
   void deleteAuth() throws DataAccessException{
+    databaseAuthDao.clear();
     AuthData auth = databaseAuthDao.createAuth("username");
     databaseAuthDao.deleteAuth(auth.authToken());
     assertFalse(databaseAuthDao.checkAuth(auth.authToken()));
@@ -43,6 +51,7 @@ class DatabaseAuthDaoTest {
 
   @Test
   void deleteAuthFails() throws DataAccessException{
+    databaseAuthDao.clear();
     AuthData auth=databaseAuthDao.createAuth("username");
     databaseAuthDao.deleteAuth(auth.authToken());
     assertEquals(false, databaseAuthDao.checkAuth(auth.authToken()));
@@ -50,12 +59,14 @@ class DatabaseAuthDaoTest {
 
   @Test
   void checkAuth() throws DataAccessException{
+    databaseAuthDao.clear();
     AuthData auth=databaseAuthDao.createAuth("username");
     assertEquals(true, databaseAuthDao.checkAuth(auth.authToken()));
   }
 
   @Test
   void checkAuthFails() throws DataAccessException{
+    databaseAuthDao.clear();
     AuthData auth=databaseAuthDao.createAuth("dove");
     boolean check = databaseAuthDao.checkAuth(auth.authToken() + "a");
     assertEquals(false, check);

@@ -9,6 +9,7 @@ import java.util.*;
 
 public class MemoryGameDao implements GameDao {
   private Map<Integer, GameData> gameInfo = new HashMap<>();
+  private int listSize = 0;
   @Override
   public void createGame(GameData game){
     gameInfo.put(game.gameID(), game);
@@ -33,8 +34,9 @@ public class MemoryGameDao implements GameDao {
   }
 
   @Override
-  public int listSize(){
-    return gameInfo.size();
+  public int getListSize(){
+    this.listSize++;
+    return listSize;
   }
 
   @Override
