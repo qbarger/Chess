@@ -56,8 +56,29 @@ public class DatabaseGameDao implements GameDao{
   }
 
   @Override
-  public GameList listGames() {
-    return null;
+  public GameList listGames() throws DataAccessException{
+    var gameList = new ArrayList<GameData>();
+    DatabaseManager databaseManager = new DatabaseManager();
+    databaseManager.configureDatabase();
+    try(var conn = DatabaseManager.getConnection()){
+      var statement = "Select gameID, json From Game";
+      try(var ps = conn.prepareStatement(statement)){
+        try(var rs = ps.executeQuery()){
+          while(rs.next()){
+            var json = rs.getString("json");
+            var game = new Gson().fromJson(json, GameData.class);
+            gameList.add(game);
+          }
+        }
+      }
+    }
+    catch (DataAccessException exception){
+      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 500);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    GameList games = new GameList(gameList);
+    return games;
   }
 
   @Override

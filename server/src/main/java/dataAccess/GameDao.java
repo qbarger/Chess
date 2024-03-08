@@ -14,7 +14,7 @@ public interface GameDao {
 
   public void joinGame(GameData game);
 
-  public GameList listGames();
+  public GameList listGames() throws DataAccessException;
 
   public int getListSize();
 

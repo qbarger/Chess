@@ -3,6 +3,7 @@ package dataAccessTests;
 import chess.ChessGame;
 import dataAccess.*;
 import model.GameData;
+import model.GameList;
 import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,7 +69,31 @@ class DatabaseGameDaoTest {
   }
 
   @Test
-  void listGames() {
+  void listGames() throws DataAccessException{
+    databaseGameDao.clear();
+    GameData game1 = new GameData(1, null, null, "game1", new ChessGame());
+    GameData game2 = new GameData(2, null, null, "game2", new ChessGame());
+    GameData game3 = new GameData(3, null, null, "game3", new ChessGame());
+    databaseGameDao.createGame(game1);
+    databaseGameDao.createGame(game2);
+    databaseGameDao.createGame(game3);
+    GameList newGame = databaseGameDao.listGames();
+    assertNotNull(newGame);
+  }
+
+  @Test
+  void listGamesFails() throws DataAccessException{
+    try {
+      databaseGameDao.clear();
+      GameData game1 = new GameData(1, null, null, "game1", new ChessGame());
+      GameData game2 = new GameData(2, null, null, "game2", new ChessGame());
+      GameData game3 = new GameData(3, null, null, "game3", new ChessGame());
+      databaseGameDao.createGame(game1);
+      databaseGameDao.createGame(game2);
+      databaseGameDao.createGame(game3);
+    } catch (DataAccessException exception){
+      assertEquals("Yuh", exception.getMessage());
+    }
   }
 
   @Test
