@@ -34,8 +34,8 @@ class ClearServiceTest {
 
     clearService.clear();
 
-    assertEquals(true,clearService.authDB.isItEmpty());
-    assertEquals(true,clearService.authDB.isItEmpty());
-    assertEquals(true,clearService.gameDB.isItEmpty());
+    assertTrue(clearService.authDB.isItEmpty());
+    assertTrue(clearService.authDB.isItEmpty());
+    assertTrue(clearService.gameDB.isItEmpty());
   }
 }

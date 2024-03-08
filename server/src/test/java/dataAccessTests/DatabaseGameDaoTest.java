@@ -38,7 +38,7 @@ class DatabaseGameDaoTest {
       GameData newGame=databaseGameDao.getGame(2);
       fail("Expected Data access exception.");
     } catch (DataAccessException exception){
-      assertEquals("Error: Unable to read data: Game not found.", exception.getMessage());
+      assertEquals("Error: Unable to read data: Error: Game not found.", exception.getMessage());
     }
   }
 
@@ -60,7 +60,7 @@ class DatabaseGameDaoTest {
       GameData newGame=databaseGameDao.getGame(2);
       fail("Expected Data access exception.");
     } catch (DataAccessException exception){
-      assertEquals("Error: Unable to read data: Game not found.", exception.getMessage());
+      assertEquals("Error: Unable to read data: Error: Game not found.", exception.getMessage());
     }
   }
 

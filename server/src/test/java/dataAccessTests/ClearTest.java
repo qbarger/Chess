@@ -41,7 +41,7 @@ class ClearTest {
       assertEquals(null, databaseAuthDao.getAuth(auth.authToken()));
       fail("Expected a data access exception");
     } catch (DataAccessException exception){
-      assertEquals("Auth not found.", exception.getMessage());
+      assertEquals("Error: Auth not found.", exception.getMessage());
     }
   }
 
@@ -54,7 +54,7 @@ class ClearTest {
       assertEquals(null, databaseGameDao.getGame(1));
       fail("Expected a data access exception");
     } catch (DataAccessException exception){
-      assertEquals("Unable to read data: Game not found.", exception.getMessage());
+      assertEquals("Error: Unable to read data: Error: Game not found.", exception.getMessage());
     }
 
   }
