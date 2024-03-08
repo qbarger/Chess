@@ -39,7 +39,7 @@ public class DatabaseAuthDao implements AuthDao{
             return auth;
           }
           else {
-            ErrorData error = new ErrorData("Auth not found.");
+            ErrorData error = new ErrorData("Error: Auth not found.");
             throw new DataAccessException(error.message(), 500);
           }
         }
@@ -71,7 +71,7 @@ public class DatabaseAuthDao implements AuthDao{
       }
     }
     catch (SQLException exception){
-      ErrorData error = new ErrorData("Unable to read data: %s");
+      ErrorData error = new ErrorData("Error: Unable to read data: %s");
       throw new DataAccessException(String.format(error.message(), exception.getMessage()), 500);
     }
   }
@@ -108,7 +108,7 @@ public class DatabaseAuthDao implements AuthDao{
       }
     }
     catch (SQLException exception) {
-      ErrorData error= new ErrorData("unable to update database: %s, %s");
+      ErrorData error= new ErrorData("Error: unable to update database: %s, %s");
       throw new DataAccessException(String.format(error.message(), statement, exception.getMessage()), 500);
     }
   }

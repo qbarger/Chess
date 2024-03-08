@@ -38,7 +38,7 @@ public class DatabaseUserDao implements UserDao{
       }
     }
     catch (SQLException exception){
-      ErrorData error = new ErrorData("Unable to read data: %s");
+      ErrorData error = new ErrorData("Error: Unable to read data: %s");
       throw new DataAccessException(String.format(error.message(), exception.getMessage()), 401);
     }
   }
@@ -49,7 +49,7 @@ public class DatabaseUserDao implements UserDao{
       return true;
     }
     else {
-      ErrorData error = new ErrorData("Incorrect password: %s");
+      ErrorData error = new ErrorData("Error: Incorrect password: %s");
       throw new DataAccessException(error.message(), 401);
     }
   }
@@ -86,14 +86,14 @@ public class DatabaseUserDao implements UserDao{
             return passwordMatches;
           }
           else {
-            ErrorData error = new ErrorData("Unable to read data: %s");
+            ErrorData error = new ErrorData("Error: Unable to read data: %s");
             throw new DataAccessException(error.message(), 500);
           }
         }
       }
     }
     catch (SQLException exception){
-      ErrorData error = new ErrorData("Unable to read data: %s");
+      ErrorData error = new ErrorData("Error: Unable to read data: %s");
       throw new DataAccessException(String.format(error.message(), exception.getMessage()), 500);
     }
   }
@@ -117,7 +117,7 @@ public class DatabaseUserDao implements UserDao{
       }
     }
     catch (SQLException exception) {
-      ErrorData error = new ErrorData("unable to update database: %s, %s");
+      ErrorData error = new ErrorData("Error: unable to update database: %s, %s");
       throw new DataAccessException(String.format(error.message(), statement, exception.getMessage()), 500);
     }
   }

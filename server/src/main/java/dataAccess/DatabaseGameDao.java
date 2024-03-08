@@ -40,13 +40,13 @@ public class DatabaseGameDao implements GameDao{
             return game;
           }
           else {
-            ErrorData error = new ErrorData("Game not found.");
-            throw new DataAccessException("Game not found.", 400);
+            ErrorData error = new ErrorData("Error: Game not found.");
+            throw new DataAccessException(error.message(), 400);
           }
         }
       }
     } catch (DataAccessException exception) {
-      ErrorData error = new ErrorData("Unable to read data: %s");
+      ErrorData error = new ErrorData("Error: Unable to read data: %s");
       throw new DataAccessException(String.format(error.message(), exception.getMessage()), 400);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -77,7 +77,7 @@ public class DatabaseGameDao implements GameDao{
         ps.executeUpdate();
       }
     } catch (SQLException exception) {
-      ErrorData error = new ErrorData("Unable to update game data in the database: %s");
+      ErrorData error = new ErrorData("Error: Unable to update game data in the database: %s");
       throw new DataAccessException(String.format(error.message(), exception.getMessage()), 400);
     }
   }
@@ -100,7 +100,7 @@ public class DatabaseGameDao implements GameDao{
       }
     }
     catch (DataAccessException exception){
-      ErrorData error = new ErrorData("Unable to read data: %s");
+      ErrorData error = new ErrorData("Error: Unable to read data: %s");
       throw new DataAccessException(String.format(error.message(), exception.getMessage()), 400);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -147,7 +147,7 @@ public class DatabaseGameDao implements GameDao{
       }
     }
     catch (SQLException exception) {
-      ErrorData error = new ErrorData("unable to update database: %s, %s");
+      ErrorData error = new ErrorData("Error: unable to update database: %s, %s");
       throw new DataAccessException(String.format(error.message(), statement, exception.getMessage()), 400);
     }
   }
