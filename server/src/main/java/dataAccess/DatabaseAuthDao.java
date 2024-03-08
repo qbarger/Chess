@@ -26,8 +26,8 @@ public class DatabaseAuthDao implements AuthDao{
 
   @Override
   public AuthData getAuth(String authToken) throws DataAccessException{
-    DatabaseManager databaseManager = new DatabaseManager();
-    databaseManager.configureDatabase();
+    //DatabaseManager databaseManager = new DatabaseManager();
+    //databaseManager.configureDatabase();
     try(var conn = DatabaseManager.getConnection()){
       var statement = "Select authToken, json from Auth Where authToken = ?";
       try(var ps = conn.prepareStatement(statement)){
@@ -59,8 +59,8 @@ public class DatabaseAuthDao implements AuthDao{
 
   @Override
   public boolean checkAuth(String authToken) throws DataAccessException{
-    DatabaseManager databaseManager = new DatabaseManager();
-    databaseManager.configureDatabase();
+    //DatabaseManager databaseManager = new DatabaseManager();
+    //databaseManager.configureDatabase();
     try (var conn = DatabaseManager.getConnection()) {
       var statement="Select authToken From Auth Where authToken = ?";
       try (var ps = conn.prepareStatement(statement)){

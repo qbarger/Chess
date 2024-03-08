@@ -26,8 +26,8 @@ public class DatabaseUserDao implements UserDao{
 
   @Override
   public boolean checkUser(String username) throws DataAccessException{
-    DatabaseManager databaseManager = new DatabaseManager();
-    databaseManager.configureDatabase();
+    //DatabaseManager databaseManager = new DatabaseManager();
+    //databaseManager.configureDatabase();
     try (var conn = DatabaseManager.getConnection()) {
       var statement="Select username From User Where username = ?";
       try (var ps = conn.prepareStatement(statement)){
@@ -72,8 +72,8 @@ public class DatabaseUserDao implements UserDao{
 
   private boolean verifyUser(UserData user) throws DataAccessException{
     // read the previously hashed password from the database
-    DatabaseManager databaseManager = new DatabaseManager();
-    databaseManager.configureDatabase();
+    //DatabaseManager databaseManager = new DatabaseManager();
+    //databaseManager.configureDatabase();
     try (var conn = DatabaseManager.getConnection()) {
       var statement="Select password From User Where username = ?";
       try (var ps = conn.prepareStatement(statement)){

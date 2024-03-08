@@ -17,18 +17,18 @@ public class DatabaseGameDao implements GameDao{
   private int listSize = 0;
   @Override
   public void createGame(GameData game) throws DataAccessException{
-    DatabaseManager databaseManager = new DatabaseManager();
+    DatabaseManager databaseManager=new DatabaseManager();
     databaseManager.configureDatabase();
-    var statement = "Insert into Game (gameID, whiteUsername, blackUsername, gameName, game, json) Values (?,?,?,?,?,?)";
-    var json = new Gson().toJson(game);
-    var gameString = new Gson().toJson(game.game());
+    var statement="Insert into Game (gameID, whiteUsername, blackUsername, gameName, game, json) Values (?,?,?,?,?,?)";
+    var json=new Gson().toJson(game);
+    var gameString=new Gson().toJson(game.game());
     executeCommand(statement, game.gameID(), game.whiteUsername(), game.blackUsername(), game.gameName(), gameString, json);
   }
 
   @Override
   public GameData getGame(int gameID) throws DataAccessException{
-    DatabaseManager databaseManager = new DatabaseManager();
-    databaseManager.configureDatabase();
+    //DatabaseManager databaseManager = new DatabaseManager();
+    //databaseManager.configureDatabase();
     try (var conn = DatabaseManager.getConnection()){
       var statement = "Select gameID, json From Game Where gameID = ?";
       try (var ps = conn.prepareStatement(statement)){
@@ -55,8 +55,8 @@ public class DatabaseGameDao implements GameDao{
 
   @Override
   public void joinGame(GameData game) throws DataAccessException{
-    DatabaseManager databaseManager = new DatabaseManager();
-    databaseManager.configureDatabase();
+    //DatabaseManager databaseManager = new DatabaseManager();
+    //databaseManager.configureDatabase();
     try (var conn = DatabaseManager.getConnection()) {
       String statement = "UPDATE Game SET gameID = ?, whiteUsername = ?, blackUsername = ?, gameName = ?, game = ?, json = ? WHERE gameID = ?";
       var whiteUsername = new Gson().toJson(game.whiteUsername());
@@ -85,8 +85,8 @@ public class DatabaseGameDao implements GameDao{
   @Override
   public GameList listGames() throws DataAccessException{
     var gameList = new ArrayList<GameData>();
-    DatabaseManager databaseManager = new DatabaseManager();
-    databaseManager.configureDatabase();
+   // DatabaseManager databaseManager = new DatabaseManager();
+   // databaseManager.configureDatabase();
     try(var conn = DatabaseManager.getConnection()){
       var statement = "Select gameID, json From Game";
       try(var ps = conn.prepareStatement(statement)){
@@ -111,8 +111,8 @@ public class DatabaseGameDao implements GameDao{
 
   @Override
   public void clear() throws DataAccessException{
-    DatabaseManager databaseManager = new DatabaseManager();
-    databaseManager.configureDatabase();
+    //DatabaseManager databaseManager = new DatabaseManager();
+    //databaseManager.configureDatabase();
     var statement = "Truncate Game";
     executeCommand(statement);
   }
