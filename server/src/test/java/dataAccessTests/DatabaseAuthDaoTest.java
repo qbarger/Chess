@@ -33,13 +33,17 @@ class DatabaseAuthDaoTest {
   }
 
   @Test
-  void getAuth() {
-
+  void getAuth() throws DataAccessException{
+    databaseAuthDao.clear();
+    AuthData auth = databaseAuthDao.createAuth("johnny");
+    assertEquals(auth, databaseAuthDao.getAuth(auth.authToken()));
   }
 
   @Test
-  void getAuthFails() {
-
+  void getAuthFails() throws DataAccessException{
+    databaseAuthDao.clear();
+    AuthData auth = databaseAuthDao.createAuth("johnny");
+    assertNotEquals("TIMMY", databaseAuthDao.getAuth(auth.authToken()));
   }
 
   @Test

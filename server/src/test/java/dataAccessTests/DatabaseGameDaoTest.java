@@ -76,7 +76,13 @@ class DatabaseGameDaoTest {
 
   @Test
   void joinGameFails() throws DataAccessException{
-
+      databaseGameDao.clear();
+      GameData game=new GameData(1, null, null, "game1", new ChessGame());
+      databaseGameDao.createGame(game);
+      GameData newGame=new GameData(2, "john", game.blackUsername(), game.gameName(), game.game());
+      databaseGameDao.joinGame(newGame);
+      GameData check = databaseGameDao.getGame(1);
+      assertNotEquals(newGame, check);
   }
 
   @Test
@@ -94,24 +100,14 @@ class DatabaseGameDaoTest {
 
   @Test
   void listGamesFails() throws DataAccessException{
-    try {
-      databaseGameDao.clear();
-      GameData game1 = new GameData(1, null, null, "game1", new ChessGame());
-      GameData game2 = new GameData(2, null, null, "game2", new ChessGame());
-      GameData game3 = new GameData(3, null, null, "game3", new ChessGame());
-      databaseGameDao.createGame(game1);
-      databaseGameDao.createGame(game2);
-      databaseGameDao.createGame(game3);
-    } catch (DataAccessException exception){
-      assertEquals("Yuh", exception.getMessage());
-    }
-  }
-
-  @Test
-  void getListSize() {
-  }
-
-  @Test
-  void isItEmpty() {
+    databaseGameDao.clear();
+    GameData game1 = new GameData(1, null, null, "game1", new ChessGame());
+    GameData game2 = new GameData(2, null, null, "game2", new ChessGame());
+    GameData game3 = new GameData(3, null, null, "game3", new ChessGame());
+    databaseGameDao.createGame(game1);
+    databaseGameDao.createGame(game2);
+    databaseGameDao.createGame(game3);
+    GameList list = databaseGameDao.listGames();
+    assertNotEquals(2, list.games().size());
   }
 }

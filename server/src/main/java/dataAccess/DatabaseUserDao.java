@@ -37,7 +37,7 @@ public class DatabaseUserDao implements UserDao{
       }
     }
     catch (SQLException exception){
-      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 500);
+      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 401);
     }
   }
 
@@ -47,7 +47,7 @@ public class DatabaseUserDao implements UserDao{
       return true;
     }
     else {
-      throw new DataAccessException("Incorrect password: %s", 500);
+      throw new DataAccessException("Incorrect password: %s", 401);
     }
   }
 

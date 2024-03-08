@@ -1,10 +1,12 @@
 package dataAccessTests;
 
+import chess.ChessGame;
 import dataAccess.DataAccessException;
 import dataAccess.DatabaseAuthDao;
 import dataAccess.DatabaseGameDao;
 import dataAccess.DatabaseUserDao;
 import model.AuthData;
+import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,7 @@ class ClearTest {
 
   @Test
   void clearUser() throws DataAccessException {
+    databaseUserDao.clear();
     databaseUserDao.createUser(new UserData("username", "password", "email"));
     databaseUserDao.clear();
     assertEquals(false, databaseUserDao.checkUser("username"));
@@ -31,8 +34,28 @@ class ClearTest {
 
   @Test
   void clearAuth() throws DataAccessException {
-    AuthData auth = databaseAuthDao.createAuth("steve");
-    databaseAuthDao.clear();
-    assertEquals(null, databaseAuthDao.getAuth(auth.authToken()));
+    try {
+      databaseAuthDao.clear();
+      AuthData auth=databaseAuthDao.createAuth("steve");
+      databaseAuthDao.clear();
+      assertEquals(null, databaseAuthDao.getAuth(auth.authToken()));
+      fail("Expected a data access exception");
+    } catch (DataAccessException exception){
+      assertEquals("Auth not found.", exception.getMessage());
+    }
+  }
+
+  @Test
+  void clearGame() throws DataAccessException {
+    try {
+      databaseGameDao.clear();
+      databaseGameDao.createGame(new GameData(1, null, null, "game1", new ChessGame()));
+      databaseGameDao.clear();
+      assertEquals(null, databaseGameDao.getGame(1));
+      fail("Expected a data access exception");
+    } catch (DataAccessException exception){
+      assertEquals("Unable to read data: Game not found.", exception.getMessage());
+    }
+
   }
 }
