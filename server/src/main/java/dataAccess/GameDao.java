@@ -12,7 +12,7 @@ public interface GameDao {
 
   public GameData getGame(int gameID) throws DataAccessException;
 
-  public void joinGame(GameData game);
+  public void joinGame(GameData game) throws DataAccessException;
 
   public GameList listGames() throws DataAccessException;
 

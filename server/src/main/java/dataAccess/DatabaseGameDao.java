@@ -51,8 +51,31 @@ public class DatabaseGameDao implements GameDao{
   }
 
   @Override
-  public void joinGame(GameData game) {
+  public void joinGame(GameData game) throws DataAccessException{
+    DatabaseManager databaseManager = new DatabaseManager();
+    databaseManager.configureDatabase();
+    try (var conn = DatabaseManager.getConnection()) {
+      String statement = "UPDATE Game SET gameID = ?, whiteUsername = ?, blackUsername = ?, gameName = ?, game = ?, json = ? WHERE gameID = ?";
+      var whiteUsername = new Gson().toJson(game.whiteUsername());
+      var blackUsername = new Gson().toJson(game.blackUsername());
+      var gameName = new Gson().toJson(game.gameName());
+      String gameString = new Gson().toJson(game.game());
+      String json = new Gson().toJson(game);
 
+      try (var ps = conn.prepareStatement(statement)) {
+        ps.setInt(1, game.gameID());
+        ps.setString(2, whiteUsername);
+        ps.setString(3, blackUsername);
+        ps.setString(4, gameName);
+        ps.setString(5, gameString);
+        ps.setString(6, json);
+        ps.setInt(7, game.gameID());
+
+        ps.executeUpdate();
+      }
+    } catch (SQLException exception) {
+      throw new DataAccessException(String.format("Unable to update game data in the database: %s", exception.getMessage()), 500);
+    }
   }
 
   @Override

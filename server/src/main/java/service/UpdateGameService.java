@@ -28,7 +28,7 @@ public class UpdateGameService {
           if (info.playerColor().equals("WHITE")) {
             if (game.whiteUsername() == null) {
               AuthData auth=authDB.getAuth(authToken);
-              GameData newGame=new GameData(info.gameID(), auth.username(), game.blackUsername(), game.gameName(), new ChessGame());
+              GameData newGame=new GameData(info.gameID(), auth.username(), game.blackUsername(), game.gameName(), game.game());
               gameDB.joinGame(newGame);
             } else {
               ErrorData error=new ErrorData("Error: already taken");
@@ -37,18 +37,18 @@ public class UpdateGameService {
           } else if (info.playerColor().equals("BLACK")) {
             if (game.blackUsername() == null) {
               AuthData auth=authDB.getAuth(authToken);
-              GameData newGame=new GameData(info.gameID(), game.whiteUsername(), auth.username(), game.gameName(), new ChessGame());
+              GameData newGame=new GameData(info.gameID(), game.whiteUsername(), auth.username(), game.gameName(), game.game());
               gameDB.joinGame(newGame);
             } else {
               ErrorData error=new ErrorData("Error: already taken");
               throw new DataAccessException(error.message(), 403);
             }
           } else {
-            GameData newGame=new GameData(info.gameID(), game.whiteUsername(), game.blackUsername(), game.gameName(), new ChessGame());
+            GameData newGame=new GameData(info.gameID(), game.whiteUsername(), game.blackUsername(), game.gameName(), game.game());
             gameDB.joinGame(newGame);
           }
         } else {
-          GameData newGame=new GameData(info.gameID(), game.whiteUsername(), game.blackUsername(), game.gameName(), new ChessGame());
+          GameData newGame=new GameData(info.gameID(), game.whiteUsername(), game.blackUsername(), game.gameName(), game.game());
           gameDB.joinGame(newGame);
         }
       }

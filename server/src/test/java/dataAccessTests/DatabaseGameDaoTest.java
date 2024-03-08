@@ -65,7 +65,18 @@ class DatabaseGameDaoTest {
   }
 
   @Test
-  void joinGame() {
+  void joinGame() throws DataAccessException{
+    databaseGameDao.clear();
+    GameData game = new GameData(1, null, null, "game1", new ChessGame());
+    databaseGameDao.createGame(game);
+    GameData newGame = new GameData(game.gameID(), "john", game.blackUsername(), game.gameName(), game.game());
+    databaseGameDao.joinGame(newGame);
+    assertEquals(newGame, databaseGameDao.getGame(newGame.gameID()));
+  }
+
+  @Test
+  void joinGameFails() throws DataAccessException{
+
   }
 
   @Test

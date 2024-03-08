@@ -34,6 +34,7 @@ class DatabaseAuthDaoTest {
 
   @Test
   void getAuth() {
+
   }
 
   @Test
