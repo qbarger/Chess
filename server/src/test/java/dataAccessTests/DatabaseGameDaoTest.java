@@ -1,0 +1,81 @@
+package dataAccessTests;
+
+import chess.ChessGame;
+import dataAccess.*;
+import model.GameData;
+import model.UserData;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class DatabaseGameDaoTest {
+
+  private DatabaseGameDao databaseGameDao;
+
+  @BeforeEach
+  void setup() {
+    databaseGameDao = new DatabaseGameDao();
+  }
+
+
+  @Test
+  void createGame() throws DataAccessException {
+    databaseGameDao.clear();
+    GameData game = new GameData(1, null, null, "game1", new ChessGame());
+    databaseGameDao.createGame(game);
+    GameData newGame = databaseGameDao.getGame(1);
+    assertEquals(game, newGame);
+  }
+
+  @Test
+  void createGameFails() throws DataAccessException{
+    try {
+      databaseGameDao.clear();
+      GameData game=new GameData(1, null, null, "game1", new ChessGame());
+      databaseGameDao.createGame(game);
+      GameData newGame=databaseGameDao.getGame(2);
+      fail("Expected Data access exception.");
+    } catch (DataAccessException exception){
+      assertEquals("Unable to read data: Game not found.", exception.getMessage());
+    }
+  }
+
+  @Test
+  void getGame() throws DataAccessException{
+    databaseGameDao.clear();
+    GameData game = new GameData(1, null, null, "game1", new ChessGame());
+    databaseGameDao.createGame(game);
+    GameData newGame = databaseGameDao.getGame(1);
+    assertNotNull(newGame);
+  }
+
+  @Test
+  void getGameFails() {
+    try {
+      databaseGameDao.clear();
+      GameData game=new GameData(1, null, null, "game1", new ChessGame());
+      databaseGameDao.createGame(game);
+      GameData newGame=databaseGameDao.getGame(2);
+      fail("Expected Data access exception.");
+    } catch (DataAccessException exception){
+      assertEquals("Unable to read data: Game not found.", exception.getMessage());
+    }
+  }
+
+  @Test
+  void joinGame() {
+  }
+
+  @Test
+  void listGames() {
+  }
+
+  @Test
+  void getListSize() {
+  }
+
+  @Test
+  void isItEmpty() {
+  }
+}
