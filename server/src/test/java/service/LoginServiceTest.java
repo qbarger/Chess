@@ -19,8 +19,8 @@ class LoginServiceTest {
 
   @BeforeEach
   void setup(){
-    userTestDB = new MemoryUserDao();
-    authTestDB = new MemoryAuthDao();
+    userTestDB = new DatabaseUserDao();
+    authTestDB = new DatabaseAuthDao();
     loginService = new LoginService(userTestDB, authTestDB);
     registerService = new RegisterService(userTestDB, authTestDB);
   }

@@ -22,9 +22,9 @@ class UpdateGameServiceTest {
 
   @BeforeEach
   void setup(){
-    userTestDB = new MemoryUserDao();
-    authTestDB = new MemoryAuthDao();
-    gameTestDB = new MemoryGameDao();
+    userTestDB = new DatabaseUserDao();
+    authTestDB = new DatabaseAuthDao();
+    gameTestDB = new DatabaseGameDao();
     updateGameService = new UpdateGameService(authTestDB,gameTestDB);
     registerService = new RegisterService(userTestDB,authTestDB);
     createGameService = new CreateGameService(authTestDB,gameTestDB);
@@ -32,6 +32,9 @@ class UpdateGameServiceTest {
 
   @Test
   void joinGame() throws DataAccessException {
+    userTestDB.clear();
+    authTestDB.clear();
+    gameTestDB.clear();
     AuthData authToken = registerService.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
     AuthData auth = new AuthData("qbarger", authToken.authToken());
     CreateGameData gameName = new CreateGameData("My Game");
@@ -46,6 +49,9 @@ class UpdateGameServiceTest {
   @Test
   void joinGameFails() throws DataAccessException {
     try {
+      authTestDB.clear();
+      userTestDB.clear();
+      gameTestDB.clear();
       AuthData authToken = registerService.register(new UserData("qbarger","johnnyland1","kingkong@gmail.com"));
       AuthData auth = new AuthData("qbarger", authToken.authToken());
       CreateGameData gameName = new CreateGameData("My Game");

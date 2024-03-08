@@ -20,9 +20,9 @@ class ClearServiceTest {
 
   @BeforeEach
   void setup(){
-    userTestDB = new MemoryUserDao();
-    authTestDB = new MemoryAuthDao();
-    gameTestDB = new MemoryGameDao();
+    userTestDB = new DatabaseUserDao();
+    authTestDB = new DatabaseAuthDao();
+    gameTestDB = new DatabaseGameDao();
     clearService = new ClearService(userTestDB,authTestDB,gameTestDB);
   }
 

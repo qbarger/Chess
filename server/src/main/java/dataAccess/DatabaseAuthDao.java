@@ -86,7 +86,7 @@ public class DatabaseAuthDao implements AuthDao{
 
   @Override
   public boolean isItEmpty() {
-    return false;
+    return true;
   }
 
   private void executeCommand(String statement, Object...params) throws DataAccessException{

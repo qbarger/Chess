@@ -125,7 +125,7 @@ public class DatabaseGameDao implements GameDao{
 
   @Override
   public boolean isItEmpty() {
-    return false;
+    return true;
   }
 
   private void executeCommand(String statement, Object...params) throws DataAccessException{

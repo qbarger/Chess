@@ -19,22 +19,26 @@ class LogoutServiceTest {
 
   @BeforeEach
   void setup(){
-    userTestDB = new MemoryUserDao();
-    authTestDB = new MemoryAuthDao();
+    userTestDB = new DatabaseUserDao();
+    authTestDB = new DatabaseAuthDao();
     registerService = new RegisterService(userTestDB,authTestDB);
     logoutService = new LogoutService(userTestDB,authTestDB);
   }
   @Test
   void logout() throws DataAccessException {
-    AuthData auth1 = registerService.register(new UserData("john","3:16","saint@gmail.com"));
+    userTestDB.clear();
+    authTestDB.clear();
+    AuthData auth1=registerService.register(new UserData("john", "3:16", "saint@gmail.com"));
     logoutService.logout(auth1.authToken());
-
-    assertEquals(null,authTestDB.getAuth("john"));
+    assertThrows(DataAccessException.class, () -> {
+      authTestDB.getAuth(auth1.authToken());
+    });
   }
 
   @Test
   void logoutFails() throws DataAccessException {
     try {
+      authTestDB.clear();
       logoutService.logout("0a0a3c31-8609-4af7-b99c-81ac014e265e");
       fail("Expected a Data Access Exception to be thrown.");
     }
