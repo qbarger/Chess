@@ -4,6 +4,7 @@ import dataAccess.AuthDao;
 import dataAccess.DataAccessException;
 import dataAccess.UserDao;
 import model.AuthData;
+import model.ErrorData;
 import model.UserData;
 import org.eclipse.jetty.server.Authentication;
 
@@ -22,7 +23,8 @@ public class LoginService {
       return auth;
     }
     else {
-      throw new DataAccessException("Error: unauthorized", 401);
+      ErrorData error = new ErrorData("Error: unauthorized");
+      throw new DataAccessException(error.message(), 401);
     }
   }
 }

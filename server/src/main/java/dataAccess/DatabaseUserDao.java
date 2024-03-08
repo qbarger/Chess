@@ -2,6 +2,7 @@ package dataAccess;
 
 import com.google.gson.Gson;
 import com.mysql.cj.x.protobuf.MysqlxCrud;
+import model.ErrorData;
 import model.UserData;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,7 +38,8 @@ public class DatabaseUserDao implements UserDao{
       }
     }
     catch (SQLException exception){
-      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 401);
+      ErrorData error = new ErrorData("Unable to read data: %s");
+      throw new DataAccessException(String.format(error.message(), exception.getMessage()), 401);
     }
   }
 
@@ -47,7 +49,8 @@ public class DatabaseUserDao implements UserDao{
       return true;
     }
     else {
-      throw new DataAccessException("Incorrect password: %s", 401);
+      ErrorData error = new ErrorData("Incorrect password: %s");
+      throw new DataAccessException(error.message(), 401);
     }
   }
 
@@ -83,13 +86,15 @@ public class DatabaseUserDao implements UserDao{
             return passwordMatches;
           }
           else {
-            throw new DataAccessException("Unable to read data: %s", 500);
+            ErrorData error = new ErrorData("Unable to read data: %s");
+            throw new DataAccessException(error.message(), 500);
           }
         }
       }
     }
     catch (SQLException exception){
-      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 500);
+      ErrorData error = new ErrorData("Unable to read data: %s");
+      throw new DataAccessException(String.format(error.message(), exception.getMessage()), 500);
     }
   }
 
@@ -112,7 +117,8 @@ public class DatabaseUserDao implements UserDao{
       }
     }
     catch (SQLException exception) {
-      throw new DataAccessException(String.format("unable to update database: %s, %s", statement, exception.getMessage()), 500);
+      ErrorData error = new ErrorData("unable to update database: %s, %s");
+      throw new DataAccessException(String.format(error.message(), statement, exception.getMessage()), 500);
     }
   }
 }

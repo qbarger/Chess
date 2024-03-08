@@ -2,6 +2,7 @@ package dataAccess;
 
 import com.google.gson.Gson;
 import model.AuthData;
+import model.ErrorData;
 import model.UserData;
 
 import java.sql.SQLException;
@@ -38,7 +39,8 @@ public class DatabaseAuthDao implements AuthDao{
             return auth;
           }
           else {
-            throw new DataAccessException("Auth not found.", 500);
+            ErrorData error = new ErrorData("Auth not found.");
+            throw new DataAccessException(error.message(), 500);
           }
         }
       }
@@ -69,7 +71,8 @@ public class DatabaseAuthDao implements AuthDao{
       }
     }
     catch (SQLException exception){
-      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 500);
+      ErrorData error = new ErrorData("Unable to read data: %s");
+      throw new DataAccessException(String.format(error.message(), exception.getMessage()), 500);
     }
   }
 
@@ -105,7 +108,8 @@ public class DatabaseAuthDao implements AuthDao{
       }
     }
     catch (SQLException exception) {
-      throw new DataAccessException(String.format("unable to update database: %s, %s", statement, exception.getMessage()), 500);
+      ErrorData error= new ErrorData("unable to update database: %s, %s");
+      throw new DataAccessException(String.format(error.message(), statement, exception.getMessage()), 500);
     }
   }
 }

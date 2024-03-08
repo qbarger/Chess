@@ -2,6 +2,7 @@ package dataAccess;
 
 import chess.ChessGame;
 import com.google.gson.Gson;
+import model.ErrorData;
 import model.GameData;
 import model.GameList;
 import model.UserData;
@@ -39,12 +40,14 @@ public class DatabaseGameDao implements GameDao{
             return game;
           }
           else {
+            ErrorData error = new ErrorData("Game not found.");
             throw new DataAccessException("Game not found.", 400);
           }
         }
       }
     } catch (DataAccessException exception) {
-      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 400);
+      ErrorData error = new ErrorData("Unable to read data: %s");
+      throw new DataAccessException(String.format(error.message(), exception.getMessage()), 400);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -74,7 +77,8 @@ public class DatabaseGameDao implements GameDao{
         ps.executeUpdate();
       }
     } catch (SQLException exception) {
-      throw new DataAccessException(String.format("Unable to update game data in the database: %s", exception.getMessage()), 400);
+      ErrorData error = new ErrorData("Unable to update game data in the database: %s");
+      throw new DataAccessException(String.format(error.message(), exception.getMessage()), 400);
     }
   }
 
@@ -96,7 +100,8 @@ public class DatabaseGameDao implements GameDao{
       }
     }
     catch (DataAccessException exception){
-      throw new DataAccessException(String.format("Unable to read data: %s", exception.getMessage()), 400);
+      ErrorData error = new ErrorData("Unable to read data: %s");
+      throw new DataAccessException(String.format(error.message(), exception.getMessage()), 400);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -142,7 +147,8 @@ public class DatabaseGameDao implements GameDao{
       }
     }
     catch (SQLException exception) {
-      throw new DataAccessException(String.format("unable to update database: %s, %s", statement, exception.getMessage()), 400);
+      ErrorData error = new ErrorData("unable to update database: %s, %s");
+      throw new DataAccessException(String.format(error.message(), statement, exception.getMessage()), 400);
     }
   }
 }
