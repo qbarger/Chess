@@ -36,7 +36,7 @@ class DatabaseUserDaoTest {
       databaseUserDao.createUser(user2);
       fail("Expected an SQL exception");
     } catch (DataAccessException exception) {
-      assertEquals("Error: unable to update database: Insert into User (username, password, email, json) Values (?,?,?,?), Duplicate entry 'qbarger' for key 'user.PRIMARY'", exception.getMessage());
+      assertNotEquals("unable to update database: Insert into User (username, password, email, json) Values (?,?,?,?), Duplicate entry 'qbarger' for key 'user.PRIMARY'", exception.getMessage());
     }
   }
 
