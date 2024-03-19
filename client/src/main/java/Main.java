@@ -1,4 +1,5 @@
 import chess.*;
+import ui.Prelogin;
 import ui.ServerFacade;
 
 public class Main {
@@ -8,6 +9,6 @@ public class Main {
             serverUrl = args[0];
         }
 
-        new ServerFacade(serverUrl).run();
+        new Prelogin(serverUrl).run();
     }
 }
