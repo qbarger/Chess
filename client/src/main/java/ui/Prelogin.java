@@ -1,6 +1,7 @@
 package ui;
 import chess.ResponseException;
 import com.google.gson.Gson;
+import model.AuthData;
 import model.UserData;
 
 import java.io.BufferedReader;
@@ -75,20 +76,17 @@ public class Prelogin {
     System.out.println("help - with possible commands");
   }
 
-  public void login() throws ResponseException{
-    Scanner userLog = new Scanner(System.in);
+  public void login() throws Exception{
+    Scanner userReg = new Scanner(System.in);
     System.out.println("Enter Your Username:");
-    String username = userLog.nextLine();
+    String username = userReg.nextLine();
     System.out.println("Enter Your Password:");
-    String password = userLog.nextLine();
+    String password = userReg.nextLine();
 
-    try {
-      URL url = new URL("http://localhost:8080/session");
-      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-      connection.setRequestMethod("POST");
-    } catch (Exception exception){
-      exception.printStackTrace();
-    }
+    UserData user = new UserData(username, password, null);
+    var path = "/session";
+    AuthData auth = serverFacade.makeRequest("POST", path, user, AuthData.class);
+    System.out.println("Logged in as " + username + "...");
   }
 
   public void register() throws Exception {
@@ -102,7 +100,8 @@ public class Prelogin {
 
     UserData user = new UserData(username, password, email);
     var path = "/user";
-    serverFacade.makeRequest("POST", path, user, UserData.class);
+    AuthData auth = serverFacade.makeRequest("POST", path, user, AuthData.class);
+    System.out.println("Logged in as " + username + "...");
   }
 }
 
