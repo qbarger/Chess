@@ -21,7 +21,7 @@ class UpdateGameServiceTest {
   public UserDao userTestDB;
 
   @BeforeEach
-  void setup(){
+  void setup() throws DataAccessException {
     userTestDB = new DatabaseUserDao();
     authTestDB = new DatabaseAuthDao();
     gameTestDB = new DatabaseGameDao();

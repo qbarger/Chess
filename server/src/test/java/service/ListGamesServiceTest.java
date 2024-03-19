@@ -23,7 +23,7 @@ class ListGamesServiceTest {
   public UserDao userTestDB;
 
   @BeforeEach
-  void setup(){
+  void setup() throws DataAccessException {
     gameTestDB = new DatabaseGameDao();
     authTestDB = new DatabaseAuthDao();
     userTestDB = new DatabaseUserDao();

@@ -15,10 +15,15 @@ import static java.sql.Types.NULL;
 public class DatabaseGameDao implements GameDao{
 
   private int listSize = 0;
-  @Override
-  public void createGame(GameData game) throws DataAccessException{
+
+  public DatabaseGameDao() throws DataAccessException {
     DatabaseManager databaseManager=new DatabaseManager();
     databaseManager.configureDatabase();
+  }
+  @Override
+  public void createGame(GameData game) throws DataAccessException{
+    //DatabaseManager databaseManager=new DatabaseManager();
+    //databaseManager.configureDatabase();
     var statement="Insert into Game (gameID, whiteUsername, blackUsername, gameName, game, json) Values (?,?,?,?,?,?)";
     var json=new Gson().toJson(game);
     var gameString=new Gson().toJson(game.game());

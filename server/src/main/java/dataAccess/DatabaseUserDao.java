@@ -14,10 +14,15 @@ import java.sql.*;
 import static java.sql.Types.NULL;
 
 public class DatabaseUserDao implements UserDao{
-  @Override
-  public void createUser(UserData user) throws DataAccessException{
+
+  public DatabaseUserDao() throws DataAccessException {
     DatabaseManager databaseManager = new DatabaseManager();
     databaseManager.configureDatabase();
+  }
+  @Override
+  public void createUser(UserData user) throws DataAccessException{
+    //DatabaseManager databaseManager = new DatabaseManager();
+    //databaseManager.configureDatabase();
     String hashedPassword = storeUserPassword(user.password());
     var statement = "Insert into User (username, password, email, json) Values (?,?,?,?)";
     var json = new Gson().toJson(user);
@@ -56,8 +61,8 @@ public class DatabaseUserDao implements UserDao{
 
   @Override
   public void clear() throws DataAccessException{
-    DatabaseManager databaseManager = new DatabaseManager();
-    databaseManager.configureDatabase();
+    //DatabaseManager databaseManager = new DatabaseManager();
+    //databaseManager.configureDatabase();
     var statement = "Truncate User";
     executeCommand(statement);
   }

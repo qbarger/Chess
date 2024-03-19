@@ -15,7 +15,7 @@ class DatabaseGameDaoTest {
   private DatabaseGameDao databaseGameDao;
 
   @BeforeEach
-  void setup() {
+  void setup() throws DataAccessException {
     databaseGameDao = new DatabaseGameDao();
   }
 

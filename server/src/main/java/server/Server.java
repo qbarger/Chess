@@ -12,12 +12,12 @@ import spark.*;
 
 public class Server {
 
-    public static void main (String[] args) {
+    public static void main (String[] args) throws DataAccessException {
         new Server().run(8080);
     }
 
 
-    public int run(int desiredPort) {
+    public int run(int desiredPort) throws DataAccessException {
         Spark.port(desiredPort);
 
         Spark.staticFiles.location("web");

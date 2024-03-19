@@ -12,10 +12,15 @@ import java.util.UUID;
 import static java.sql.Types.NULL;
 
 public class DatabaseAuthDao implements AuthDao{
-  @Override
-  public AuthData createAuth(String username) throws DataAccessException{
+
+  public DatabaseAuthDao() throws DataAccessException {
     DatabaseManager databaseManager = new DatabaseManager();
     databaseManager.configureDatabase();
+  }
+  @Override
+  public AuthData createAuth(String username) throws DataAccessException{
+    //DatabaseManager databaseManager = new DatabaseManager();
+    //databaseManager.configureDatabase();
     String authToken =UUID.randomUUID().toString();
     var statement = "Insert into Auth (username, authToken, json) Values (?,?,?)";
     AuthData auth = new AuthData(username, authToken);

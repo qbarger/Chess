@@ -18,7 +18,7 @@ class ClearTest {
   private DatabaseAuthDao databaseAuthDao;
 
   @BeforeEach
-  void setup() {
+  void setup() throws DataAccessException {
     databaseAuthDao = new DatabaseAuthDao();
     databaseGameDao = new DatabaseGameDao();
     databaseUserDao = new DatabaseUserDao();

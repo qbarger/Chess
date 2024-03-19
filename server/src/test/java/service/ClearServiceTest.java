@@ -19,7 +19,7 @@ class ClearServiceTest {
   public GameDao gameTestDB;
 
   @BeforeEach
-  void setup(){
+  void setup() throws DataAccessException {
     userTestDB = new DatabaseUserDao();
     authTestDB = new DatabaseAuthDao();
     gameTestDB = new DatabaseGameDao();
