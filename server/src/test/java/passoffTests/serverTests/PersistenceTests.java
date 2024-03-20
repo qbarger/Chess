@@ -22,7 +22,7 @@ public class PersistenceTests {
 
 
     @BeforeAll
-    public static void init() {
+    public static void init() throws DataAccessException {
         startServer();
         serverFacade.clear();
     }
@@ -42,7 +42,7 @@ public class PersistenceTests {
 
     @Test
     @DisplayName("Persistence Test")
-    public void persistenceTest() throws TestException {
+    public void persistenceTest() throws TestException, DataAccessException {
         var initialRowCount = getDatabaseRows();
 
         TestModels.TestRegisterRequest registerRequest = new TestModels.TestRegisterRequest();
