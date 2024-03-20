@@ -9,6 +9,8 @@ public class Main {
             serverUrl = args[0];
         }
 
+        System.out.println("Welcome to 240 chess. Type 'help' to get started...");
+
         new Prelogin(serverUrl).run();
     }
 }

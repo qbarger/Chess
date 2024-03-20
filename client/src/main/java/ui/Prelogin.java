@@ -13,45 +13,31 @@ import java.net.HttpURLConnection;
 
 public class Prelogin {
   private final String serverUrl;
+  private boolean playing;
   ServerFacade serverFacade;
 
   public Prelogin(String url) {
+    playing = true;
     this.serverUrl = url;
     serverFacade = new ServerFacade(url);
   }
 
   public void run() throws Exception{
 
-    System.out.println("Welcome to 240 chess. Type Help to get started...");
-
     Scanner user = new Scanner(System.in);
-    String userInput;
 
-    while(true) {
-      userInput=user.nextLine();
+    while(playing) {
+      System.out.printf("[LOGGED_OUT] >>> ");
+      String userInput=user.next();
 
       if(userInput.equals("quit")){
         System.out.println("Quitting...");
-        break;
+        System.exit(0);
       }
       else {
         eval(userInput);
       }
-
-      /*
-      if (userInput.equals("help")) {
-        help();
-      } else if (userInput.equals("register")) {
-        register(serverUrl);
-      } else if (userInput.equals("login")) {
-        login();
-      } else if (userInput.equals("quit")) {
-        quit();
-        break;
-      }
-       */
     }
-
     user.close();
   }
 
@@ -60,9 +46,15 @@ public class Prelogin {
       if (userInput.equals("help")) {
         help();
       } else if (userInput.equals("register")) {
-        register();
+        AuthData auth = register();
+        Postlogin postlogin = new Postlogin(serverUrl);
+        postlogin.run(auth);
+        help();
       } else if (userInput.equals("login")) {
-        login();
+        AuthData auth = login();
+        Postlogin postlogin = new Postlogin(serverUrl);
+        postlogin.run(auth);
+        help();
       }
     } catch (ResponseException ex) {
       return ex.getMessage();
@@ -76,7 +68,7 @@ public class Prelogin {
     System.out.println("help - with possible commands");
   }
 
-  public void login() throws Exception{
+  public AuthData login() throws Exception{
     Scanner userReg = new Scanner(System.in);
     System.out.println("Enter Your Username:");
     String username = userReg.nextLine();
@@ -85,11 +77,12 @@ public class Prelogin {
 
     UserData user = new UserData(username, password, null);
     var path = "/session";
-    AuthData auth = serverFacade.makeRequest("POST", path, user, AuthData.class);
+    AuthData auth = serverFacade.makeRequest("POST", null, path, user, AuthData.class);
     System.out.println("Logged in as " + username + "...");
+    return auth;
   }
 
-  public void register() throws Exception {
+  public AuthData register() throws Exception {
     Scanner userReg = new Scanner(System.in);
     System.out.println("Create Your Username:");
     String username = userReg.nextLine();
@@ -100,8 +93,9 @@ public class Prelogin {
 
     UserData user = new UserData(username, password, email);
     var path = "/user";
-    AuthData auth = serverFacade.makeRequest("POST", path, user, AuthData.class);
+    AuthData auth = serverFacade.makeRequest("POST", null, path, user, AuthData.class);
     System.out.println("Logged in as " + username + "...");
+    return auth;
   }
 }
 

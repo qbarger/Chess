@@ -20,11 +20,12 @@ public class ServerFacade {
     serverUrl=url;
   }
 
-  public <T> T makeRequest(String method, String path, Object request, Class<T> responseClass) throws Exception {
+  public <T> T makeRequest(String method, String header, String path, Object request, Class<T> responseClass) throws Exception {
     try {
       URL url = (new URI(serverUrl + path)).toURL();
       HttpURLConnection http = (HttpURLConnection) url.openConnection();
       http.setRequestMethod(method);
+      http.setRequestProperty("Authorization", header);
       http.setDoOutput(true);
 
       writeBody(request, http);
