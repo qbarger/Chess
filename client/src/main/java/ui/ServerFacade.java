@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.URI;
+import java.rmi.ServerException;
 import java.util.Scanner;
 import static ui.Prelogin.*;
 
@@ -61,10 +62,10 @@ public class ServerFacade {
     return response;
   }
 
-  private void throwIfNotSuccessful(HttpURLConnection http) throws IOException, Exception {
+  private void throwIfNotSuccessful(HttpURLConnection http) throws IOException, ResponseException {
     var status = http.getResponseCode();
     if (!isSuccessful(status)) {
-      throw new Exception("failure: " + status);
+      throw new ResponseException("failure: " + status, status);
     }
   }
 

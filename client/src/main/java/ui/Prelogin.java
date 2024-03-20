@@ -38,7 +38,6 @@ public class Prelogin {
         eval(userInput);
       }
     }
-    user.close();
   }
 
   public String eval(String userInput) throws Exception {
