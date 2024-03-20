@@ -72,7 +72,8 @@ public class Postlogin {
     var path = "/game";
     serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
 
-    makeBoard();
+    makeBoardTop();
+    makeBoardBottom();
   }
 
   public void observe(){
@@ -80,8 +81,10 @@ public class Postlogin {
     System.out.println("Enter Game ID:");
     int gameID = Integer.parseInt(scanner.next());
     System.out.println("Joining game as observer...");
+    System.out.println();
 
-    makeBoard();
+    makeBoardTop();
+    makeBoardBottom();
   }
 
   public void run(AuthData auth) throws Exception{
@@ -121,37 +124,23 @@ public class Postlogin {
     return "";
   }
 
-  public void makeBoard(){
+  public void makeBoardTop(){
     int size = 8;
     String space="";
     String piece="";
     for(int row = 0; row < size; row++){
       for(int col = 0; col < size; col++){
         if(row == 0){
-          if(col == 0) {
-            piece=WHITE_ROOK;
-          } else if(col == 1){
-            piece = WHITE_KNIGHT;
-          } else if (col == 2) {
-            piece = WHITE_BISHOP;
-          } else if (col == 3) {
-            piece = WHITE_KING;
-          } else if (col == 4) {
-            piece = WHITE_QUEEN;
-          } else if (col == 5) {
-            piece = WHITE_BISHOP;
-          } else if (col == 6){
-            piece = WHITE_KNIGHT;
-          } else if (col == 7) {
-            piece = WHITE_ROOK;
-          }
+          printPiecesWhiteTop(col);
         } else if (row == 1){
           piece = WHITE_PAWN;
+        } else if (row == 6) {
+          piece = BLACK_PAWN;
+        } else if (row == 7) {
+          printPiecesBlackBottom(col);
         } else {
           piece = "";
         }
-
-
         /*
         if(row % 2 == col % 2){
           space = SET_BG_COLOR_WHITE;
@@ -164,5 +153,75 @@ public class Postlogin {
       }
       System.out.println();
     }
+    System.out.println();
+  }
+
+  public void makeBoardBottom(){
+    int size = 8;
+    String space = "";
+    String piece = "";
+
+    for(int row = 7; row >= 0; row--){
+      for(int col = 7; col >= 0; col--){
+        if(row == 0){
+          printPiecesWhiteTop(col);
+        } else if (row == 1){
+          piece = WHITE_PAWN;
+        } else if (row == 6) {
+          piece = BLACK_PAWN;
+        } else if (row == 7) {
+          printPiecesBlackBottom(col);
+        } else {
+          piece = "";
+        }
+        System.out.print(piece + " ");
+      }
+      System.out.println();
+    }
+    System.out.println();
+  }
+
+  public void printPiecesWhiteTop(int col){
+    String piece = "";
+    if(col == 0) {
+      piece=WHITE_ROOK;
+    } else if(col == 1){
+      piece = WHITE_KNIGHT;
+    } else if (col == 2) {
+      piece = WHITE_BISHOP;
+    } else if (col == 3) {
+      piece = WHITE_KING;
+    } else if (col == 4) {
+      piece = WHITE_QUEEN;
+    } else if (col == 5) {
+      piece = WHITE_BISHOP;
+    } else if (col == 6){
+      piece = WHITE_KNIGHT;
+    } else if (col == 7) {
+      piece = WHITE_ROOK;
+    }
+    System.out.print(piece);
+  }
+
+  public void printPiecesBlackBottom(int col){
+    String piece = "";
+    if(col == 0) {
+      piece=BLACK_ROOK;
+    } else if(col == 1){
+      piece = BLACK_KNIGHT;
+    } else if (col == 2) {
+      piece = BLACK_BISHOP;
+    } else if (col == 3) {
+      piece = BLACK_KING;
+    } else if (col == 4) {
+      piece = BLACK_QUEEN;
+    } else if (col == 5) {
+      piece = BLACK_BISHOP;
+    } else if (col == 6){
+      piece = BLACK_KNIGHT;
+    } else if (col == 7) {
+      piece = BLACK_ROOK;
+    }
+    System.out.print(piece);
   }
 }
