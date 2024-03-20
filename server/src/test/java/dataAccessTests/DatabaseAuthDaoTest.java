@@ -14,7 +14,7 @@ class DatabaseAuthDaoTest {
   private DatabaseAuthDao databaseAuthDao;
 
   @BeforeEach
-  void setup() {
+  void setup() throws DataAccessException {
     databaseAuthDao = new DatabaseAuthDao();
   }
 

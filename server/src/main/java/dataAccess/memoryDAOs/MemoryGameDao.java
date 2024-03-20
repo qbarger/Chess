@@ -11,8 +11,9 @@ public class MemoryGameDao implements GameDao {
   private Map<Integer, GameData> gameInfo = new HashMap<>();
   private int listSize = 0;
   @Override
-  public void createGame(GameData game){
+  public int createGame(GameData game){
     gameInfo.put(game.gameID(), game);
+    return game.gameID();
   }
 
   @Override
@@ -34,7 +35,7 @@ public class MemoryGameDao implements GameDao {
   }
 
   @Override
-  public int getListSize(){
+  public int getMaxID(){
     this.listSize++;
     return listSize;
   }

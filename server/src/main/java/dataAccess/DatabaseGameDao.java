@@ -14,20 +14,20 @@ import static java.sql.Types.NULL;
 
 public class DatabaseGameDao implements GameDao{
 
-  private int listSize = 0;
-
   public DatabaseGameDao() throws DataAccessException {
     DatabaseManager databaseManager=new DatabaseManager();
     databaseManager.configureDatabase();
   }
   @Override
-  public void createGame(GameData game) throws DataAccessException{
+  public int createGame(GameData game) throws DataAccessException{
     //DatabaseManager databaseManager=new DatabaseManager();
     //databaseManager.configureDatabase();
     var statement="Insert into Game (gameID, whiteUsername, blackUsername, gameName, game, json) Values (?,?,?,?,?,?)";
-    var json=new Gson().toJson(game);
-    var gameString=new Gson().toJson(game.game());
-    executeCommand(statement, game.gameID(), game.whiteUsername(), game.blackUsername(), game.gameName(), gameString, json);
+    GameData newGame = new GameData(getMaxID() + 1, game.whiteUsername(), game.blackUsername(), game.gameName(), game.game());
+    var json=new Gson().toJson(newGame);
+    var gameString=new Gson().toJson(newGame.game());
+    executeCommand(statement, newGame.gameID(), newGame.whiteUsername(), newGame.blackUsername(), newGame.gameName(), gameString, json);
+    return newGame.gameID();
   }
 
   @Override
@@ -123,9 +123,24 @@ public class DatabaseGameDao implements GameDao{
   }
 
   @Override
-  public int getListSize(){
-    this.listSize++;
-    return listSize;
+  public int getMaxID() throws DataAccessException {
+    try (var conn = DatabaseManager.getConnection()) {
+      var statement="SELECT MAX(gameID) AS max_value FROM Game";
+      try (var ps=conn.prepareStatement(statement)) {
+        try (var rs=ps.executeQuery()) {
+          if (rs.next()) {
+            var json=rs.getString("json");
+            var maxID=new Gson().fromJson(json, Integer.class);
+            return maxID;
+          } else {
+            ErrorData error=new ErrorData("Error: Game not found.");
+            throw new DataAccessException(error.message(), 400);
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override

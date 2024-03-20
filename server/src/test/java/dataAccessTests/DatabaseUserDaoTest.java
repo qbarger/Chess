@@ -14,7 +14,7 @@ class DatabaseUserDaoTest {
   public DatabaseUserDao databaseUserDao;
 
   @BeforeEach
-  void setup() {
+  void setup() throws DataAccessException {
     databaseUserDao = new DatabaseUserDao();
   }
 

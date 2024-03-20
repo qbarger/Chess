@@ -16,7 +16,7 @@ class RegisterServiceTest {
   public AuthDao authTestDB;
 
   @BeforeEach
-  void setup(){
+  void setup() throws DataAccessException {
     userTestDB = new DatabaseUserDao();
     authTestDB = new DatabaseAuthDao();
     registerService = new RegisterService(userTestDB,authTestDB);

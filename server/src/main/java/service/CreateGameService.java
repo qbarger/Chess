@@ -19,10 +19,10 @@ public class CreateGameService {
   }
 
   public GameID createGame(String authToken, CreateGameData gamename) throws DataAccessException {
-    int gameID = gameDB.getListSize();
+    int gameID;
     if(authDB.checkAuth(authToken)){
-      GameData game = new GameData(gameID,null,null,gamename.gameName(),new ChessGame());
-      gameDB.createGame(game);
+      GameData game = new GameData(0,null,null,gamename.gameName(),new ChessGame());
+      gameID = gameDB.createGame(game);
     }
     else {
       throw new DataAccessException("Error: unauthorized", 401);
