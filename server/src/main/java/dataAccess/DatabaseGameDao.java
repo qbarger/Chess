@@ -129,8 +129,7 @@ public class DatabaseGameDao implements GameDao{
       try (var ps=conn.prepareStatement(statement)) {
         try (var rs=ps.executeQuery()) {
           if (rs.next()) {
-            var json=rs.getString("json");
-            var maxID=new Gson().fromJson(json, Integer.class);
+            var maxID=rs.getInt("max_value");
             return maxID;
           } else {
             ErrorData error=new ErrorData("Error: Game not found.");
