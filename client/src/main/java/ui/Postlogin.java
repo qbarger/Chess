@@ -5,6 +5,8 @@ import model.*;
 
 import java.util.Scanner;
 
+import static ui.EscapeSequences.*;
+
 public class Postlogin {
 
   private final String serverUrl;
@@ -120,6 +122,47 @@ public class Postlogin {
   }
 
   public void makeBoard(){
+    int size = 8;
+    String space="";
+    String piece="";
+    for(int row = 0; row < size; row++){
+      for(int col = 0; col < size; col++){
+        if(row == 0){
+          if(col == 0) {
+            piece=WHITE_ROOK;
+          } else if(col == 1){
+            piece = WHITE_KNIGHT;
+          } else if (col == 2) {
+            piece = WHITE_BISHOP;
+          } else if (col == 3) {
+            piece = WHITE_KING;
+          } else if (col == 4) {
+            piece = WHITE_QUEEN;
+          } else if (col == 5) {
+            piece = WHITE_BISHOP;
+          } else if (col == 6){
+            piece = WHITE_KNIGHT;
+          } else if (col == 7) {
+            piece = WHITE_ROOK;
+          }
+        } else if (row == 1){
+          piece = WHITE_PAWN;
+        } else {
+          piece = "";
+        }
 
+
+        /*
+        if(row % 2 == col % 2){
+          space = SET_BG_COLOR_WHITE;
+        }
+        else {
+          space = SET_BG_COLOR_BLACK;
+        }
+         */
+        System.out.print(piece + " ");
+      }
+      System.out.println();
+    }
   }
 }
