@@ -62,18 +62,22 @@ public class Postlogin {
   }
 
   public void join(AuthData auth) throws Exception {
-    Scanner scanner = new Scanner(System.in);
-    System.out.print("Enter Game ID:");
-    int gameID =Integer.parseInt(scanner.next());
-    System.out.print("Enter your team color [type BLACK or WHITE]:");
-    String teamColor =scanner.next();
+    try {
+      Scanner scanner=new Scanner(System.in);
+      System.out.print("Enter Game ID:");
+      int gameID=Integer.parseInt(scanner.next());
+      System.out.print("Enter your team color [type BLACK or WHITE]:");
+      String teamColor=scanner.next();
 
-    JoinGameData joinGameData = new JoinGameData(teamColor, gameID);
-    var path = "/game";
-    serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
+      JoinGameData joinGameData=new JoinGameData(teamColor, gameID);
+      var path="/game";
+      serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
 
-    makeBoardTop();
-    makeBoardBottom();
+      makeBoardTop();
+      makeBoardBottom();
+    } catch (ResponseException exception){
+      throw new ResponseException("Cannot join game. Try a different color or game...", 500);
+    }
   }
 
   public void observe(){
