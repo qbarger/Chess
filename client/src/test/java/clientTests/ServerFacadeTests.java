@@ -94,12 +94,43 @@ public class ServerFacadeTests {
   }
 
   @Test
-  public void logout(){
+  public void logout() throws Exception {
+    userDao = new DatabaseUserDao();
+    authDao = new DatabaseAuthDao();
+    gameDao = new DatabaseGameDao();
+    clearService = new ClearService(userDao,authDao,gameDao);
+    clearService.clear();
+    String one = "POST";
+    String two = "/user";
+    UserData user = new UserData("username", "password", "email");
+    AuthData auth = serverFacade.makeRequest(one, null, two, user, AuthData.class);
+
+    String method = "DELETE";
+    String path = "/session";
+    AuthData auth2 = serverFacade.makeRequest(method, auth.authToken(), path, null, AuthData.class);
+    assertTrue(auth2.authToken() == null);
+  }
+
+  @Test
+  public void logoutFails() throws Exception{
+    try {
+      register();
+      String method = "DELETE";
+      String path = "/session";
+      serverFacade.makeRequest(method, "yuh", path, null, Object.class);
+      fail("Expected a 401");
+    } catch (Exception e) {
+      assertEquals("failure: 401", e.getMessage());
+    }
+  }
+
+  @Test
+  public void create() throws Exception{
 
   }
 
   @Test
-  public void logoutFails(){
+  public void createFails() throws Exception{
 
   }
 
