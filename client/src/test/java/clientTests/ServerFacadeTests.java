@@ -13,8 +13,7 @@ import ui.ServerFacade;
 
 import javax.swing.tree.ExpandVetoException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class ServerFacadeTests {
@@ -60,6 +59,7 @@ public class ServerFacadeTests {
       String path="/user";
       UserData user=new UserData("username", "password", "email");
       AuthData auth=serverFacade.makeRequest(method, null, path, user, AuthData.class);
+      fail("Expected a 403");
     } catch (Exception e){
       assertEquals("failure: 403", e.getMessage());
     }
@@ -76,7 +76,30 @@ public class ServerFacadeTests {
   }
 
   @Test
-  public void loginFails(){
+  public void loginFails() throws DataAccessException {
+    userDao = new DatabaseUserDao();
+    authDao = new DatabaseAuthDao();
+    gameDao = new DatabaseGameDao();
+    clearService = new ClearService(userDao,authDao,gameDao);
+    clearService.clear();
+    try {
+      String method = "POST";
+      String path = "/session";
+      UserData user = new UserData("username", "password", "email");
+      AuthData auth = serverFacade.makeRequest(method, null, path, user, AuthData.class);
+      fail("Expected a 401");
+    } catch (Exception e){
+      assertEquals("failure: 401", e.getMessage());
+    }
+  }
+
+  @Test
+  public void logout(){
+
+  }
+
+  @Test
+  public void logoutFails(){
 
   }
 
