@@ -3,10 +3,7 @@ package clientTests;
 import dataAccess.*;
 import dataAccess.memoryDAOs.MemoryAuthDao;
 import dataAccess.memoryDAOs.MemoryUserDao;
-import model.AuthData;
-import model.CreateGameData;
-import model.GameID;
-import model.UserData;
+import model.*;
 import org.junit.jupiter.api.*;
 import server.Server;
 import service.ClearService;
@@ -167,12 +164,60 @@ public class ServerFacadeTests {
   }
 
   @Test
-  public void list(){
+  public void list() throws Exception {
+    register();
 
+    userDao = new DatabaseUserDao();
+    authDao = new DatabaseAuthDao();
+    gameDao = new DatabaseGameDao();
+    clearService = new ClearService(userDao,authDao,gameDao);
+    clearService.clear();
+    String method = "POST";
+    String one = "/user";
+    UserData user = new UserData("username", "password", "email");
+    AuthData auth = serverFacade.makeRequest(method, null, one, user, AuthData.class);
+
+    CreateGameData gameData = new CreateGameData("gameName");
+    var path = "/game";
+    var gameID = serverFacade.makeRequest("POST", auth.authToken(), path, gameData, GameID.class);
+
+    var game = serverFacade.makeRequest("GET", auth.authToken(), "/game", null, GameList.class);
+    assertEquals(1, game.games().size());
   }
 
   @Test
   public void listFails(){
+    try {
+      register();
+
+      userDao = new DatabaseUserDao();
+      authDao = new DatabaseAuthDao();
+      gameDao = new DatabaseGameDao();
+      clearService = new ClearService(userDao,authDao,gameDao);
+      clearService.clear();
+      String method = "POST";
+      String one = "/user";
+      UserData user = new UserData("username", "password", "email");
+      AuthData auth = serverFacade.makeRequest(method, null, one, user, AuthData.class);
+
+      CreateGameData gameData = new CreateGameData("gameName");
+      var path = "/game";
+      var gameID = serverFacade.makeRequest("POST", auth.authToken(), path, gameData, GameID.class);
+
+      var game = serverFacade.makeRequest("GET", "yuh", "/game", null, GameList.class);
+      fail("Expected a 401");
+    } catch (Exception e){
+      assertEquals("failure: 401", e.getMessage());
+    }
+  }
+
+  @Test
+  public void join(){
+
+  }
+
+  @Test
+  public void joinFails(){
 
   }
 
