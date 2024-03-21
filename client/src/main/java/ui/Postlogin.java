@@ -126,32 +126,36 @@ public class Postlogin {
 
   public void makeBoardTop(){
     int size = 8;
-    String space="";
+    String space;
     String piece="";
     for(int row = 0; row < size; row++){
       for(int col = 0; col < size; col++){
+        if(row % 2 == col % 2){
+          space = SET_BG_COLOR_WHITE;
+        }
+        else {
+          space = SET_BG_COLOR_LIGHT_GREY;
+        }
+        System.out.print(space);
         if(row == 0){
+          piece = "";
           printPiecesWhiteTop(col);
         } else if (row == 1){
           piece = WHITE_PAWN;
         } else if (row == 6) {
           piece = BLACK_PAWN;
         } else if (row == 7) {
+          piece = "";
           printPiecesBlackBottom(col);
         } else {
-          piece = "";
+          piece = EMPTY;
         }
-        /*
-        if(row % 2 == col % 2){
-          space = SET_BG_COLOR_WHITE;
-        }
-        else {
-          space = SET_BG_COLOR_BLACK;
-        }
-         */
-        System.out.print(piece + " ");
+
+        System.out.print(piece);
+        space= RESET_BG_COLOR;
       }
-      System.out.println();
+      space = RESET_BG_COLOR;
+      System.out.println("\u001B[0m ");
     }
     System.out.println();
   }
@@ -163,20 +167,32 @@ public class Postlogin {
 
     for(int row = 7; row >= 0; row--){
       for(int col = 7; col >= 0; col--){
+        if(row % 2 == col % 2){
+          space = SET_BG_COLOR_WHITE;
+        }
+        else {
+          space = SET_BG_COLOR_LIGHT_GREY;
+        }
+        System.out.print(space);
         if(row == 0){
+          piece = "";
           printPiecesWhiteTop(col);
         } else if (row == 1){
           piece = WHITE_PAWN;
         } else if (row == 6) {
           piece = BLACK_PAWN;
         } else if (row == 7) {
+          piece = "";
           printPiecesBlackBottom(col);
         } else {
-          piece = "";
+          piece = EMPTY;
         }
-        System.out.print(piece + " ");
+
+        System.out.print(piece);
+        space= RESET_BG_COLOR;
       }
-      System.out.println();
+      space = RESET_BG_COLOR;
+      System.out.println("\u001B[0m ");
     }
     System.out.println();
   }
