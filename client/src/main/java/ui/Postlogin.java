@@ -80,10 +80,15 @@ public class Postlogin {
     }
   }
 
-  public void observe(){
+  public void observe(AuthData auth) throws Exception {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Enter Game ID:");
     int gameID = Integer.parseInt(scanner.next());
+
+    JoinGameData joinGameData=new JoinGameData(null, gameID);
+    var path="/game";
+    serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
+
     System.out.println("Joining game as observer...");
     System.out.println();
 
@@ -119,7 +124,7 @@ public class Postlogin {
     } else if (userInput.equals("join")) {
       join(auth);
     } else if (userInput.equals("observe")) {
-      observe();
+      observe(auth);
     } else if (userInput.equals("logout")) {
       logout(auth);
     } else if (userInput.equals("help")) {

@@ -212,12 +212,49 @@ public class ServerFacadeTests {
   }
 
   @Test
-  public void join(){
+  public void join() throws Exception {
+    userDao = new DatabaseUserDao();
+    authDao = new DatabaseAuthDao();
+    gameDao = new DatabaseGameDao();
+    clearService = new ClearService(userDao,authDao,gameDao);
+    clearService.clear();
+    String method = "POST";
+    String one = "/user";
+    UserData user = new UserData("username", "password", "email");
+    AuthData auth = serverFacade.makeRequest(method, null, one, user, AuthData.class);
+
+    CreateGameData gameData = new CreateGameData("gameName");
+    var path = "/game";
+    var gameID = serverFacade.makeRequest("POST", auth.authToken(), path, gameData, GameID.class);
+
+    JoinGameData joinGameData=new JoinGameData("WHITE", 1);
+    var path2="/game";
+    var object = serverFacade.makeRequest("PUT", auth.authToken(), path2, joinGameData, Object.class);
+    assertNotNull(object);
+  }
+
+  @Test
+  public void joinFails() throws Exception {
+    try {
+      create();
+      JoinGameData joinGameData=new JoinGameData("WHITE", 1);
+      var path2="/game";
+      var object = serverFacade.makeRequest("PUT", "bruh", path2, joinGameData, Object.class);
+      fail("Expected a 401");
+    } catch (Exception e){
+      assertEquals("failure: 401", e.getMessage());
+    }
 
   }
 
   @Test
-  public void joinFails(){
+  public void observe() throws Exception{
+    create();
+
+  }
+
+  @Test
+  public void observeFails() throws Exception{
 
   }
 
