@@ -43,6 +43,7 @@ public class ServerFacadeTests {
     String path = "/user";
     UserData user = new UserData("username", "password", "email");
     AuthData auth = serverFacade.makeRequest(method, null, path, user, AuthData.class);
+    assertNotNull(auth);
   }
 
   @Test
@@ -279,6 +280,38 @@ public class ServerFacadeTests {
       fail("Expected a 401");
     } catch (Exception e) {
       assertEquals("failure: 401", e.getMessage());
+    }
+  }
+
+  @Test
+  public void makeRequest() throws Exception {
+    userDao = new DatabaseUserDao();
+    authDao = new DatabaseAuthDao();
+    gameDao = new DatabaseGameDao();
+    clearService = new ClearService(userDao,authDao,gameDao);
+    clearService.clear();
+    String method = "POST";
+    String path = "/user";
+    UserData user = new UserData("username", "password", "email");
+    AuthData auth = serverFacade.makeRequest(method, null, path, user, AuthData.class);
+    assertNotNull(auth);
+  }
+
+  @Test
+  public void makeRequestFails() throws Exception{
+    try {
+      userDao = new DatabaseUserDao();
+      authDao = new DatabaseAuthDao();
+      gameDao = new DatabaseGameDao();
+      clearService = new ClearService(userDao,authDao,gameDao);
+      clearService.clear();
+      String method = "POST";
+      String path = "/user";
+      UserData user = new UserData("username", "password", "email");
+      AuthData auth = serverFacade.makeRequest("PAST", null, path, user, AuthData.class);
+      fail("Expected a 500");
+    } catch (Exception e){
+      assertEquals("Invalid HTTP method: PAST", e.getMessage());
     }
   }
 
