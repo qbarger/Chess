@@ -1,6 +1,9 @@
 package ui;
 
 import chess.ResponseException;
+import dataAccess.DatabaseGameDao;
+import dataAccess.GameDao;
+import dataAccess.UserDao;
 import model.*;
 
 import java.util.Scanner;
@@ -53,10 +56,12 @@ public class Postlogin {
 
     var path = "/game";
     GameList game = serverFacade.makeRequest("GET", auth.authToken(), path, null, GameList.class);
+    int index = 0;
     for (GameData gameData: game.games()) {
-      System.out.println("Game ID: " + gameData.gameID());
+      System.out.println("Game ID: " + index);
       System.out.println("Game Name: " + gameData.gameName());
       System.out.print("\n");
+      index++;
     }
 
   }
@@ -69,7 +74,10 @@ public class Postlogin {
       System.out.print("Enter your team color [type BLACK or WHITE]:");
       String teamColor=scanner.next();
 
-      JoinGameData joinGameData=new JoinGameData(teamColor, gameID);
+      GameDao gameDao = new DatabaseGameDao();
+      GameList gameList = gameDao.listGames();
+      GameData gameData = gameList.getGame(gameID);
+      JoinGameData joinGameData=new JoinGameData(teamColor, gameData.gameID());
       var path="/game";
       serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
 

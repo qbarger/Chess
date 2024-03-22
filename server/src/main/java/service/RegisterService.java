@@ -19,7 +19,7 @@ public class RegisterService {
     if(userDB.checkUser(user.username())) {
       throw new DataAccessException("Error: already taken", 403);
     }
-    else if(user.username() == null || user.password() == null || user.email() == null) {
+    else if(user.username() == null || user.username().equals("") || user.password() == null || user.password().equals("") || user.email() == null || user.email().equals("")) {
       throw new DataAccessException("Error: bad request", 400);
     }
     else {
