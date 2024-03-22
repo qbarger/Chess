@@ -41,22 +41,21 @@ public class Prelogin {
   }
 
   public String eval(String userInput) throws Exception {
-    try {
-      if (userInput.equals("help")) {
-        help();
-      } else if (userInput.equals("register")) {
-        AuthData auth = register();
-        Postlogin postlogin = new Postlogin(serverUrl);
-        postlogin.run(auth);
-        help();
-      } else if (userInput.equals("login")) {
-        AuthData auth = login();
-        Postlogin postlogin = new Postlogin(serverUrl);
-        postlogin.run(auth);
-        help();
-      }
-    } catch (ResponseException ex) {
-      return ex.getMessage();
+    if (userInput.equals("help")) {
+      help();
+    } else if (userInput.equals("register")) {
+      AuthData auth = register();
+      Postlogin postlogin = new Postlogin(serverUrl);
+      postlogin.run(auth);
+      help();
+    } else if (userInput.equals("login")) {
+      AuthData auth = login();
+      Postlogin postlogin = new Postlogin(serverUrl);
+      postlogin.run(auth);
+      help();
+    } else {
+      System.out.println("Invalid input...");
+      return "";
     }
     return "";
   }
@@ -78,7 +77,6 @@ public class Prelogin {
       UserData user=new UserData(username, password, null);
       var path="/session";
       AuthData auth=serverFacade.makeRequest("POST", null, path, user, AuthData.class);
-      System.out.println("Logged in as " + username + "...");
       return auth;
     } catch (ResponseException exception){
       System.out.println("Username or password are incorrect...");
@@ -99,7 +97,6 @@ public class Prelogin {
       UserData user=new UserData(username, password, email);
       var path="/user";
       AuthData auth=serverFacade.makeRequest("POST", null, path, user, AuthData.class);
-      System.out.println("Logged in as " + username + "...");
       return auth;
     } catch (ResponseException exception){
       System.out.println("Username already taken. Choose a different username...");
