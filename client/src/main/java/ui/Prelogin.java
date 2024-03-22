@@ -45,14 +45,20 @@ public class Prelogin {
       help();
     } else if (userInput.equals("register")) {
       AuthData auth = register();
-      Postlogin postlogin = new Postlogin(serverUrl);
-      postlogin.run(auth);
-      help();
+      if(auth != null) {
+        Postlogin postlogin=new Postlogin(serverUrl);
+        postlogin.run(auth);
+      } else {
+        help();
+      }
     } else if (userInput.equals("login")) {
       AuthData auth = login();
-      Postlogin postlogin = new Postlogin(serverUrl);
-      postlogin.run(auth);
-      help();
+      if(auth != null) {
+        Postlogin postlogin=new Postlogin(serverUrl);
+        postlogin.run(auth);
+      } else {
+        help();
+      }
     } else {
       System.out.println("Invalid input...");
       return "";
@@ -79,9 +85,9 @@ public class Prelogin {
       AuthData auth=serverFacade.makeRequest("POST", null, path, user, AuthData.class);
       return auth;
     } catch (ResponseException exception){
-      System.out.println("Username or password are incorrect...");
-      throw new ResponseException("User not found...", 500);
+      System.err.println("Username or password are incorrect...");
     }
+    return null;
   }
 
   public AuthData register() throws Exception {
@@ -99,9 +105,9 @@ public class Prelogin {
       AuthData auth=serverFacade.makeRequest("POST", null, path, user, AuthData.class);
       return auth;
     } catch (ResponseException exception){
-      System.out.println("Username already taken. Choose a different username...");
-      throw new ResponseException("User already exists...", 500);
+      System.err.println("Username already taken. Enter a different username...");
     }
+    return null;
   }
 }
 

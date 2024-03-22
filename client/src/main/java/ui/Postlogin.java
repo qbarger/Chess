@@ -33,35 +33,47 @@ public class Postlogin {
   }
 
   public void logout(AuthData auth) throws Exception {
-    System.out.println("Logging out...");
+    try {
+      System.out.println("Logging out...");
 
-    var path = "/session";
-    serverFacade.makeRequest("DELETE", auth.authToken(), path, null, Object.class);
-    playing = false;
+      var path="/session";
+      serverFacade.makeRequest("DELETE", auth.authToken(), path, null, Object.class);
+      playing=false;
+    } catch (Exception e){
+      System.err.println("Cannot logout. Please quit the program...");
+    }
   }
 
   public void create(AuthData auth) throws Exception {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("Enter the name of the game:");
-    String gameName = scanner.nextLine();
-    CreateGameData gameData = new CreateGameData(gameName);
+    try {
+      Scanner scanner=new Scanner(System.in);
+      System.out.println("Enter the name of the game:");
+      String gameName=scanner.nextLine();
+      CreateGameData gameData=new CreateGameData(gameName);
 
-    var path = "/game";
-    GameID gameID = serverFacade.makeRequest("POST", auth.authToken(), path, gameData, GameID.class);
+      var path="/game";
+      GameID gameID=serverFacade.makeRequest("POST", auth.authToken(), path, gameData, GameID.class);
+    } catch (Exception e){
+      System.err.println("Cannot create game...");
+    }
   }
 
   public void list(AuthData auth) throws Exception {
-    System.out.println("Fetching games...");
-    System.out.print("\n");
-
-    var path = "/game";
-    GameList game = serverFacade.makeRequest("GET", auth.authToken(), path, null, GameList.class);
-    int index = 0;
-    for (GameData gameData: game.games()) {
-      System.out.println("Game ID: " + index);
-      System.out.println("Game Name: " + gameData.gameName());
+    try {
+      System.out.println("Fetching games...");
       System.out.print("\n");
-      index++;
+
+      var path="/game";
+      GameList game=serverFacade.makeRequest("GET", auth.authToken(), path, null, GameList.class);
+      int index=0;
+      for (GameData gameData : game.games()) {
+        System.out.println("Game ID: " + index);
+        System.out.println("Game Name: " + gameData.gameName());
+        System.out.print("\n");
+        index++;
+      }
+    } catch (Exception e){
+      System.err.println("Cannot list games...");
     }
 
   }
@@ -84,25 +96,28 @@ public class Postlogin {
       makeBoardTop();
       makeBoardBottom();
     } catch (ResponseException exception){
-      System.out.println("Cannot join game. Try a different color or game...");
-      throw new ResponseException("Invalid game join", 500);
+      System.err.println("Cannot join game. Please enter valid game...");
     }
   }
 
   public void observe(AuthData auth) throws Exception {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("Enter Game ID:");
-    int gameID = Integer.parseInt(scanner.next());
+    try {
+      Scanner scanner=new Scanner(System.in);
+      System.out.println("Enter Game ID:");
+      int gameID=Integer.parseInt(scanner.next());
 
-    JoinGameData joinGameData=new JoinGameData(null, gameID);
-    var path="/game";
-    serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
+      JoinGameData joinGameData=new JoinGameData(null, gameID);
+      var path="/game";
+      serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
 
-    System.out.println("Joining game as observer...");
-    System.out.println();
+      System.out.println("Joining game as observer...");
+      System.out.println();
 
-    makeBoardTop();
-    makeBoardBottom();
+      makeBoardTop();
+      makeBoardBottom();
+    } catch (Exception e){
+      System.err.println("Cannot observe game. Please enter valid game...");
+    }
   }
 
   public void run(AuthData auth) throws Exception{
