@@ -69,6 +69,8 @@ public class Postlogin {
       for (GameData gameData : game.games()) {
         System.out.println("Game ID: " + index);
         System.out.println("Game Name: " + gameData.gameName());
+        System.out.println("White: " + gameData.whiteUsername());
+        System.out.println("Black: " + gameData.blackUsername());
         System.out.print("\n");
         index++;
       }
