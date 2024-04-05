@@ -2,6 +2,6 @@ package ui;
 
 import javax.management.Notification;
 
-public interface NotificationHandler {
+public interface GameHandler {
   void notify(Notification notification);
 }

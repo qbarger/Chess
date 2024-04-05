@@ -59,4 +59,6 @@ public class UpdateGameService {
       throw new DataAccessException(error.message(), 401);
     }
   }
+
+  public void
 }
