@@ -1,0 +1,11 @@
+
+€	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(ãÿ«DJ$22aa38cd-5820-4d57-ad73-1e536a881603
+p
+java:S1128"5Remove this unused import 'java.rmi.ServerException'.(Ñ¿ÔAJ$4387de32-97e1-4f16-a46c-04d737779205
+_
+java:S1128	"Remove this duplicated import.(ÒÜÅ¸úÿÿÿÿJ$c7378f86-351d-453a-89d3-10102cb7f32b
+i
+java:S1128
+"(Remove this unused import 'ui.Prelogin'.(ÕºùÄüÿÿÿÿJ$83294d94-8b93-40d3-a612-a4959b5cdc14
+_
+java:S1128"Remove this duplicated import.(ÒÜÅ¸úÿÿÿÿJ$3f6e258a-1c88-4f92-bea6-62e4bcf3fc4b

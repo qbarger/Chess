@@ -1,0 +1,11 @@
+
+
+java:S1192("FDefine a constant instead of duplicating this literal "/game" 3 times.(›”×)J$70f3ab29-47e3-43f3-964a-72d74345725d
+p
+java:S1612$"4Replace this lambda with method reference '::clear'.(Î‰¬J$aef379de-b89c-4c65-bf5a-3d025b11102d
+|
+java:S1128"@Remove this unused import 'dataAccess.memoryDAOs.MemoryAuthDao'.(Ÿ«’ÓJ$7fcd2abf-7c5e-4eb2-8eb1-5c244ccd878d
+
+java:S1128"@Remove this unused import 'dataAccess.memoryDAOs.MemoryGameDao'.(«ÒÒÖøÿÿÿÿJ$cc9f5460-e500-47a9-b7ec-bd0000caf1a9
+
+java:S1128"@Remove this unused import 'dataAccess.memoryDAOs.MemoryUserDao'.(ß“˜üÿÿÿÿJ$9b31bd62-959a-4500-8217-56dea3822ee3
