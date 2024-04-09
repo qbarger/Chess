@@ -1,6 +1,10 @@
 package ui;
 
+import model.AuthData;
+
 public class Gameplay {
+  WebsocketFacade websocketFacade;
+
 
   public Gameplay(){
 
@@ -34,7 +38,7 @@ public class Gameplay {
 
   }
 
-  public void run(){
+  public void run(AuthData auth){
     System.out.println("Entering gameplay...");
 
   }

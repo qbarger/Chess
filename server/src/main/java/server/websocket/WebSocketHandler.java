@@ -23,23 +23,23 @@ public class WebSocketHandler {
     }
   }
 
-  private void leave(){
+  private void leave(String authtoken) throws IOException{
+    connectionManager.remove(authtoken);
+  }
+
+  private void resign(String authtoken){
+    connectionManager.remove(authtoken);
+  }
+
+  private void makeMove(String authtoken){
 
   }
 
-  private void resign(){
+  private void joinPlayer(String authtoken){
 
   }
 
-  private void makeMove(){
-
-  }
-
-  private void joinPlayer(){
-
-  }
-
-  private void joinObserver(){
+  private void joinObserver(String authtoken){
 
   }
 }
