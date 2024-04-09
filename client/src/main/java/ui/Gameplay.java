@@ -6,8 +6,8 @@ public class Gameplay {
   WebsocketFacade websocketFacade;
 
 
-  public Gameplay(){
-
+  public Gameplay(WebsocketFacade websocketFacade){
+    this.websocketFacade = websocketFacade;
   }
 
   public void help(){

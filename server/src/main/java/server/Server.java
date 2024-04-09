@@ -6,6 +6,7 @@ import dataAccess.memoryDAOs.MemoryAuthDao;
 import dataAccess.memoryDAOs.MemoryGameDao;
 import dataAccess.memoryDAOs.MemoryUserDao;
 import model.ErrorData;
+import server.websocket.WebSocketHandler;
 import service.*;
 import service.handler.*;
 import spark.*;
@@ -32,6 +33,9 @@ public class Server {
         CreateGameService createGameService = new CreateGameService(authDB, gameDB);
         ListGamesService listGamesService = new ListGamesService(authDB, gameDB);
         UpdateGameService updateGameService = new UpdateGameService(authDB, gameDB);
+        WebSocketHandler webSocketHandler = new WebSocketHandler();
+
+        Spark.webSocket("/connect", webSocketHandler);
 
         Spark.delete("/db", (req, res) -> (new ClearHandler(clearService.userDB, clearService.authDB, clearService.gameDB)).clear(req, res));
         Spark.post("/user", (req, res) -> (new RegisterHandler(registerService.userDB, registerService.authDB).register(req, res)));
