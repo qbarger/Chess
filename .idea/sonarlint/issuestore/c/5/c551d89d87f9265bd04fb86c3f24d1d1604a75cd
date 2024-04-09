@@ -1,23 +1,23 @@
 
- 
-java:S1192."_Define a constant instead of duplicating this literal "Error: Unable to read data: %s" 3 times.(µó§ïüÿÿÿÿJ$37fc48f3-294d-4a82-926f-69b88459378d
-¡
-java:S1488H"fImmediately return this expression instead of assigning it to the temporary variable "hashedPassword".(þÝ½J$59d49af2-de59-461b-8774-9ae8a92dca87
-£
-java:S1488Z"gImmediately return this expression instead of assigning it to the temporary variable "passwordMatches".(‡´Ð…J$3758c9a0-7d2a-4e9a-a402-ce2362e45a3f
-•	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(šäåóJ$a4f22c9c-6c83-4521-a9c6-3095cdbf5f9e
-w	java:S125"<This block of commented-out lines of code should be removed.(ŽŒýøJ$2e24cf1e-9470-49a1-b201-bfd880ccd4d7
-w	java:S125""<This block of commented-out lines of code should be removed.(ŽŒýøJ$547cb670-78eb-45da-b4d2-94160f4033c2
-w	java:S125@"<This block of commented-out lines of code should be removed.(ŽŒýøJ$7bf3e37c-333e-4ef1-b238-32fe07edbb91
-¸
-java:S1130F"wRemove the declaration of thrown exception 'dataAccess.DataAccessException', as it cannot be thrown from method's body.(ÛÎÌ´úÿÿÿÿJ$c17a4a1d-da67-43fb-ad71-548735924faf
-w	java:S125P"<This block of commented-out lines of code should be removed.(ŽŒýøJ$0b8e429c-e3d1-4f8f-8a79-d8d09642b262
-€
-java:S1128"?Remove this unused import 'com.mysql.cj.x.protobuf.MysqlxCrud'.(ÚÔšþÿÿÿÿJ$d63ba9cf-49ff-45d5-847f-d3e16dd8baac
-
-java:S1128"NRemove this unused import 'org.springframework.security.crypto.bcrypt.BCrypt'.(¨úì®ÿÿÿÿÿJ$4c7a5580-a53c-497c-9608-10de12b8dfa8
-o
+z
+java:S1192."_Define a constant instead of duplicating this literal "Error: Unable to read data: %s" 3 times.(µó§ïüÿÿÿÿ
+{
+java:S1488H"fImmediately return this expression instead of assigning it to the temporary variable "hashedPassword".(þÝ½
+}
+java:S1488Z"gImmediately return this expression instead of assigning it to the temporary variable "passwordMatches".(‡´Ð…
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(šäåó
+Q	java:S125"<This block of commented-out lines of code should be removed.(ŽŒýø
+Q	java:S125""<This block of commented-out lines of code should be removed.(ŽŒýø
+Q	java:S125@"<This block of commented-out lines of code should be removed.(ŽŒýø
+’
+java:S1130F"wRemove the declaration of thrown exception 'dataAccess.DataAccessException', as it cannot be thrown from method's body.(ÛÎÌ´úÿÿÿÿ
+Q	java:S125P"<This block of commented-out lines of code should be removed.(ŽŒýø
+Z
+java:S1128"?Remove this unused import 'com.mysql.cj.x.protobuf.MysqlxCrud'.(ÚÔšþÿÿÿÿ
+i
+java:S1128"NRemove this unused import 'org.springframework.security.crypto.bcrypt.BCrypt'.(¨úì®ÿÿÿÿÿ
+I
 java:S1128
-".Remove this unused import 'java.util.HashMap'.(™˜”€ùÿÿÿÿJ$19605347-67ec-4e4c-a097-73749f793dca
-k
-java:S1128"*Remove this unused import 'java.util.Map'.(¼è½ÒþÿÿÿÿJ$47c60d74-74bc-4c72-8748-7a0ad807aa75
+".Remove this unused import 'java.util.HashMap'.(™˜”€ùÿÿÿÿ
+E
+java:S1128"*Remove this unused import 'java.util.Map'.(¼è½Òþÿÿÿÿ

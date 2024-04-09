@@ -1,23 +1,29 @@
 
 7
 pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
-\
-,src/main/java/service/UpdateGameService.java,e/8/e8b4ac20b35dc59f309b443de485f6ca32a66764
 q
 Asrc/main/java/webSocketMessages/serverMessages/ServerMessage.java,1/9/195fcec39a1c332282ed1e2aaa032c668896c2a1
-T
-$src/main/java/ui/MessageHandler.java,e/2/e2a01f0acc127420e89dd43012e7ef2b620dbbfa
 ]
 -src/main/java/dataAccess/DatabaseUserDao.java,c/5/c551d89d87f9265bd04fb86c3f24d1d1604a75cd
 q
 Asrc/main/java/webSocketMessages/userCommands/UserGameCommand.java,4/f/4f548dc39a7ea41fc4f6972cc3aff66055548887
 Q
 !src/main/java/ui/GameHandler.java,f/c/fca645f564c4df1e02149d75b5a4aa317f8de36c
-R
-"src/main/java/ui/ServerFacade.java,4/c/4cbb54bad5ecf934f35ad6a5c112c802bed0f07c
-P
- src/main/java/server/Server.java,4/c/4c405aa622276106ee9ef8c3a2fbee4e76dcafbb
+T
+$src/main/java/server/Connection.java,a/d/ad8fd12e8a6b6c90d3ba4e6e2a2b6780281b9e3f
 G
 src/main/java/Main.java,e/4/e44a8606ce010ad9b89aafdfcee2ab49afbf6d10
 U
 %src/main/java/ui/WebsocketFacade.java,2/e/2e8d913e72c2827f0f204376ba1a148eac97cae0
+\
+,src/main/java/service/UpdateGameService.java,e/8/e8b4ac20b35dc59f309b443de485f6ca32a66764
+[
++src/main/java/server/WebSocketSessions.java,2/a/2a9fda5029e6e238a57e0608012a1e2f215db463
+[
++src/main/java/server/ConnectionManager.java,0/7/07126f34a181c791b6f6108666646b79f8eb134f
+^
+.src/main/java/server/websocket/Connection.java,3/7/37defc871c22d622968a9058e47ef697c0948f12
+e
+5src/main/java/server/websocket/ConnectionManager.java,b/e/be314f4208de966ff617bff95c8b5fbf2664e831
+e
+5src/main/java/server/websocket/WebSocketSessions.java,4/1/41bbd089d2e12a08d6aa66428a71e03546e44965
