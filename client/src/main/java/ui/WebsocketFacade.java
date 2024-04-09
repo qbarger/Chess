@@ -17,7 +17,7 @@ import javax.websocket.Endpoint;
 import javax.websocket.EndpointConfig;
 import webSocketMessages.*;
 
-public class WebsocketFacade extends Endpoint implements MessageHandler{
+public class WebsocketFacade extends Endpoint implements GameHandler{
   Session session;
   GameHandler gameHandler;
 
@@ -26,9 +26,11 @@ public class WebsocketFacade extends Endpoint implements MessageHandler{
       url = url.replace("http", "ws");
       URI socketURI = new URI(url + "/connect");
       this.gameHandler=gameHandler;
+      WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
+      this.session = webSocketContainer.connectToServer(this, socketURI);
       this.session.addMessageHandler((javax.websocket.MessageHandler.Whole<String>) message -> {
-        Notification notification = new Gson().fromJson(message, Notification.class);
-        gameHandler.notify(notification);
+        ServerMessage message1 = new Gson().fromJson(message, ServerMessage.class);
+        gameHandler.printMessage(message1.toString());
       });
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
@@ -81,14 +83,18 @@ public class WebsocketFacade extends Endpoint implements MessageHandler{
   }
 
   @Override
-  public void notify(Notification notification) {
-
-  }
-
-  @Override
   public void onOpen(javax.websocket.Session session, EndpointConfig endpointConfig) {
 
   }
 
 
+  @Override
+  public void updateGame(ChessGame game) {
+
+  }
+
+  @Override
+  public void printMessage(String message) {
+
+  }
 }
