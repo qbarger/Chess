@@ -1,12 +1,14 @@
 package ui;
 
 import chess.ChessGame;
+import chess.ChessPiece;
 import chess.ResponseException;
 import dataAccess.DatabaseGameDao;
 import dataAccess.GameDao;
 import dataAccess.UserDao;
 import model.*;
 
+import javax.websocket.Session;
 import java.util.Scanner;
 
 import static ui.EscapeSequences.*;
@@ -89,6 +91,13 @@ public class Postlogin {
       System.out.print("Enter your team color [type BLACK or WHITE]:");
       String teamColor=scanner.next();
 
+      ChessGame.TeamColor color;
+      if(teamColor.equals("WHITE")){
+        color = ChessGame.TeamColor.WHITE;
+      } else {
+        color = ChessGame.TeamColor.BLACK;
+      }
+
       GameDao gameDao = new DatabaseGameDao();
       GameList gameList = gameDao.listGames();
       GameData gameData = gameList.getGame(gameID);
@@ -96,10 +105,11 @@ public class Postlogin {
       var path="/game";
       serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
 
-      GameHandler gameHandler = new GameHandler(gameData.game(), "joining game...");
+      GameHandler gameHandler = new GameHandler();
       WebsocketFacade websocketFacade = new WebsocketFacade(serverUrl, gameHandler);
+      websocketFacade.joinPlayer(gameData.gameID(), color, auth.authToken(), auth.username());
       Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null);
-      gameplay.run("join player");
+      gameplay.run();
       //makeBoardTop();
       //makeBoardBottom();
     } catch (ResponseException exception){
@@ -123,10 +133,11 @@ public class Postlogin {
       System.out.println("Joining game as observer...");
       System.out.println();
 
-      GameHandler gameHandler = new GameHandler(gameData.game(), "joining game...");
+      GameHandler gameHandler = new GameHandler();
       WebsocketFacade websocketFacade = new WebsocketFacade(serverUrl, gameHandler);
+      websocketFacade.joinObserver(gameData.gameID(), auth.username(), auth.authToken());
       Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null);
-      gameplay.run("join observer");
+      gameplay.run();
       //makeBoardTop();
       //makeBoardBottom();
     } catch (Exception e){

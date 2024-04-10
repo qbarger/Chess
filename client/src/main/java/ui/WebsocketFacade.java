@@ -5,6 +5,9 @@ import chess.ChessMove;
 import chess.ResponseException;
 import com.google.gson.Gson;
 import javax.websocket.*;
+
+import webSocketMessages.serverMessages.LoadGameMessage;
+import webSocketMessages.serverMessages.NotificationMessage;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.*;
 
@@ -15,9 +18,8 @@ import java.net.URISyntaxException;
 import javax.swing.*;
 import javax.websocket.Endpoint;
 import javax.websocket.EndpointConfig;
-import webSocketMessages.*;
 
-public class WebsocketFacade extends Endpoint implements GameHandler{
+public class WebsocketFacade extends Endpoint {
   Session session;
   GameHandler gameHandler;
 
@@ -28,9 +30,16 @@ public class WebsocketFacade extends Endpoint implements GameHandler{
       this.gameHandler=gameHandler;
       WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
       this.session = webSocketContainer.connectToServer(this, socketURI);
-      this.session.addMessageHandler((javax.websocket.MessageHandler.Whole<String>) message -> {
-        ServerMessage message1 = new Gson().fromJson(message, ServerMessage.class);
-        gameHandler.printMessage(message1.toString());
+      this.session.addMessageHandler(new MessageHandler.Whole<String>() {
+        @Override
+        public void onMessage(String message){
+          ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
+          switch (serverMessage.getServerMessageType()){
+            case NOTIFICATION -> gameHandler.printMessage(new Gson().fromJson(message, NotificationMessage.class).toString());
+            case ERROR -> System.err.println("bruh");
+            case LOAD_GAME -> gameHandler.loadGame(new Gson().fromJson(message, LoadGameMessage.class));
+          }
+        }
       });
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
@@ -84,11 +93,5 @@ public class WebsocketFacade extends Endpoint implements GameHandler{
 
   @Override
   public void onOpen(javax.websocket.Session session, EndpointConfig endpointConfig) {
-
-  }
-
-  public void onMessage(String message){
-    var text = new Gson().fromJson(message, String.class);
-
   }
 }

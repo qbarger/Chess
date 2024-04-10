@@ -5,6 +5,7 @@ import chess.ResponseException;
 import model.AuthData;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Gameplay {
   WebsocketFacade websocketFacade;
@@ -12,6 +13,7 @@ public class Gameplay {
   String username;
   String authtoken;
   ChessMove move;
+  private boolean playing;
 
 
   public Gameplay(WebsocketFacade websocketFacade, int gameID, String username, String authtoken, ChessMove move){
@@ -20,6 +22,7 @@ public class Gameplay {
     this.username = username;
     this.authtoken = authtoken;
     this.move = move;
+    playing = true;
   }
 
   public void help(){
@@ -50,8 +53,39 @@ public class Gameplay {
     System.out.println("highlighting...");
   }
 
-  public void run(String choice){
+  public void run() throws Exception {
     System.out.println("Entering gameplay...");
+    System.out.println();
+    help();
 
+    Scanner scanner = new Scanner(System.in);
+    String userInput;
+
+    while(playing){
+      System.out.printf("[LOGGED_IN] >>> ");
+      userInput=scanner.next();
+
+      eval(userInput);
+    }
+  }
+
+  public String eval(String userInput) throws Exception {
+    if (userInput.equals("redraw")) {
+      redrawChessBoard();
+    } else if (userInput.equals("leave")) {
+      leave();
+    } else if (userInput.equals("make move")) {
+      makeMove();
+    } else if (userInput.equals("resign")) {
+      resign();
+    } else if (userInput.equals("highlight")) {
+      highlightLegalMoves();
+    } else if (userInput.equals("help")) {
+      help();
+    } else {
+      System.out.println("Invalid input...");
+      return "";
+    }
+    return "";
   }
 }

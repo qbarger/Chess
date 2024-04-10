@@ -12,14 +12,14 @@ public class UpdateGameService {
   public AuthDao authDB;
   public GameDao gameDB;
 
-  public UpdateGameService(AuthDao authDB, GameDao gameDB){
-    this.authDB = authDB;
-    this.gameDB = gameDB;
+  public UpdateGameService(AuthDao authDB, GameDao gameDB) {
+    this.authDB=authDB;
+    this.gameDB=gameDB;
   }
 
-  public void joinGame(JoinGameData info, String authToken) throws DataAccessException{
-    if(authDB.checkAuth(authToken)) {
-      if(gameDB.getGame(info.gameID()) != null) {
+  public void joinGame(JoinGameData info, String authToken) throws DataAccessException {
+    if (authDB.checkAuth(authToken)) {
+      if (gameDB.getGame(info.gameID()) != null) {
         GameData game=gameDB.getGame(info.gameID());
         if (info.playerColor() != null) {
           if (info.playerColor().equals("WHITE")) {
@@ -48,17 +48,13 @@ public class UpdateGameService {
           GameData newGame=new GameData(info.gameID(), game.whiteUsername(), game.blackUsername(), game.gameName(), game.game());
           gameDB.joinGame(newGame);
         }
-      }
-      else {
-        ErrorData error = new ErrorData("Error: bad request");
+      } else {
+        ErrorData error=new ErrorData("Error: bad request");
         throw new DataAccessException(error.message(), 400);
       }
-    }
-    else {
-      ErrorData error = new ErrorData("Error: unauthorized");
+    } else {
+      ErrorData error=new ErrorData("Error: unauthorized");
       throw new DataAccessException(error.message(), 401);
     }
   }
-
-  public void
 }
