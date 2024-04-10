@@ -16,49 +16,44 @@ public class WebSocketHandler {
   public void onMessage(Session session, String message) throws IOException {
     UserGameCommand userGameCommand= new Gson().fromJson(message, UserGameCommand.class);
     switch(userGameCommand.getCommandType()){
-      case LEAVE -> leave(userGameCommand.getAuthString(), new Gson().fromJson(message, LeaveGameCommand.class));
-      case RESIGN -> resign(userGameCommand.getAuthString(), new Gson().fromJson(message, ResignGameCommand.class));
-      case MAKE_MOVE -> makeMove(userGameCommand.getAuthString(), new Gson().fromJson(message, MakeMoveCommand.class));
-      case JOIN_PLAYER -> joinPlayer(userGameCommand.getAuthString(), new Gson().fromJson(message, JoinPlayerCommand.class));
-      case JOIN_OBSERVER -> joinObserver(userGameCommand.getAuthString(), new Gson().fromJson(message, JoinObserverCommand.class));
+      case LEAVE -> leave(new Gson().fromJson(message, LeaveGameCommand.class));
+      case RESIGN -> resign(new Gson().fromJson(message, ResignGameCommand.class));
+      case MAKE_MOVE -> makeMove(new Gson().fromJson(message, MakeMoveCommand.class));
+      case JOIN_PLAYER -> joinPlayer(new Gson().fromJson(message, JoinPlayerCommand.class), session);
+      case JOIN_OBSERVER -> joinObserver(new Gson().fromJson(message, JoinObserverCommand.class), session);
     }
   }
 
-  private void leave(String authtoken, LeaveGameCommand cmd) throws IOException{
-    var connection = connectionManager.connections.get(authtoken);
-    connectionManager.remove(authtoken);
-    var text = String.format("%s left the game...", connection.username);
+  private void leave(LeaveGameCommand cmd) throws IOException{
+    connectionManager.remove(cmd.getAuthtoken());
+    var text = String.format("%s left the game...", cmd.getUsername());
     var alert = new NotificationMessage(text);
-    connectionManager.broadcast(authtoken, connection.gameID, alert);
+    connectionManager.broadcast(cmd.getAuthtoken(), cmd.getGameID(), alert);
   }
 
-  private void resign(String authtoken, ResignGameCommand cmd) throws IOException {
-    var connection = connectionManager.connections.get(authtoken);
-    var text = String.format("%s resigned...", connection.username);
+  private void resign(ResignGameCommand cmd) throws IOException {
+    var text = String.format("%s resigned...", cmd.getUsername());
     var alert = new NotificationMessage(text);
-    connectionManager.broadcast(authtoken, connection.gameID, alert);
+    connectionManager.broadcast(cmd.getAuthtoken(), cmd.getGameID(), alert);
   }
 
-  private void makeMove(String authtoken, MakeMoveCommand cmd) throws IOException {
-    var connection = connectionManager.connections.get(authtoken);
-    var text = String.format("%s made a move...", connection.username);
+  private void makeMove(MakeMoveCommand cmd) throws IOException {
+    var text = String.format("%s made a move...", cmd.getUsername());
     var alert = new NotificationMessage(text);
-    connectionManager.broadcast(authtoken, connection.gameID, alert);
+    connectionManager.broadcast(cmd.getAuthtoken(), cmd.getGameID(), alert);
   }
 
-  private void joinPlayer(String authtoken, JoinPlayerCommand cmd) throws IOException{
-    var connection = connectionManager.connections.get(authtoken);
-    connectionManager.add(connection.gameID, authtoken, connection.session, connection.username);
-    var text = String.format("%s joined as a player...", connection.username);
+  private void joinPlayer(JoinPlayerCommand cmd, Session session) throws IOException{
+    connectionManager.add(cmd.getGameID(), cmd.getAuthtoken(), session, cmd.getUsername());
+    var text = String.format("%s joined as %s...", cmd.getUsername(), cmd.getTeamColor().toString());
     var alert = new NotificationMessage(text);
-    connectionManager.broadcast(authtoken, connection.gameID, alert);
+    connectionManager.broadcast(cmd.getAuthtoken(), cmd.getGameID(), alert);
   }
 
-  private void joinObserver(String authtoken, JoinObserverCommand cmd) throws IOException {
-    var connection = connectionManager.connections.get(authtoken);
-    connectionManager.add(connection.gameID, authtoken, connection.session, connection.username);
-    var text = String.format("%s joined as an observer...", connection.username);
+  private void joinObserver(JoinObserverCommand cmd, Session session) throws IOException {
+    connectionManager.add(cmd.getGameID(), cmd.getAuthtoken(), session, cmd.getUsername());
+    var text = String.format("%s joined as an observer...", cmd.getUsername());
     var alert = new NotificationMessage(text);
-    connectionManager.broadcast(authtoken, connection.gameID, alert);
+    connectionManager.broadcast(cmd.getAuthtoken(), cmd.getGameID(), alert);
   }
 }
