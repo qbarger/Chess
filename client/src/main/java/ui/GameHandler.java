@@ -4,10 +4,21 @@ import chess.ChessGame;
 
 import javax.management.Notification;
 
-public interface GameHandler {
+public class GameHandler {
+  ChessGame game;
+  String message;
 
-  public void updateGame(ChessGame game);
+  public GameHandler(ChessGame game, String message){
+    this.game = game;
+    this.message = message;
+  }
 
-  public void printMessage(String message);
+  public void updateGame(ChessGame game){
+
+  }
+
+  public void printMessage(String message){
+
+  }
 
 }

@@ -1,5 +1,6 @@
 package ui;
 
+import chess.ChessGame;
 import chess.ResponseException;
 import dataAccess.DatabaseGameDao;
 import dataAccess.GameDao;
@@ -95,8 +96,12 @@ public class Postlogin {
       var path="/game";
       serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
 
-      makeBoardTop();
-      makeBoardBottom();
+      GameHandler gameHandler = new GameHandler(gameData.game(), "joining game...");
+      WebsocketFacade websocketFacade = new WebsocketFacade(serverUrl, gameHandler);
+      Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null);
+      gameplay.run("join player");
+      //makeBoardTop();
+      //makeBoardBottom();
     } catch (ResponseException exception){
       System.err.println("Cannot join game. Please enter valid game...");
     }
@@ -108,6 +113,9 @@ public class Postlogin {
       System.out.println("Enter Game ID:");
       int gameID=Integer.parseInt(scanner.next());
 
+      GameDao gameDao = new DatabaseGameDao();
+      GameList gameList = gameDao.listGames();
+      GameData gameData = gameList.getGame(gameID);
       JoinGameData joinGameData=new JoinGameData(null, gameID);
       var path="/game";
       serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
@@ -115,8 +123,12 @@ public class Postlogin {
       System.out.println("Joining game as observer...");
       System.out.println();
 
-      makeBoardTop();
-      makeBoardBottom();
+      GameHandler gameHandler = new GameHandler(gameData.game(), "joining game...");
+      WebsocketFacade websocketFacade = new WebsocketFacade(serverUrl, gameHandler);
+      Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null);
+      gameplay.run("join observer");
+      //makeBoardTop();
+      //makeBoardBottom();
     } catch (Exception e){
       System.err.println("Cannot observe game. Please enter valid game...");
     }
