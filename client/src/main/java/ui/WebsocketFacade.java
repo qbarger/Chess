@@ -37,45 +37,45 @@ public class WebsocketFacade extends Endpoint implements GameHandler{
     }
   }
 
-  private void joinPlayer(int gameID, ChessGame.TeamColor playerColor, String authtoken) throws IOException, ResponseException {
+  private void joinPlayer(int gameID, ChessGame.TeamColor playerColor, String authtoken, String username) throws IOException, ResponseException {
     try {
-      var command = new JoinPlayerCommand(authtoken,playerColor,gameID);
+      var command = new JoinPlayerCommand(authtoken,playerColor,gameID, username);
       this.session.getBasicRemote().sendText(new Gson().toJson(command));
     } catch (IOException e) {
       throw new ResponseException(e.getMessage(), 500);
     }
   }
 
-  private void joinObserver(int gameID) throws IOException, ResponseException {
+  private void joinObserver(int gameID, String username) throws IOException, ResponseException {
     try {
-      var command = new JoinObserverCommand(gameID);
+      var command = new JoinObserverCommand(gameID, username);
       this.session.getBasicRemote().sendText(new Gson().toJson(command));
     } catch (IOException e){
       throw new ResponseException(e.getMessage(), 500);
     }
   }
 
-  private void makeMove(int gameID, ChessMove move) throws IOException, ResponseException{
+  private void makeMove(int gameID, ChessMove move, String username) throws IOException, ResponseException{
     try {
-      var command = new MakeMoveCommand(gameID, move);
+      var command = new MakeMoveCommand(gameID, move, username);
       this.session.getBasicRemote().sendText(new Gson().toJson(command));
     } catch (IOException e){
       throw new ResponseException(e.getMessage(),500);
     }
   }
 
-  private void leaveGame(int gameID) throws IOException, ResponseException{
+  private void leaveGame(int gameID, String username) throws IOException, ResponseException{
     try {
-      var command = new LeaveGameCommand(gameID);
+      var command = new LeaveGameCommand(gameID, username);
       this.session.getBasicRemote().sendText(new Gson().toJson(command));
     } catch (IOException e){
       throw new ResponseException(e.getMessage(),500);
     }
   }
 
-  private void resignGame(int gameID) throws IOException, ResponseException{
+  private void resignGame(int gameID, String username) throws IOException, ResponseException{
     try {
-      var command = new ResignGameCommand(gameID);
+      var command = new ResignGameCommand(gameID, username);
       this.session.getBasicRemote().sendText(new Gson().toJson(command));
     } catch (IOException e){
       throw new ResponseException(e.getMessage(),500);
@@ -95,6 +95,10 @@ public class WebsocketFacade extends Endpoint implements GameHandler{
 
   @Override
   public void printMessage(String message) {
+    System.out.println(message);
+  }
+
+  public void onMessage(String message){
 
   }
 }
