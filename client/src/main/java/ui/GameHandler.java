@@ -2,6 +2,7 @@ package ui;
 
 import chess.ChessGame;
 import webSocketMessages.serverMessages.LoadGameMessage;
+import webSocketMessages.serverMessages.NotificationMessage;
 
 import javax.management.Notification;
 import javax.websocket.Session;
@@ -20,8 +21,10 @@ public class GameHandler {
 
   }
 
-  public void printMessage(String message){
-    System.out.println(message);
+  public void printMessage(NotificationMessage message){
+    System.out.println();
+    System.out.println();
+    System.out.println(message.getMessage());
   }
 
 }

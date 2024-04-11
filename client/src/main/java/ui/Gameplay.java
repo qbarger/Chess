@@ -31,6 +31,7 @@ public class Gameplay {
     System.out.println("make move");
     System.out.println("resign - from the game");
     System.out.println("highlight - legal moves");
+    System.out.println("help - with commands");
   }
 
   public void redrawChessBoard(){

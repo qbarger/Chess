@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import webSocketMessages.serverMessages.LoadGameMessage;
 import webSocketMessages.serverMessages.NotificationMessage;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.*;
@@ -50,6 +51,8 @@ public class WebSocketHandler {
     var text = String.format("%s joined as %s...", cmd.getUsername(), cmd.getTeamColor().toString());
     var alert = new NotificationMessage(text);
     connectionManager.broadcast(cmd.getAuthtoken(), cmd.getGameID(), alert);
+
+    //connectionManager.sendMessage(cmd.getAuthtoken(), new LoadGameMessage("You joined the game...", ));
   }
 
   private void joinObserver(JoinObserverCommand cmd, Session session) throws IOException {

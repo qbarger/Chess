@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionManager {
-  public final ConcurrentHashMap<Integer, Connection> connections = new ConcurrentHashMap<>();
+  public final ConcurrentHashMap<String, Connection> connections = new ConcurrentHashMap<>();
 
   public void add(int gameID, String authtoken, Session session, String username){
     var connection = new Connection(authtoken, gameID, session, username);
-    connections.put(gameID,connection);
+    connections.put(authtoken,connection);
   }
 
   public void remove(String authtoken){
@@ -25,7 +25,7 @@ public class ConnectionManager {
     for (var c : connections.values()){
       if (c.session.isOpen()){
         if(!c.authtoken.equals(authtoken)) {
-          if (c.gameID != gameID) {
+          if (c.gameID == gameID) {
             c.send(message);
           }
         }
@@ -34,7 +34,7 @@ public class ConnectionManager {
       }
     }
     for (var c : removeList){
-      connections.remove(c.gameID);
+      connections.remove(c.authtoken);
     }
   }
 
