@@ -17,13 +17,14 @@ public class ChessBoard {
         this.rows = 8;
         this.columns = 8;
         this.board = new ChessPiece[rows][columns];
+        resetBoard();
     }
 
     public ChessBoard(ChessBoard originalBoard) {
         this();
-        for(int row = 1;row < 9;row++){
-            for(int col = 1;col < 9;col++){
-                ChessPosition position = new ChessPosition(row,col);
+        for (int row=1; row < 9; row++) {
+            for (int col=1; col < 9; col++) {
+                ChessPosition position=new ChessPosition(row, col);
                 ChessPiece piece=originalBoard.getPiece(position);
                 this.addPiece(position, piece);
             }

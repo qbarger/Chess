@@ -1,6 +1,7 @@
 package server.websocket;
 
 import org.eclipse.jetty.websocket.api.Session;
+import webSocketMessages.serverMessages.LoadGameMessage;
 import webSocketMessages.serverMessages.ServerMessage;
 
 import javax.management.Notification;
@@ -41,5 +42,10 @@ public class ConnectionManager {
   public void sendMessage(String authtoken, ServerMessage message) throws IOException{
     var connection = connections.get(authtoken);
     connection.send(message);
+  }
+
+  public void sendGame(String authtoken, LoadGameMessage loadGameMessage) throws IOException{
+    var connection = connections.get(authtoken);
+    connection.sendGame(loadGameMessage);
   }
 }

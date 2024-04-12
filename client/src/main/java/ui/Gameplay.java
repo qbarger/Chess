@@ -1,8 +1,12 @@
 package ui;
 
+import chess.ChessGame;
 import chess.ChessMove;
 import chess.ResponseException;
+import dataAccess.DataAccessException;
 import model.AuthData;
+import model.GameData;
+import service.UpdateGameService;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -13,15 +17,18 @@ public class Gameplay {
   String username;
   String authtoken;
   ChessMove move;
+  GameHandler gameHandler;
+  ChessGame.TeamColor color;
   private boolean playing;
 
 
-  public Gameplay(WebsocketFacade websocketFacade, int gameID, String username, String authtoken, ChessMove move){
+  public Gameplay(WebsocketFacade websocketFacade, int gameID, String username, String authtoken, ChessMove move, ChessGame.TeamColor color){
     this.websocketFacade = websocketFacade;
     this.gameID = gameID;
     this.username = username;
     this.authtoken = authtoken;
     this.move = move;
+    this.color = color;
     playing = true;
   }
 
@@ -34,8 +41,8 @@ public class Gameplay {
     System.out.println("help - with commands");
   }
 
-  public void redrawChessBoard(){
-    System.out.println("drawing...");
+  public void redrawChessBoard() throws DataAccessException {
+    websocketFacade.gameHandler.printBoard(websocketFacade.gameHandler.game, color);
   }
 
   public void leave() throws ResponseException, IOException {
@@ -44,11 +51,12 @@ public class Gameplay {
   }
 
   public void makeMove() throws ResponseException, IOException {
-    websocketFacade.makeMove(gameID, move, username, authtoken);
+    websocketFacade.makeMove(gameID, move, username, authtoken, color);
   }
 
   public void resign() throws ResponseException, IOException {
     websocketFacade.resignGame(gameID, username, authtoken);
+    playing = false;
   }
 
   public void highlightLegalMoves(){

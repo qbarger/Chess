@@ -108,7 +108,7 @@ public class Postlogin {
       GameHandler gameHandler = new GameHandler();
       WebsocketFacade websocketFacade = new WebsocketFacade(serverUrl, gameHandler);
       websocketFacade.joinPlayer(gameData.gameID(), color, auth.authToken(), auth.username());
-      Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null);
+      Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null, color);
       gameplay.run();
       //makeBoardTop();
       //makeBoardBottom();
@@ -136,7 +136,7 @@ public class Postlogin {
       GameHandler gameHandler = new GameHandler();
       WebsocketFacade websocketFacade = new WebsocketFacade(serverUrl, gameHandler);
       websocketFacade.joinObserver(gameData.gameID(), auth.username(), auth.authToken());
-      Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null);
+      Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null, null);
       gameplay.run();
       //makeBoardTop();
       //makeBoardBottom();

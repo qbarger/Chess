@@ -22,6 +22,7 @@ public class CreateGameService {
     int gameID;
     if(authDB.checkAuth(authToken)){
       GameData game = new GameData(0,null,null,gamename.gameName(),new ChessGame());
+
       gameID = gameDB.createGame(game);
     }
     else {

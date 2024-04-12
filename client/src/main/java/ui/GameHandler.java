@@ -1,6 +1,9 @@
 package ui;
 
+import chess.ChessBoard;
 import chess.ChessGame;
+import chess.ChessPiece;
+import chess.ChessPosition;
 import webSocketMessages.serverMessages.LoadGameMessage;
 import webSocketMessages.serverMessages.NotificationMessage;
 
@@ -19,11 +22,6 @@ public class GameHandler {
     this.game = game;
   }
 
-  public void loadGame(LoadGameMessage loadGameMessage){
-    updateGame(loadGameMessage.game);
-    printBoard(loadGameMessage.game);
-  }
-
   public void printMessage(NotificationMessage message){
     System.out.println();
     System.out.println();
@@ -31,8 +29,100 @@ public class GameHandler {
     System.out.print("[LOGGED_IN] >>> ");
   }
 
-  public void printBoard(ChessGame game){
+  public void printBoard(ChessGame game, ChessGame.TeamColor color){
+    if(color == ChessGame.TeamColor.WHITE || color == null){
+      printWhite(game);
+    } else {
+      printBlack(game);
+    }
+  }
 
+  public void printWhite(ChessGame game){
+    System.out.println();
+    System.out.println();
+    ChessBoard board = game.getBoard();
+    int size = 8;
+    String space;
+    for(int row = size; row > 0; row--){
+      for(int col = size; col > 0; col--){
+        if(row % 2 == col % 2){
+          space = SET_BG_COLOR_WHITE;
+          System.out.print(space);
+        } else {
+          space = SET_BG_COLOR_LIGHT_GREY;
+          System.out.print(space);
+        }
+        ChessPiece chessPiece = board.getPiece(new ChessPosition(row, col));
+        if(!(chessPiece == null)){
+          printPiece(chessPiece);
+        } else {
+          String empty = EMPTY;
+          System.out.print(empty);
+        }
+      }
+      System.out.println("\u001B[0m ");
+    }
+    System.out.println();
+  }
+
+  public void printBlack(ChessGame game){
+    System.out.println();
+    System.out.println();
+    ChessBoard board = game.getBoard();
+    int size = 9;
+    String space;
+    for(int row = 1; row < size; row++){
+      for(int col = 1; col < size; col++){
+        if(row % 2 == col % 2){
+          space = SET_BG_COLOR_WHITE;
+          System.out.print(space);
+        } else {
+          space = SET_BG_COLOR_LIGHT_GREY;
+          System.out.print(space);
+        }
+        ChessPiece chessPiece = board.getPiece(new ChessPosition(row, col));
+        if(!(chessPiece == null)){
+          printPiece(chessPiece);
+        } else {
+          String empty = EMPTY;
+          System.out.print(empty);
+        }
+      }
+      System.out.println("\u001B[0m ");
+    }
+    System.out.println();
+  }
+
+  public void printPiece(ChessPiece chessPiece){
+    if(chessPiece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+      if (chessPiece.getPieceType() == ChessPiece.PieceType.PAWN) {
+        System.out.print(WHITE_PAWN);
+      } else if (chessPiece.getPieceType() == ChessPiece.PieceType.BISHOP) {
+        System.out.print(WHITE_BISHOP);
+      } else if (chessPiece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
+        System.out.print(WHITE_KNIGHT);
+      } else if (chessPiece.getPieceType() == ChessPiece.PieceType.ROOK) {
+        System.out.print(WHITE_ROOK);
+      } else if (chessPiece.getPieceType() == ChessPiece.PieceType.QUEEN) {
+        System.out.print(WHITE_QUEEN);
+      } else if (chessPiece.getPieceType() == ChessPiece.PieceType.KING) {
+        System.out.print(WHITE_KING);
+      }
+    } else {
+      if (chessPiece.getPieceType() == ChessPiece.PieceType.PAWN) {
+        System.out.print(BLACK_PAWN);
+      } else if (chessPiece.getPieceType() == ChessPiece.PieceType.BISHOP) {
+        System.out.print(BLACK_BISHOP);
+      } else if (chessPiece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
+        System.out.print(BLACK_KNIGHT);
+      } else if (chessPiece.getPieceType() == ChessPiece.PieceType.ROOK) {
+        System.out.print(BLACK_ROOK);
+      } else if (chessPiece.getPieceType() == ChessPiece.PieceType.QUEEN) {
+        System.out.print(BLACK_QUEEN);
+      } else if (chessPiece.getPieceType() == ChessPiece.PieceType.KING) {
+        System.out.print(BLACK_KING);
+      }
+    }
   }
 
   public void makeBoardTop(){

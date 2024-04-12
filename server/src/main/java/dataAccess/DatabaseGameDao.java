@@ -160,13 +160,17 @@ public class DatabaseGameDao implements GameDao{
 
   @Override
   public GameData makeMove(int gameID, ChessGame game) throws DataAccessException {
+    GameData gameData = getGame(gameID);
     try(var conn = DatabaseManager.getConnection()){
-      var statement = "UPDATE Game Set game = ? Where gameID = ?";
+      GameData newGame = new GameData(gameData.gameID(), gameData.whiteUsername(), gameData.blackUsername(), gameData.gameName(), game);
+      var statement = "UPDATE Game Set game = ?, json = ? Where gameID = ?";
+      var gamestring = new Gson().toJson(newGame.game());
+      var json = new Gson().toJson(newGame);
       try(var ps = conn.prepareStatement(statement)){
-        ps.setString(1, new Gson().toJson(game));
-        ps.setInt(2, gameID);
+        ps.setString(1, new Gson().toJson(gamestring));
+        ps.setString(2, new Gson().toJson(json));
+        ps.setInt(3, gameID);
         ps.executeUpdate();
-        GameData gameData = getGame(gameID);
         return gameData;
       }
     } catch (SQLException e) {

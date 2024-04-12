@@ -1,10 +1,10 @@
-package passoffTests.serverTests;
+package passoffTests;
 
 import chess.ChessGame;
 import chess.ChessMove;
 import chess.ChessPosition;
+import dataAccess.DataAccessException;
 import org.junit.jupiter.api.*;
-import shared.src.test.java.passoffTests.TestFactory;
 import passoffTests.obfuscatedTestClasses.TestServerFacade;
 import passoffTests.testClasses.TestException;
 import passoffTests.testClasses.TestModels;
@@ -39,7 +39,7 @@ public class WebSocketTests {
 
 
     @BeforeAll
-    public static void init() throws URISyntaxException {
+    public static void init() throws URISyntaxException, DataAccessException {
         server = new Server();
         var port = Integer.toString(server.run(0));
         System.out.println("Started test HTTP server on " + port);
