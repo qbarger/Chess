@@ -14,7 +14,6 @@ public class MakeMoveCommand extends UserGameCommand{
     this.gameID = gameID;
     this.move = move;
     this.username = username;
-    this.authtoken = authtoken;
     this.commandType = CommandType.MAKE_MOVE;
   }
 

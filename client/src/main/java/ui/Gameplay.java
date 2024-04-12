@@ -40,6 +40,7 @@ public class Gameplay {
 
   public void leave() throws ResponseException, IOException {
     websocketFacade.leaveGame(gameID, username, authtoken);
+    playing = false;
   }
 
   public void makeMove() throws ResponseException, IOException {

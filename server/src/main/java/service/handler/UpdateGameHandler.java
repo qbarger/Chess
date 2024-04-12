@@ -1,14 +1,18 @@
 package service.handler;
 
+import chess.InvalidMoveException;
 import com.google.gson.Gson;
 import dataAccess.AuthDao;
 import dataAccess.DataAccessException;
 import dataAccess.GameDao;
 import model.GameData;
 import model.JoinGameData;
+import model.MakeMoveData;
 import service.UpdateGameService;
 import spark.Request;
 import spark.Response;
+
+import java.sql.SQLException;
 
 public class UpdateGameHandler {
   public AuthDao authDB;
@@ -21,10 +25,10 @@ public class UpdateGameHandler {
     this.updateGameService = new UpdateGameService(authDB, gameDB);
   }
 
-  public Object joinGame(Request req, Response res) throws DataAccessException{
+  public Object updateGame(Request req, Response res) throws DataAccessException{
     var data = new Gson().fromJson(req.body(), JoinGameData.class);
     String authToken =req.headers("authorization");
-    if(authToken != null){
+    if(authToken != null) {
       res.status(200);
       updateGameService.joinGame(data, authToken);
       return "{}";

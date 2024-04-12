@@ -1,11 +1,14 @@
 package service;
 
 import chess.ChessGame;
+import chess.ChessMove;
+import chess.InvalidMoveException;
 import dataAccess.AuthDao;
 import dataAccess.DataAccessException;
 import dataAccess.GameDao;
 import model.*;
 
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class UpdateGameService {
@@ -52,6 +55,30 @@ public class UpdateGameService {
         ErrorData error=new ErrorData("Error: bad request");
         throw new DataAccessException(error.message(), 400);
       }
+    } else {
+      ErrorData error=new ErrorData("Error: unauthorized");
+      throw new DataAccessException(error.message(), 401);
+    }
+  }
+
+  public void joinGameObserver(int gameID, String authtoken){
+
+  }
+
+  public void makeMove(MakeMoveData moveData, String authToken) throws DataAccessException, InvalidMoveException {
+    if(authDB.checkAuth(authToken)){
+      AuthData authData = authDB.getAuth(authToken);
+      GameData gameData = gameDB.getGame(moveData.gameID());
+      ChessGame chessGame = gameData.game();
+      chessGame.makeMove(moveData.move());
+      GameData game = gameDB.makeMove(moveData.gameID(), chessGame);
+    }
+  }
+
+  public void leaveGame(int gameID, String authToken) throws DataAccessException, SQLException {
+    if(authDB.checkAuth(authToken)){
+      AuthData auth = authDB.getAuth(authToken);
+      gameDB.leaveGame(gameID, auth.username());
     } else {
       ErrorData error=new ErrorData("Error: unauthorized");
       throw new DataAccessException(error.message(), 401);

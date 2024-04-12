@@ -1,10 +1,13 @@
 package dataAccess.memoryDAOs;
 
+import chess.ChessGame;
+import dataAccess.DataAccessException;
 import dataAccess.GameDao;
 import model.GameData;
 import model.GameList;
 import model.JoinGameData;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class MemoryGameDao implements GameDao {
@@ -32,6 +35,16 @@ public class MemoryGameDao implements GameDao {
     list.addAll(gameInfo.values());
     GameList gameList = new GameList(list);
     return gameList;
+  }
+
+  @Override
+  public void leaveGame(int gameID, String username) throws DataAccessException, SQLException {
+
+  }
+
+  @Override
+  public GameData makeMove(int gameID, ChessGame game) throws DataAccessException {
+    return null;
   }
 
   @Override

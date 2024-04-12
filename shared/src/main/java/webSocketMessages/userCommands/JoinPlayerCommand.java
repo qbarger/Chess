@@ -10,7 +10,6 @@ public class JoinPlayerCommand extends UserGameCommand{
 
   public JoinPlayerCommand(String authtoken, ChessGame.TeamColor teamColor, int gameID, String username){
     super(authtoken);
-    this.authtoken = authtoken;
     this.teamColor = teamColor;
     this.gameID = gameID;
     this.username = username;

@@ -33,7 +33,7 @@ public class Server {
         CreateGameService createGameService = new CreateGameService(authDB, gameDB);
         ListGamesService listGamesService = new ListGamesService(authDB, gameDB);
         UpdateGameService updateGameService = new UpdateGameService(authDB, gameDB);
-        WebSocketHandler webSocketHandler = new WebSocketHandler();
+        WebSocketHandler webSocketHandler = new WebSocketHandler(updateGameService);
 
         Spark.webSocket("/connect", webSocketHandler);
 
@@ -43,7 +43,7 @@ public class Server {
         Spark.delete("/session", (req, res) -> (new LogoutHandler(logoutService.userDB, logoutService.authDB).logout(req, res)));
         Spark.post("/game", (req, res) -> (new CreateGameHandler(createGameService.gameDB, createGameService.authDB).createGame(req, res)));
         Spark.get("/game", (req, res) -> (new ListGamesHandler(listGamesService.authDB, listGamesService.gameDB).listGames(req, res)));
-        Spark.put("/game", (req, res) -> (new UpdateGameHandler(updateGameService.authDB, updateGameService.gameDB).joinGame(req, res)));
+        Spark.put("/game", (req, res) -> (new UpdateGameHandler(updateGameService.authDB, updateGameService.gameDB).updateGame(req, res)));
         Spark.exception(DataAccessException.class, this::exceptionHandler);
         // Register your endpoints and handle exceptions here.
 

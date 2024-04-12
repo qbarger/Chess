@@ -9,7 +9,6 @@ public class ResignGameCommand extends UserGameCommand{
     super(authtoken);
     this.gameID = gameID;
     this.username = username;
-    this.authtoken = authtoken;
     this.commandType = CommandType.RESIGN;
   }
 
