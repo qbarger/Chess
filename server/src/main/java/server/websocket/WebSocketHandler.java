@@ -57,6 +57,7 @@ public class WebSocketHandler {
     GameData game = updateGameService.makeMove(moveData, cmd.getAuthString());
     var text = String.format("%s made a move...", cmd.getUsername());
     var alert = new NotificationMessage(text);
+    connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You made a move..."));
     connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
     connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage("Move made...", game.game(), cmd.getColor()));
   }
@@ -65,6 +66,7 @@ public class WebSocketHandler {
     connectionManager.add(cmd.getGameID(), cmd.getAuthString(), session, cmd.getUsername());
     var text = String.format("%s joined as %s...", cmd.getUsername(), cmd.getTeamColor().toString());
     var alert = new NotificationMessage(text);
+    connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You joined the game..."));
     connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
     GameData gameData = updateGameService.gameDB.getGame(cmd.getGameID());
     connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage("You joined the game...", gameData.game(), cmd.getTeamColor()));
@@ -74,6 +76,7 @@ public class WebSocketHandler {
     connectionManager.add(cmd.getGameID(), cmd.getAuthString(), session, cmd.getUsername());
     var text = String.format("%s joined as an observer...", cmd.getUsername());
     var alert = new NotificationMessage(text);
+    connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You joined the game..."));
     connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
     GameData gameData = updateGameService.gameDB.getGame(cmd.getGameID());
     connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage("You joined as an observer...", gameData.game(), null));
