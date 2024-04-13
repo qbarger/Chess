@@ -51,6 +51,12 @@ public class Gameplay {
   }
 
   public void makeMove() throws ResponseException, IOException {
+    ChessGame chessGame = websocketFacade.gameHandler.game;
+    ChessGame.TeamColor teamColor = chessGame.getTeamTurn();
+    if(teamColor != color){
+      System.out.println("It is not your turn. Wait for opponent to make move...");
+      return;
+    }
     int row, col;
     Scanner scanner=new Scanner(System.in);
     System.out.println("Which piece do you want to move?");
@@ -107,21 +113,21 @@ public class Gameplay {
     System.out.println("Here are the possible moves...");
     int i = 0;
     for(ChessMove move : moves){
-      if(move.getEndPosition().getColumn() == 0){
+      if(move.getEndPosition().getColumn() == 1){
         System.out.println(i + ") A" + move.getEndPosition().getRow());
-      } else if (move.getEndPosition().getColumn() == 1){
-        System.out.println(i + ") B" + move.getEndPosition().getRow());
       } else if (move.getEndPosition().getColumn() == 2){
-        System.out.println(i + ") C" + move.getEndPosition().getRow());
+        System.out.println(i + ") B" + move.getEndPosition().getRow());
       } else if (move.getEndPosition().getColumn() == 3){
-        System.out.println(i + ") D" + move.getEndPosition().getRow());
+        System.out.println(i + ") C" + move.getEndPosition().getRow());
       } else if (move.getEndPosition().getColumn() == 4){
-        System.out.println(i + ") E" + move.getEndPosition().getRow());
+        System.out.println(i + ") D" + move.getEndPosition().getRow());
       } else if (move.getEndPosition().getColumn() == 5){
-        System.out.println(i + ") F" + move.getEndPosition().getRow());
+        System.out.println(i + ") E" + move.getEndPosition().getRow());
       } else if (move.getEndPosition().getColumn() == 6){
-        System.out.println(i + ") G" + move.getEndPosition().getRow());
+        System.out.println(i + ") F" + move.getEndPosition().getRow());
       } else if (move.getEndPosition().getColumn() == 7){
+        System.out.println(i + ") G" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 8){
         System.out.println(i + ") H" + move.getEndPosition().getRow());
       }
       i++;

@@ -64,9 +64,9 @@ public class GameHandler {
           }
         } else {
           if(row > 8){
-            printLettersBottom(col);
+            printLetters(col);
           } else if (row < 1) {
-            printLettersTop(col);
+            printLetters(col);
           } else if(col > 8 || col < 1){
             printNumbers(row);
           }
@@ -102,9 +102,9 @@ public class GameHandler {
           }
         } else {
           if(row > 8){
-            printLettersBottom(col);
+            printLetters(col);
           } else if (row < 1) {
-            printLettersTop(col);
+            printLetters(col);
           } else if(col > 8 || col < 1){
             printNumbers(row);
           }
@@ -169,24 +169,24 @@ public class GameHandler {
     System.out.print(number);
   }
 
-  public void printLettersTop(int col){
+  public void printLetters(int col){
     String letter = EMPTY;
     if(col == 1) {
-      letter=" H ";
-    } else if(col == 2){
-      letter=" G ";
-    } else if (col == 3) {
-      letter=" F ";
-    } else if (col == 4) {
-      letter=" E ";
-    } else if (col == 5) {
-      letter=" D ";
-    } else if (col == 6) {
-      letter=" C ";
-    } else if (col == 7){
-      letter=" B ";
-    } else if (col == 8) {
       letter=" A ";
+    } else if(col == 2){
+      letter=" B ";
+    } else if (col == 3) {
+      letter=" C ";
+    } else if (col == 4) {
+      letter=" D ";
+    } else if (col == 5) {
+      letter=" E ";
+    } else if (col == 6) {
+      letter=" F ";
+    } else if (col == 7){
+      letter=" G ";
+    } else if (col == 8) {
+      letter=" H ";
     }
     System.out.print(letter);
   }
@@ -194,7 +194,7 @@ public class GameHandler {
   public void printLettersBottom(int col){
     String letter = EMPTY;
     if(col == 1) {
-      letter=" H ";
+      letter=" A ";
     } else if(col == 2){
       letter=" G ";
     } else if (col == 3) {

@@ -30,6 +30,7 @@ public class DatabaseGameDao implements GameDao{
     return newGame.gameID();
   }
 
+  /*
   @Override
   public GameData getGame(int gameID) throws DataAccessException{
     //DatabaseManager databaseManager = new DatabaseManager();
@@ -56,6 +57,18 @@ public class DatabaseGameDao implements GameDao{
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+  */
+  @Override
+  public GameData getGame(int gameID) throws DataAccessException {
+    GameData game = new GameData(0,null,null,null,null);
+    GameList gameList = listGames();
+    for(GameData gameData : gameList.games()){
+      if(gameData.gameID() == gameID){
+        game = gameData;
+      }
+    }
+    return game;
   }
 
   @Override

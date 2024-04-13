@@ -58,7 +58,7 @@ public class WebSocketHandler {
     var text = String.format("%s made a move...", cmd.getUsername());
     var alert = new NotificationMessage(text);
     connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
-    connectionManager.sendGame(cmd.getAuthString(), new LoadGameMessage("Move made...", game.game(), cmd.getColor()));
+    connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage("Move made...", game.game(), cmd.getColor()));
   }
 
   private void joinPlayer(JoinPlayerCommand cmd, Session session) throws IOException, DataAccessException {
@@ -67,7 +67,7 @@ public class WebSocketHandler {
     var alert = new NotificationMessage(text);
     connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
     GameData gameData = updateGameService.gameDB.getGame(cmd.getGameID());
-    connectionManager.sendGame(cmd.getAuthString(), new LoadGameMessage("You joined the game...", gameData.game(), cmd.getTeamColor()));
+    connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage("You joined the game...", gameData.game(), cmd.getTeamColor()));
   }
 
   private void joinObserver(JoinObserverCommand cmd, Session session) throws IOException, DataAccessException {
@@ -76,6 +76,6 @@ public class WebSocketHandler {
     var alert = new NotificationMessage(text);
     connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
     GameData gameData = updateGameService.gameDB.getGame(cmd.getGameID());
-    connectionManager.sendGame(cmd.getAuthString(), new LoadGameMessage("You joined as an observer...", gameData.game(), null));
+    connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage("You joined as an observer...", gameData.game(), null));
   }
 }

@@ -44,8 +44,21 @@ public class ConnectionManager {
     connection.send(message);
   }
 
-  public void sendGame(String authtoken, LoadGameMessage loadGameMessage) throws IOException{
+  public void sendGame(int gameID, String authtoken, LoadGameMessage loadGameMessage) throws IOException{
     var connection = connections.get(authtoken);
     connection.sendGame(loadGameMessage);
+    var removeList = new ArrayList<Connection>();
+    for (var c : connections.values()){
+      if (c.session.isOpen()){
+        if (c.gameID == gameID) {
+          c.sendGame(loadGameMessage);
+        }
+      } else {
+        removeList.add(c);
+      }
+    }
+    for (var c : removeList){
+      connections.remove(c.authtoken);
+    }
   }
 }

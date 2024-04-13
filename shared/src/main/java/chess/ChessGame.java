@@ -56,17 +56,19 @@ public class ChessGame {
         Collection<ChessMove> moveList;
         Collection<ChessMove> validMoveList = new ArrayList<>();
         piece=board.getPiece(startPosition);
-        moveList=piece.pieceMoves(board, startPosition);
-        Iterator<ChessMove> iterator = moveList.iterator();
-        while(iterator.hasNext()){
-            ChessMove move = iterator.next();
-            ChessPosition endPosition = move.getEndPosition();
-            board.addPiece(endPosition, piece);
-            board.removePiece(startPosition);
-            if(!isInCheck(piece.getTeamColor())){
-                validMoveList.add(move);
+        if(piece != null) {
+            moveList=piece.pieceMoves(board, startPosition);
+            Iterator<ChessMove> iterator=moveList.iterator();
+            while (iterator.hasNext()) {
+                ChessMove move=iterator.next();
+                ChessPosition endPosition=move.getEndPosition();
+                board.addPiece(endPosition, piece);
+                board.removePiece(startPosition);
+                if (!isInCheck(piece.getTeamColor())) {
+                    validMoveList.add(move);
+                }
+                board=new ChessBoard(placeHolder);
             }
-            board = new ChessBoard(placeHolder);
         }
         return validMoveList;
     }
