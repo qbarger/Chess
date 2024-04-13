@@ -66,7 +66,7 @@ public class ChessBoard {
 
     public void setPieces(int row, int col){
         /* Piece is white */
-        if(row == 0){
+        if(row == 7){
             if(col == 0){
                 ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
                 board[row][col] = piece;
@@ -100,13 +100,13 @@ public class ChessBoard {
                 board[row][col] = piece;
             }
         }
-        if(row == 1){
+        if(row == 6){
             ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
             board[row][col] = piece;
         }
 
         /* Piece is black */
-        if(row == 7){
+        if(row == 0){
             if(col == 0){
                 ChessPiece piece = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
                 board[row][col] = piece;
@@ -140,7 +140,7 @@ public class ChessBoard {
                 board[row][col] = piece;
             }
         }
-        if(row == 6){
+        if(row == 1){
             ChessPiece piece = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
             board[row][col] = piece;
         }

@@ -35,7 +35,7 @@ public class DatabaseGameDao implements GameDao{
     //DatabaseManager databaseManager = new DatabaseManager();
     //databaseManager.configureDatabase();
     try (var conn = DatabaseManager.getConnection()){
-      var statement = "Select gameID, json From Game Where gameID = ?";
+      var statement = "Select json From Game Where gameID = ?";
       try (var ps = conn.prepareStatement(statement)){
         ps.setInt(1, gameID);
         try (var rs = ps.executeQuery()){
@@ -171,7 +171,7 @@ public class DatabaseGameDao implements GameDao{
         ps.setString(2, new Gson().toJson(json));
         ps.setInt(3, gameID);
         ps.executeUpdate();
-        return gameData;
+        return newGame;
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

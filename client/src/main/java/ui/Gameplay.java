@@ -1,14 +1,14 @@
 package ui;
 
-import chess.ChessGame;
-import chess.ChessMove;
-import chess.ResponseException;
+import chess.*;
 import dataAccess.DataAccessException;
 import model.AuthData;
 import model.GameData;
 import service.UpdateGameService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class Gameplay {
@@ -17,7 +17,6 @@ public class Gameplay {
   String username;
   String authtoken;
   ChessMove move;
-  GameHandler gameHandler;
   ChessGame.TeamColor color;
   private boolean playing;
 
@@ -46,12 +45,104 @@ public class Gameplay {
   }
 
   public void leave() throws ResponseException, IOException {
+    System.out.println("Leaving game...");
     websocketFacade.leaveGame(gameID, username, authtoken);
     playing = false;
   }
 
   public void makeMove() throws ResponseException, IOException {
-    websocketFacade.makeMove(gameID, move, username, authtoken, color);
+    int row, col;
+    Scanner scanner=new Scanner(System.in);
+    System.out.println("Which piece do you want to move?");
+    System.out.print("Enter the letter of the piece's square (ex. 'A'): ");
+    String input=scanner.next();
+
+    if (input.equals("A")) {
+      col=1;
+    } else if (input.equals("B")) {
+      col=2;
+    } else if (input.equals("C")) {
+      col=3;
+    } else if (input.equals("D")) {
+      col=4;
+    } else if (input.equals("E")) {
+      col=5;
+    } else if (input.equals("F")) {
+      col=6;
+    } else if (input.equals("G")) {
+      col=7;
+    } else if (input.equals("H")) {
+      col=8;
+    } else {
+      invalidInput();
+      return;
+    }
+    System.out.println("Enter the number of the piece's square: ");
+    String number=scanner.next();
+    if (Integer.parseInt(number) == 1) {
+      row=1;
+    } else if (Integer.parseInt(number) == 2) {
+      row=2;
+    } else if (Integer.parseInt(number) == 3) {
+      row=3;
+    } else if (Integer.parseInt(number) == 4) {
+      row=4;
+    } else if (Integer.parseInt(number) == 4) {
+      row=4;
+    } else if (Integer.parseInt(number) == 5) {
+      row=5;
+    } else if (Integer.parseInt(number) == 6) {
+      row=6;
+    } else if (Integer.parseInt(number) == 7) {
+      row=7;
+    } else if (Integer.parseInt(number) == 8) {
+      row=8;
+    } else {
+      invalidInput();
+      return;
+    }
+    ChessGame game = websocketFacade.gameHandler.game;
+    Collection<ChessMove> moves = game.validMoves(new ChessPosition(row, col));
+
+    System.out.println("Here are the possible moves...");
+    int i = 0;
+    for(ChessMove move : moves){
+      if(move.getEndPosition().getColumn() == 0){
+        System.out.println(i + ") A" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 1){
+        System.out.println(i + ") B" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 2){
+        System.out.println(i + ") C" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 3){
+        System.out.println(i + ") D" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 4){
+        System.out.println(i + ") E" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 5){
+        System.out.println(i + ") F" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 6){
+        System.out.println(i + ") G" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 7){
+        System.out.println(i + ") H" + move.getEndPosition().getRow());
+      }
+      i++;
+    }
+    System.out.println();
+    System.out.print("Select the number of a move: ");
+    String select =scanner.next();
+
+    int j = 0;
+    for(ChessMove move : moves){
+      if(Integer.toString(j).equals(select)){
+        System.out.println("Making move...");
+        websocketFacade.makeMove(gameID, move, username, authtoken, color);
+      }
+      j++;
+    }
+    websocketFacade.gameHandler.updateGame(websocketFacade.gameHandler.game);
+  }
+
+  public void invalidInput(){
+    System.out.println("Invalid input...");
   }
 
   public void resign() throws ResponseException, IOException {
@@ -84,7 +175,7 @@ public class Gameplay {
       redrawChessBoard();
     } else if (userInput.equals("leave")) {
       leave();
-    } else if (userInput.equals("make move")) {
+    } else if (userInput.equals("make")) {
       makeMove();
     } else if (userInput.equals("resign")) {
       resign();

@@ -65,13 +65,15 @@ public class UpdateGameService {
 
   }
 
-  public void makeMove(MakeMoveData moveData, String authToken) throws DataAccessException, InvalidMoveException {
+  public GameData makeMove(MakeMoveData moveData, String authToken) throws DataAccessException, InvalidMoveException {
     if(authDB.checkAuth(authToken)){
       AuthData authData = authDB.getAuth(authToken);
       GameData gameData = gameDB.getGame(moveData.gameID());
       ChessGame chessGame = gameData.game();
       chessGame.makeMove(moveData.move());
-      GameData game = gameDB.makeMove(moveData.gameID(), chessGame);
+      return gameDB.makeMove(moveData.gameID(), chessGame);
+    } else {
+      throw new DataAccessException("Error: unauthorized...", 401);
     }
   }
 

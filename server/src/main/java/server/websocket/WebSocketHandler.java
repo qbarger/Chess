@@ -54,11 +54,10 @@ public class WebSocketHandler {
 
   private void makeMove(MakeMoveCommand cmd) throws IOException, DataAccessException, InvalidMoveException {
     MakeMoveData moveData = new MakeMoveData(cmd.getGameID(), cmd.getMove(), cmd.getColor());
-    updateGameService.makeMove(moveData, cmd.getAuthString());
+    GameData game = updateGameService.makeMove(moveData, cmd.getAuthString());
     var text = String.format("%s made a move...", cmd.getUsername());
     var alert = new NotificationMessage(text);
     connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
-    GameData game = updateGameService.gameDB.getGame(cmd.getGameID());
     connectionManager.sendGame(cmd.getAuthString(), new LoadGameMessage("Move made...", game.game(), cmd.getColor()));
   }
 
