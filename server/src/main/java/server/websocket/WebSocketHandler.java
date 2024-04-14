@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import dataAccess.DataAccessException;
 import model.GameData;
 import model.MakeMoveData;
-import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import service.UpdateGameService;
@@ -13,6 +12,8 @@ import webSocketMessages.serverMessages.LoadGameMessage;
 import webSocketMessages.serverMessages.NotificationMessage;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.*;
+import org.eclipse.jetty.websocket.common.WebSocketSession;
+import org.eclipse.jetty.websocket.api.Session;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -59,17 +60,21 @@ public class WebSocketHandler {
     var alert = new NotificationMessage(text);
     connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You made a move..."));
     connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
-    connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage("Move made...", game.game(), cmd.getColor()));
+    connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(game.game(), cmd.getColor()));
   }
 
   private void joinPlayer(JoinPlayerCommand cmd, Session session) throws IOException, DataAccessException {
     connectionManager.add(cmd.getGameID(), cmd.getAuthString(), session, cmd.getUsername());
-    var text = String.format("%s joined as %s...", cmd.getUsername(), cmd.getTeamColor().toString());
-    var alert = new NotificationMessage(text);
-    connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You joined the game..."));
-    connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
-    GameData gameData = updateGameService.gameDB.getGame(cmd.getGameID());
-    connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage("You joined the game...", gameData.game(), cmd.getTeamColor()));
+    try {
+      GameData gameData=updateGameService.gameDB.getGame(cmd.getGameID());
+      var text=String.format("%s joined as %s...", cmd.getUsername(), cmd.getTeamColor().toString());
+      var alert=new NotificationMessage(text);
+      //connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You joined the game..."));
+      connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
+      connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(gameData.game(), cmd.getTeamColor()));
+    } catch (DataAccessException exception) {
+      throw new DataAccessException(exception.getMessage(), 500);
+    }
   }
 
   private void joinObserver(JoinObserverCommand cmd, Session session) throws IOException, DataAccessException {
@@ -79,6 +84,6 @@ public class WebSocketHandler {
     connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You joined the game..."));
     connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
     GameData gameData = updateGameService.gameDB.getGame(cmd.getGameID());
-    connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage("You joined as an observer...", gameData.game(), null));
+    connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(gameData.game(), null));
   }
 }

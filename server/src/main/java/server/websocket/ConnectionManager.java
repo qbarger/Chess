@@ -22,7 +22,6 @@ public class ConnectionManager {
   }
 
   public void broadcast(String authtoken, int gameID, ServerMessage message) throws IOException {
-    var removeList = new ArrayList<Connection>();
     for (var c : connections.values()){
       if (c.session.isOpen()){
         if(!c.authtoken.equals(authtoken)) {
@@ -30,12 +29,7 @@ public class ConnectionManager {
             c.send(message);
           }
         }
-      } else {
-        removeList.add(c);
       }
-    }
-    for (var c : removeList){
-      connections.remove(c.authtoken);
     }
   }
 
@@ -45,20 +39,14 @@ public class ConnectionManager {
   }
 
   public void sendGame(int gameID, String authtoken, LoadGameMessage loadGameMessage) throws IOException{
-    var connection = connections.get(authtoken);
-    connection.sendGame(loadGameMessage);
-    var removeList = new ArrayList<Connection>();
     for (var c : connections.values()){
       if (c.session.isOpen()){
-        if (c.gameID == gameID) {
-          c.sendGame(loadGameMessage);
+        if(!c.authtoken.equals(authtoken)) {
+          if (c.gameID == gameID) {
+            c.sendGame(loadGameMessage);
+          }
         }
-      } else {
-        removeList.add(c);
       }
-    }
-    for (var c : removeList){
-      connections.remove(c.authtoken);
     }
   }
 }
