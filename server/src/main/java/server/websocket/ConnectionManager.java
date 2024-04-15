@@ -1,6 +1,7 @@
 package server.websocket;
 
 import org.eclipse.jetty.websocket.api.Session;
+import webSocketMessages.serverMessages.ErrorMessage;
 import webSocketMessages.serverMessages.LoadGameMessage;
 import webSocketMessages.serverMessages.ServerMessage;
 
@@ -40,11 +41,23 @@ public class ConnectionManager {
 
   public void sendGame(int gameID, String authtoken, LoadGameMessage loadGameMessage) throws IOException{
     for (var c : connections.values()){
-      if (c.session.isOpen()){
-        if(!c.authtoken.equals(authtoken)) {
+      if(c.session.isOpen()) {
+        if(c.authtoken.equals(authtoken)) {
           if (c.gameID == gameID) {
             c.sendGame(loadGameMessage);
+          } else {
+            c.sendError(new ErrorMessage("Error: wrong game ID..."));
           }
+        }
+      }
+    }
+  }
+
+  public void sendError(String authToken, ErrorMessage errorMessage) throws IOException {
+    for(var c : connections.values()){
+      if(c.session.isOpen()){
+        if(c.authtoken.equals(authToken)){
+          c.sendError(errorMessage);
         }
       }
     }

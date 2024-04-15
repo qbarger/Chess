@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import javax.websocket.*;
 
 import model.GameData;
+import webSocketMessages.serverMessages.ErrorMessage;
 import webSocketMessages.serverMessages.LoadGameMessage;
 import webSocketMessages.serverMessages.NotificationMessage;
 import webSocketMessages.serverMessages.ServerMessage;
@@ -37,7 +38,7 @@ public class WebsocketFacade extends Endpoint {
           ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
           switch (serverMessage.getServerMessageType()){
             case NOTIFICATION -> gameHandler.printMessage(new Gson().fromJson(message, NotificationMessage.class));
-            case ERROR -> System.err.println("bruh");
+            case ERROR -> printError(new Gson().fromJson(message, ErrorMessage.class));
             case LOAD_GAME -> loadGame(new Gson().fromJson(message, LoadGameMessage.class));
           }
         }
@@ -47,7 +48,7 @@ public class WebsocketFacade extends Endpoint {
     }
   }
 
-  public void joinPlayer(int gameID, ChessGame.TeamColor playerColor, String authtoken, String username) throws IOException, ResponseException {
+  public void joinPlayer(String username, int gameID, ChessGame.TeamColor playerColor, String authtoken) throws IOException, ResponseException {
     try {
       var command = new JoinPlayerCommand(authtoken,playerColor,gameID, username);
       this.session.getBasicRemote().sendText(new Gson().toJson(command));
@@ -95,6 +96,10 @@ public class WebsocketFacade extends Endpoint {
   public void loadGame(LoadGameMessage loadGameMessage){
     gameHandler.updateGame(loadGameMessage.game);
     gameHandler.printBoard(loadGameMessage.game, loadGameMessage.color);
+  }
+
+  public void printError(ErrorMessage errorMessage){
+    System.out.println(errorMessage.getErrorMessage());
   }
 
   @Override

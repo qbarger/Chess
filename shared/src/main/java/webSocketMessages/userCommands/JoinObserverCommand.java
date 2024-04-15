@@ -3,7 +3,6 @@ package webSocketMessages.userCommands;
 public class JoinObserverCommand extends UserGameCommand{
   private int gameID;
   private String username;
-  private String authtoken;
 
   public JoinObserverCommand(int gameID, String username, String authtoken){
     super(authtoken);
@@ -14,5 +13,4 @@ public class JoinObserverCommand extends UserGameCommand{
 
   public int getGameID(){return this.gameID;}
   public String getUsername(){return this.username;}
-  public String getAuthtoken(){return this.authtoken;}
 }

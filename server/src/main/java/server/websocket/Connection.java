@@ -3,6 +3,7 @@ package server.websocket;
 import com.google.gson.Gson;
 import model.AuthData;
 import org.eclipse.jetty.websocket.api.Session;
+import webSocketMessages.serverMessages.ErrorMessage;
 import webSocketMessages.serverMessages.LoadGameMessage;
 import webSocketMessages.serverMessages.ServerMessage;
 
@@ -27,5 +28,9 @@ public class Connection {
 
   public void sendGame(LoadGameMessage loadGameMessage) throws IOException {
     session.getRemote().sendString(new Gson().toJson(loadGameMessage));
+  }
+
+  public void sendError(ErrorMessage errorMessage) throws IOException {
+    session.getRemote().sendString(new Gson().toJson(errorMessage));
   }
 }
