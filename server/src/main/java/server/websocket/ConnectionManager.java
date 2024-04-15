@@ -53,6 +53,20 @@ public class ConnectionManager {
     }
   }
 
+  public void sendMove(int gameID, String authtoken, LoadGameMessage loadGameMessage) throws IOException{
+    for(var c : connections.values()){
+      if(c.session.isOpen()){
+        if(!c.authtoken.equals(authtoken)){
+          if(c.gameID == gameID){
+            c.sendGame(loadGameMessage);
+          } else {
+            c.sendError(new ErrorMessage("Error: wrong game ID..."));
+          }
+        }
+      }
+    }
+  }
+
   public void sendError(String authToken, ErrorMessage errorMessage) throws IOException {
     for(var c : connections.values()){
       if(c.session.isOpen()){

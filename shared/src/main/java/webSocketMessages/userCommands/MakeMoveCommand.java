@@ -7,7 +7,6 @@ public class MakeMoveCommand extends UserGameCommand{
   private int gameID;
   private ChessMove move;
   private String username;
-  private String authtoken;
   private ChessGame.TeamColor color;
 
   public MakeMoveCommand(int gameID, ChessMove move, String username, String authtoken, ChessGame.TeamColor color){
@@ -22,6 +21,5 @@ public class MakeMoveCommand extends UserGameCommand{
   public int getGameID(){return this.gameID;}
   public ChessMove getMove(){return this.move;}
   public String getUsername(){return this.username;}
-  public String getAuthtoken(){return this.authtoken;}
   public ChessGame.TeamColor getColor(){return this.color;}
 }

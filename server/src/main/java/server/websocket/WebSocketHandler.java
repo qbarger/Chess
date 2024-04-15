@@ -17,6 +17,7 @@ import webSocketMessages.userCommands.*;
 import org.eclipse.jetty.websocket.common.WebSocketSession;
 import org.eclipse.jetty.websocket.api.Session;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -56,42 +57,59 @@ public class WebSocketHandler {
   }
 
   private void makeMove(MakeMoveCommand cmd) throws IOException, DataAccessException, InvalidMoveException {
-    MakeMoveData moveData = new MakeMoveData(cmd.getGameID(), cmd.getMove(), cmd.getColor());
-    GameData game = updateGameService.makeMove(moveData, cmd.getAuthString());
-    var text = String.format("%s made a move...", cmd.getUsername());
-    var alert = new NotificationMessage(text);
-    connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You made a move..."));
-    connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
-    connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(text, game.game(), cmd.getColor()));
-  }
+    try {
+      MakeMoveData moveData=new MakeMoveData(cmd.getGameID(), cmd.getMove(), cmd.getColor());
+      GameData game=updateGameService.makeMove(moveData, cmd.getAuthString());
+      if(game.game().isInCheckmate(game.game().getTeamTurn())){
+        if(cmd.getUsername().equals(game.whiteUsername())) {
+          connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), new NotificationMessage(cmd.getUsername() + " has checkmated " + game.blackUsername()));
+        } else {
+          connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), new NotificationMessage(cmd.getUsername() + " has checkmated " + game.whiteUsername()));
+        }
+      } else if(game.game().isInStalemate(game.game().getTeamTurn())){
+        connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), new NotificationMessage(game.whiteUsername() + " stalemated " + game.blackUsername()));
+      } else {
+        var text=String.format("%s made a move...", cmd.getUsername());
+        var alert=new NotificationMessage(text);
+        connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
+        connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(text, game.game(), cmd.getColor()));
+        connectionManager.sendMove(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(text, game.game(), cmd.getColor()));
+      }
+    } catch (DataAccessException exception) {
+      connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: invalid move..."));
+    }
+    }
 
   private void checkJoinPlayer(JoinPlayerCommand cmd, Session session) throws IOException, DataAccessException {
     try {
       connectionManager.add(cmd.getGameID(), cmd.getAuthString(), session, cmd.getUsername());
       GameData gameData=updateGameService.gameDB.getGame(cmd.getGameID());
       cmd.setUsername(updateGameService.authDB.getAuth(cmd.getAuthString()).username());
-      if(cmd.getTeamColor() == ChessGame.TeamColor.WHITE){
-        if(gameData.whiteUsername() == null){
-          connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Cannot join that team..."));
-        } else {
-          if(gameData.whiteUsername().equals(cmd.getUsername())) {
-            joinPlayer(cmd, gameData);
-          } else {
+      if(gameData != null) {
+        if (cmd.getTeamColor() == ChessGame.TeamColor.WHITE) {
+          if (gameData.whiteUsername() == null) {
             connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Cannot join that team..."));
+          } else {
+            if (gameData.whiteUsername().equals(cmd.getUsername())) {
+              joinPlayer(cmd, gameData);
+            } else {
+              connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Cannot join that team..."));
+            }
           }
         }
-      }
-      if(cmd.getTeamColor() == ChessGame.TeamColor.BLACK) {
-        if(gameData.blackUsername() == null) {
-          connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Cannot join that team..."));
-        }
-        else {
-          if(gameData.blackUsername().equals(cmd.getUsername())) {
-            joinPlayer(cmd, gameData);
-          } else {
+        if (cmd.getTeamColor() == ChessGame.TeamColor.BLACK) {
+          if (gameData.blackUsername() == null) {
             connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Cannot join that team..."));
+          } else {
+            if (gameData.blackUsername().equals(cmd.getUsername())) {
+              joinPlayer(cmd, gameData);
+            } else {
+              connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Cannot join that team..."));
+            }
           }
         }
+      } else {
+        connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Cannot join that team..."));
       }
     } catch (DataAccessException exception) {
       connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Cannot join that team..."));
@@ -106,11 +124,24 @@ public class WebSocketHandler {
   }
 
   private void joinObserver(JoinObserverCommand cmd, Session session) throws IOException, DataAccessException {
-    connectionManager.add(cmd.getGameID(), cmd.getAuthString(), session, cmd.getUsername());
-    GameData gameData = updateGameService.gameDB.getGame(cmd.getGameID());
-    var text = String.format("%s joined as an observer...", cmd.getUsername());
-    var alert = new NotificationMessage(text);
-    connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
-    connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(text, gameData.game(), null));
+    try {
+      connectionManager.add(cmd.getGameID(), cmd.getAuthString(), session, cmd.getUsername());
+      boolean check = updateGameService.authDB.checkAuth(cmd.getAuthString());
+      if(check) {
+        GameData gameData=updateGameService.gameDB.getGame(cmd.getGameID());
+        if (gameData != null) {
+          var text=String.format("%s joined as an observer...", cmd.getUsername());
+          var alert=new NotificationMessage(text);
+          connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
+          connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(text, gameData.game(), null));
+        } else {
+          connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: bad game ID..."));
+        }
+      } else {
+        connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: no authorization..."));
+      }
+    } catch (DataAccessException exception){
+      connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: cannot join that game..."));
+    }
   }
 }

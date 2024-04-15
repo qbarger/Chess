@@ -14,8 +14,8 @@ public class PawnMoves {
     int row=position.getRow();
     int col=position.getColumn();
 
-    /* Pawn is white */
-    if(piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+    /* Pawn is black */
+    if(piece.getTeamColor() == ChessGame.TeamColor.BLACK){
       int rowLimit=row - 1;
       int colLimit=col;
       if(rowLimit >= 0) {
@@ -128,7 +128,7 @@ public class PawnMoves {
       }
     }
 
-    /* Pawn is black */
+    /* Pawn is white */
     else {
       int rowLimit = row + 1;
       int colLimit = col;

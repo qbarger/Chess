@@ -79,32 +79,38 @@ public class ChessGame {
      * @param move chess move to preform
      * @throws InvalidMoveException if move is invalid
      */
-    public void makeMove(ChessMove move) throws InvalidMoveException {
+    public boolean makeMove(ChessMove move) throws InvalidMoveException {
         Collection<ChessMove> moveList;
+        boolean check = true;
         moveList = validMoves(move.getStartPosition());
-        if(piece.getTeamColor() == getTeamTurn()) {
-            if (moveList.contains(move)) {
-                ChessPosition startPosition=move.getStartPosition();
-                ChessPosition endPosition=move.getEndPosition();
-                piece=board.getPiece(startPosition);
-                if (move.getPromotionPiece() != null) {
-                    piece.setPieceType(move.getPromotionPiece());
+        if (piece.getTeamColor() == getTeamTurn()) {
+            if(piece.getTeamColor() == color) {
+                if (moveList.contains(move)) {
+                    ChessPosition startPosition=move.getStartPosition();
+                    ChessPosition endPosition=move.getEndPosition();
+                    piece=board.getPiece(startPosition);
+                    if (move.getPromotionPiece() != null) {
+                        piece.setPieceType(move.getPromotionPiece());
+                    }
+                    board.addPiece(endPosition, piece);
+                    board.removePiece(startPosition);
+
+                    if (color == TeamColor.WHITE) {
+                        setTeamTurn(TeamColor.BLACK);
+                    } else {
+                        setTeamTurn(TeamColor.WHITE);
+                    }
+                } else {
+                    check=false;
                 }
-                board.addPiece(endPosition, piece);
-                board.removePiece(startPosition);
             } else {
-                throw new InvalidMoveException("Invalid move");
+                check = false;
             }
+        } else {
+            check = false;
         }
-        else {
-            throw new InvalidMoveException("Invalid move");
-        }
-        if(color == TeamColor.WHITE){
-            setTeamTurn(TeamColor.BLACK);
-        }
-        else {
-            setTeamTurn(TeamColor.WHITE);
-        }
+
+        return check;
     }
 
     /**
@@ -196,6 +202,11 @@ public class ChessGame {
      */
     public ChessBoard getBoard() {
         return this.board;
+    }
+
+    public ChessPiece getPiece(ChessMove move){
+        piece = board.getPiece(move.getStartPosition());
+        return piece;
     }
 
     @Override

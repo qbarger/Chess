@@ -2,6 +2,7 @@ package service;
 
 import chess.ChessGame;
 import chess.ChessMove;
+import chess.ChessPiece;
 import chess.InvalidMoveException;
 import dataAccess.AuthDao;
 import dataAccess.DataAccessException;
@@ -69,11 +70,45 @@ public class UpdateGameService {
 
   public GameData makeMove(MakeMoveData moveData, String authToken) throws DataAccessException, InvalidMoveException {
     if(authDB.checkAuth(authToken)){
-      AuthData authData = authDB.getAuth(authToken);
-      GameData gameData = gameDB.getGame(moveData.gameID());
-      ChessGame chessGame = gameData.game();
-      chessGame.makeMove(moveData.move());
-      return gameDB.makeMove(moveData.gameID(), chessGame);
+      try {
+        AuthData authData=authDB.getAuth(authToken);
+        GameData gameData=gameDB.getGame(moveData.gameID());
+        ChessGame chessGame=gameData.game();
+        if(chessGame.isInCheckmate(moveData.color())) {
+          ChessPiece piece=gameData.game().getPiece(moveData.move());
+          if (authData.username().equals(gameData.whiteUsername())) {
+            if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+              boolean check;
+              check=chessGame.makeMove(moveData.move());
+              if (check) {
+                return gameDB.makeMove(moveData.gameID(), chessGame);
+              } else {
+                throw new DataAccessException("Error: invalid move...", 400);
+              }
+            } else {
+              throw new DataAccessException("Error: invalid move...", 400);
+            }
+          } else if (authData.username().equals(gameData.blackUsername())) {
+            if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+              boolean check;
+              check=chessGame.makeMove(moveData.move());
+              if (check) {
+                return gameDB.makeMove(moveData.gameID(), chessGame);
+              } else {
+                throw new DataAccessException("Error: invalid move...", 400);
+              }
+            } else {
+              throw new DataAccessException("Error: invalid move...", 400);
+            }
+          } else {
+            throw new DataAccessException("Error: cannot make move as observer...", 400);
+          }
+        } else {
+          throw new DataAccessException("Error: game is over...", 400);
+        }
+      } catch (DataAccessException exception){
+        throw new DataAccessException("Error: invalid move...", 400);
+      }
     } else {
       throw new DataAccessException("Error: unauthorized...", 401);
     }

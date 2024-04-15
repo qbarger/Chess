@@ -107,7 +107,7 @@ public class Postlogin {
 
       GameHandler gameHandler = new GameHandler();
       WebsocketFacade websocketFacade = new WebsocketFacade(serverUrl, gameHandler);
-      websocketFacade.joinPlayer(gameData.gameID(), color, auth.authToken(), auth.username());
+      websocketFacade.joinPlayer(auth.username(), gameData.gameID(), color, auth.authToken());
       Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null, color);
       gameplay.run();
       //makeBoardTop();

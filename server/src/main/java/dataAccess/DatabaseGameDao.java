@@ -61,14 +61,13 @@ public class DatabaseGameDao implements GameDao{
   */
   @Override
   public GameData getGame(int gameID) throws DataAccessException {
-    GameData game = new GameData(0,null,null,null,null);
-    GameList gameList = listGames();
-    for(GameData gameData : gameList.games()){
-      if(gameData.gameID() == gameID){
-        game = gameData;
+    GameList gameList=listGames();
+    for (GameData gameData : gameList.games()) {
+      if (gameData.gameID() == gameID) {
+        return gameData;
       }
     }
-    return game;
+    return null;
   }
 
   @Override

@@ -190,26 +190,4 @@ public class GameHandler {
     }
     System.out.print(letter);
   }
-
-  public void printLettersBottom(int col){
-    String letter = EMPTY;
-    if(col == 1) {
-      letter=" A ";
-    } else if(col == 2){
-      letter=" G ";
-    } else if (col == 3) {
-      letter=" F ";
-    } else if (col == 4) {
-      letter=" E ";
-    } else if (col == 5) {
-      letter=" D ";
-    } else if (col == 6) {
-      letter=" C ";
-    } else if (col == 7){
-      letter=" B ";
-    } else if (col == 8) {
-      letter=" A ";
-    }
-    System.out.print(letter);
-  }
 }

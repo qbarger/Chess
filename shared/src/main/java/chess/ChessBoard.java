@@ -68,46 +68,6 @@ public class ChessBoard {
         /* Piece is white */
         if(row == 7){
             if(col == 0){
-                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
-                board[row][col] = piece;
-            }
-            if(col == 1){
-                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
-                board[row][col] = piece;
-            }
-            if(col == 2){
-                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
-                board[row][col] = piece;
-            }
-            if(col == 3){
-                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.QUEEN);
-                board[row][col] = piece;
-            }
-            if(col == 4){
-                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KING);
-                board[row][col] = piece;
-            }
-            if(col == 5){
-                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
-                board[row][col] = piece;
-            }
-            if(col == 6){
-                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
-                board[row][col] = piece;
-            }
-            if(col == 7){
-                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
-                board[row][col] = piece;
-            }
-        }
-        if(row == 6){
-            ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
-            board[row][col] = piece;
-        }
-
-        /* Piece is black */
-        if(row == 0){
-            if(col == 0){
                 ChessPiece piece = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
                 board[row][col] = piece;
             }
@@ -140,8 +100,48 @@ public class ChessBoard {
                 board[row][col] = piece;
             }
         }
-        if(row == 1){
+        if(row == 6){
             ChessPiece piece = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
+            board[row][col] = piece;
+        }
+
+        /* Piece is black */
+        if(row == 0){
+            if(col == 0){
+                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
+                board[row][col] = piece;
+            }
+            if(col == 1){
+                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
+                board[row][col] = piece;
+            }
+            if(col == 2){
+                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
+                board[row][col] = piece;
+            }
+            if(col == 3){
+                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.QUEEN);
+                board[row][col] = piece;
+            }
+            if(col == 4){
+                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KING);
+                board[row][col] = piece;
+            }
+            if(col == 5){
+                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
+                board[row][col] = piece;
+            }
+            if(col == 6){
+                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
+                board[row][col] = piece;
+            }
+            if(col == 7){
+                ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
+                board[row][col] = piece;
+            }
+        }
+        if(row == 1){
+            ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
             board[row][col] = piece;
         }
     }
