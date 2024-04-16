@@ -3,10 +3,8 @@ package dataAccess;
 import chess.ChessGame;
 import model.GameData;
 import model.GameList;
-import model.JoinGameData;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public interface GameDao {
 

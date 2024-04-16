@@ -4,7 +4,6 @@ import chess.ChessGame;
 import dataAccess.AuthDao;
 import dataAccess.DataAccessException;
 import dataAccess.GameDao;
-import model.AuthData;
 import model.CreateGameData;
 import model.GameData;
 import model.GameID;

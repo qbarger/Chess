@@ -5,10 +5,11 @@ import dataAccess.DataAccessException;
 import dataAccess.GameDao;
 import model.GameData;
 import model.GameList;
-import model.JoinGameData;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MemoryGameDao implements GameDao {
   private Map<Integer, GameData> gameInfo = new HashMap<>();

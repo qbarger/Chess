@@ -2,15 +2,11 @@ package service;
 
 import chess.ChessGame;
 import dataAccess.*;
-import dataAccess.memoryDAOs.MemoryAuthDao;
-import dataAccess.memoryDAOs.MemoryGameDao;
-import dataAccess.memoryDAOs.MemoryUserDao;
 import model.GameData;
-import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ClearServiceTest {
   public ClearService clearService;

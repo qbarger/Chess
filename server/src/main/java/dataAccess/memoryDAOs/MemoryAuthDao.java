@@ -1,7 +1,7 @@
 package dataAccess.memoryDAOs;
+
 import dataAccess.AuthDao;
 import model.AuthData;
-import model.UserData;
 
 import java.util.HashMap;
 import java.util.Map;

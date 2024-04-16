@@ -1,10 +1,10 @@
 package dataAccessTests;
 
 import chess.ChessGame;
-import dataAccess.*;
+import dataAccess.DataAccessException;
+import dataAccess.DatabaseGameDao;
 import model.GameData;
 import model.GameList;
-import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

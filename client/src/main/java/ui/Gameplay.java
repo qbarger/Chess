@@ -1,13 +1,12 @@
 package ui;
 
-import chess.*;
+import chess.ChessGame;
+import chess.ChessMove;
+import chess.ChessPosition;
+import chess.ResponseException;
 import dataAccess.DataAccessException;
-import model.AuthData;
-import model.GameData;
-import service.UpdateGameService;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
 

@@ -3,15 +3,13 @@ package ui;
 import chess.ResponseException;
 import com.google.gson.Gson;
 
-import java.io.*;
-import java.net.URI;
-import java.rmi.ServerException;
-import java.util.Scanner;
-import static ui.Prelogin.*;
-
-import java.net.URL;
-import java.util.Scanner;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 
 public class ServerFacade {
 

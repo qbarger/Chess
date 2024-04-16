@@ -1,16 +1,13 @@
 package clientTests;
 
 import dataAccess.*;
-import dataAccess.memoryDAOs.MemoryAuthDao;
-import dataAccess.memoryDAOs.MemoryUserDao;
 import model.*;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import server.Server;
 import service.ClearService;
-import ui.Prelogin;
 import ui.ServerFacade;
-
-import javax.swing.tree.ExpandVetoException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,15 +1,11 @@
 package dataAccess;
 
 import com.google.gson.Gson;
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import model.ErrorData;
 import model.UserData;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.sql.*;
+import java.sql.SQLException;
 
 import static java.sql.Types.NULL;
 

@@ -1,10 +1,8 @@
 package service.handler;
 
-import com.google.gson.Gson;
 import dataAccess.AuthDao;
 import dataAccess.DataAccessException;
 import dataAccess.UserDao;
-import model.AuthData;
 import service.LogoutService;
 import spark.Request;
 import spark.Response;

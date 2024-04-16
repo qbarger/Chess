@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import model.ErrorData;
 import model.GameData;
 import model.GameList;
-import model.UserData;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

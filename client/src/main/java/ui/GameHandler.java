@@ -4,15 +4,11 @@ import chess.ChessBoard;
 import chess.ChessGame;
 import chess.ChessPiece;
 import chess.ChessPosition;
-import webSocketMessages.serverMessages.LoadGameMessage;
 import webSocketMessages.serverMessages.NotificationMessage;
 
-import javax.management.Notification;
 import javax.websocket.Session;
-import java.io.IOException;
 
 import static ui.EscapeSequences.*;
-import static ui.EscapeSequences.BLACK_ROOK;
 
 public class GameHandler {
   ChessGame game;

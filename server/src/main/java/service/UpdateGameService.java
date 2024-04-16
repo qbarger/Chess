@@ -1,7 +1,6 @@
 package service;
 
 import chess.ChessGame;
-import chess.ChessMove;
 import chess.ChessPiece;
 import chess.InvalidMoveException;
 import dataAccess.AuthDao;
@@ -10,7 +9,6 @@ import dataAccess.GameDao;
 import model.*;
 
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class UpdateGameService {
   public AuthDao authDB;

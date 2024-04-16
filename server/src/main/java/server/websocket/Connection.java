@@ -1,7 +1,6 @@
 package server.websocket;
 
 import com.google.gson.Gson;
-import model.AuthData;
 import org.eclipse.jetty.websocket.api.Session;
 import webSocketMessages.serverMessages.ErrorMessage;
 import webSocketMessages.serverMessages.LoadGameMessage;

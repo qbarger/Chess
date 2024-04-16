@@ -1,25 +1,19 @@
 package ui;
+
 import chess.ChessGame;
 import chess.ChessMove;
-//import org.glassfish.tyrus.core.wsadl.model.Endpoint;
 import chess.ResponseException;
 import com.google.gson.Gson;
-import javax.websocket.*;
-
-import model.GameData;
 import webSocketMessages.serverMessages.ErrorMessage;
 import webSocketMessages.serverMessages.LoadGameMessage;
 import webSocketMessages.serverMessages.NotificationMessage;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.*;
 
-import javax.management.Notification;
+import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import javax.swing.*;
-import javax.websocket.Endpoint;
-import javax.websocket.EndpointConfig;
 
 public class WebsocketFacade extends Endpoint {
   Session session;

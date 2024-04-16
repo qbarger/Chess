@@ -1,17 +1,12 @@
 package ui;
 
 import chess.ChessGame;
-import chess.ChessPiece;
 import chess.ResponseException;
 import dataAccess.DatabaseGameDao;
 import dataAccess.GameDao;
-import dataAccess.UserDao;
 import model.*;
 
-import javax.websocket.Session;
 import java.util.Scanner;
-
-import static ui.EscapeSequences.*;
 
 public class Postlogin {
 

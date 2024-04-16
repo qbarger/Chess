@@ -1,14 +1,13 @@
 package service;
 
 import dataAccess.*;
-import dataAccess.memoryDAOs.MemoryAuthDao;
-import dataAccess.memoryDAOs.MemoryUserDao;
 import model.AuthData;
 import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class LoginServiceTest {
   public RegisterService registerService;

@@ -1,15 +1,10 @@
 package ui;
+
 import chess.ResponseException;
-import com.google.gson.Gson;
 import model.AuthData;
 import model.UserData;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Scanner;
-import java.net.HttpURLConnection;
 
 public class Prelogin {
   private final String serverUrl;

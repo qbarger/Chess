@@ -1,7 +1,5 @@
 package model;
 
-import chess.ResponseException;
-
 import java.util.ArrayList;
 
 public record GameList(ArrayList<GameData> games) {

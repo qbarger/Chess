@@ -3,8 +3,6 @@ package service;
 import dataAccess.AuthDao;
 import dataAccess.DataAccessException;
 import dataAccess.UserDao;
-import model.AuthData;
-import model.UserData;
 
 public class LogoutService {
   public UserDao userDB;

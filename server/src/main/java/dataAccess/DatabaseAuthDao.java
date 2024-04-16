@@ -3,10 +3,8 @@ package dataAccess;
 import com.google.gson.Gson;
 import model.AuthData;
 import model.ErrorData;
-import model.UserData;
 
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.UUID;
 
 import static java.sql.Types.NULL;

@@ -6,7 +6,6 @@ import dataAccess.UserDao;
 import model.AuthData;
 import model.ErrorData;
 import model.UserData;
-import org.eclipse.jetty.server.Authentication;
 
 public class LoginService {
   public AuthDao authDB;

@@ -1,13 +1,10 @@
 package service.handler;
 
-import chess.InvalidMoveException;
 import com.google.gson.Gson;
 import dataAccess.AuthDao;
 import dataAccess.DataAccessException;
 import dataAccess.GameDao;
-import model.GameData;
 import model.JoinGameData;
-import model.MakeMoveData;
 import service.UpdateGameService;
 import spark.Request;
 import spark.Response;

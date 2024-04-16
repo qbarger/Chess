@@ -2,14 +2,13 @@ package server;
 
 import com.google.gson.Gson;
 import dataAccess.*;
-import dataAccess.memoryDAOs.MemoryAuthDao;
-import dataAccess.memoryDAOs.MemoryGameDao;
-import dataAccess.memoryDAOs.MemoryUserDao;
 import model.ErrorData;
 import server.websocket.WebSocketHandler;
 import service.*;
 import service.handler.*;
-import spark.*;
+import spark.Request;
+import spark.Response;
+import spark.Spark;
 
 public class Server {
 
