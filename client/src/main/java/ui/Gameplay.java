@@ -4,7 +4,6 @@ import chess.ChessGame;
 import chess.ChessMove;
 import chess.ChessPosition;
 import chess.ResponseException;
-import dataAccess.DataAccessException;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -39,7 +38,7 @@ public class Gameplay {
     System.out.println("help - with commands");
   }
 
-  public void redrawChessBoard() throws DataAccessException {
+  public void redrawChessBoard() {
     websocketFacade.gameHandler.printBoard(websocketFacade.gameHandler.game, color);
   }
 

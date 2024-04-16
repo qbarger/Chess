@@ -2,8 +2,6 @@ package ui;
 
 import chess.ChessGame;
 import chess.ResponseException;
-import dataAccess.DatabaseGameDao;
-import dataAccess.GameDao;
 import model.*;
 
 import java.util.Scanner;
@@ -30,7 +28,7 @@ public class Postlogin {
     System.out.println("help - with possible commands");
   }
 
-  public void logout(AuthData auth) throws Exception {
+  public void logout(AuthData auth) {
     try {
       System.out.println("Logging out...");
 
@@ -42,7 +40,7 @@ public class Postlogin {
     }
   }
 
-  public void create(AuthData auth) throws Exception {
+  public void create(AuthData auth) {
     try {
       Scanner scanner=new Scanner(System.in);
       System.out.println("Enter the name of the game:");
@@ -56,7 +54,7 @@ public class Postlogin {
     }
   }
 
-  public void list(AuthData auth) throws Exception {
+  public void list(AuthData auth) {
     try {
       System.out.println("Fetching games...");
       System.out.print("\n");
@@ -93,20 +91,15 @@ public class Postlogin {
         color = ChessGame.TeamColor.BLACK;
       }
 
-      GameDao gameDao = new DatabaseGameDao();
-      GameList gameList = gameDao.listGames();
-      GameData gameData = gameList.getGame(gameID);
-      JoinGameData joinGameData=new JoinGameData(teamColor, gameData.gameID());
+      JoinGameData joinGameData=new JoinGameData(teamColor, gameID);
       var path="/game";
       serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
 
       GameHandler gameHandler = new GameHandler();
       WebsocketFacade websocketFacade = new WebsocketFacade(serverUrl, gameHandler);
-      websocketFacade.joinPlayer(auth.username(), gameData.gameID(), color, auth.authToken());
-      Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null, color);
+      websocketFacade.joinPlayer(auth.username(), gameID, color, auth.authToken());
+      Gameplay gameplay = new Gameplay(websocketFacade, gameID, auth.username(), auth.authToken(), null, color);
       gameplay.run();
-      //makeBoardTop();
-      //makeBoardBottom();
     } catch (ResponseException exception){
       System.err.println("Cannot join game. Please enter valid game...");
     }
