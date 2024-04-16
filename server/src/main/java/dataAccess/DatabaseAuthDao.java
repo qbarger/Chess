@@ -11,7 +11,7 @@ import static java.sql.Types.NULL;
 
 public class DatabaseAuthDao implements AuthDao{
 
-  public DatabaseAuthDao() throws DataAccessException {
+  public DatabaseAuthDao() {
     DatabaseManager databaseManager = new DatabaseManager();
     databaseManager.configureDatabase();
   }

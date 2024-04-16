@@ -11,7 +11,7 @@ import static java.sql.Types.NULL;
 
 public class DatabaseUserDao implements UserDao{
 
-  public DatabaseUserDao() throws DataAccessException {
+  public DatabaseUserDao()  {
     DatabaseManager databaseManager = new DatabaseManager();
     databaseManager.configureDatabase();
   }

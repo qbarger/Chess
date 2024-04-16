@@ -15,7 +15,7 @@ public class DatabaseGameDao implements GameDao{
 
   DatabaseManager databaseManager=new DatabaseManager();
 
-  public DatabaseGameDao() throws DataAccessException {
+  public DatabaseGameDao() {
     databaseManager.configureDatabase();
   }
   @Override
