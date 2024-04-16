@@ -111,9 +111,6 @@ public class Postlogin {
       System.out.println("Enter Game ID:");
       int gameID=Integer.parseInt(scanner.next());
 
-      GameDao gameDao = new DatabaseGameDao();
-      GameList gameList = gameDao.listGames();
-      GameData gameData = gameList.getGame(gameID);
       JoinGameData joinGameData=new JoinGameData(null, gameID);
       var path="/game";
       serverFacade.makeRequest("PUT", auth.authToken(), path, joinGameData, null);
@@ -123,8 +120,8 @@ public class Postlogin {
 
       GameHandler gameHandler = new GameHandler();
       WebsocketFacade websocketFacade = new WebsocketFacade(serverUrl, gameHandler);
-      websocketFacade.joinObserver(gameData.gameID(), auth.username(), auth.authToken());
-      Gameplay gameplay = new Gameplay(websocketFacade, gameData.gameID(), auth.username(), auth.authToken(), null, null);
+      websocketFacade.joinObserver(gameID, auth.username(), auth.authToken());
+      Gameplay gameplay = new Gameplay(websocketFacade, gameID, auth.username(), auth.authToken(), null, null);
       gameplay.run();
       //makeBoardTop();
       //makeBoardBottom();
