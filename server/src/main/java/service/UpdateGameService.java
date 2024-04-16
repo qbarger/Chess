@@ -60,12 +60,6 @@ public class UpdateGameService {
     }
   }
 
-  public void joinGameObserver(int gameID, String authtoken) throws DataAccessException, SQLException {
-    if (authDB.checkAuth(authtoken)) {
-      GameData game=gameDB.getGame(gameID);
-    }
-  }
-
   public GameData makeMove(MakeMoveData moveData, String authToken) throws DataAccessException, InvalidMoveException {
     if(authDB.checkAuth(authToken)){
       try {

@@ -25,12 +25,6 @@ public class ConnectionManager {
     connections.remove(authtoken);
   }
 
-  public void removeAll(){
-    for(var c : connections.values()){
-      connections.remove(c.authtoken);
-    }
-  }
-
   public boolean checkResign(){
     boolean check = false;
     for(var c : connections.values()){

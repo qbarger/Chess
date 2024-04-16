@@ -23,7 +23,7 @@ public class RookMoves {
     int colLimit = col;
 
     while(rowLimit < 9){
-      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      addMove(rowLimit, colLimit, piece, position, board, moveList);
       if(this.stop){break;}
       rowLimit++;
     }
@@ -33,7 +33,7 @@ public class RookMoves {
     colLimit = col;
 
     while(rowLimit > 0){
-      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      addMove(rowLimit, colLimit, piece, position, board, moveList);
       if(this.stop){break;}
       rowLimit--;
     }
@@ -43,7 +43,7 @@ public class RookMoves {
     colLimit = col + 1;
 
     while(colLimit < 9){
-      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      addMove(rowLimit, colLimit, piece, position, board, moveList);
       if(this.stop){break;}
       colLimit++;
     }
@@ -53,7 +53,7 @@ public class RookMoves {
     colLimit = col - 1;
 
     while(colLimit > 0){
-      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      addMove(rowLimit, colLimit, piece, position, board, moveList);
       if(this.stop){break;}
       colLimit--;
     }

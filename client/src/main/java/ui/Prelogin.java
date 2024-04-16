@@ -105,34 +105,3 @@ public class Prelogin {
     return null;
   }
 }
-
-/*
-        try {
-        URL url = new URL("http://localhost:8080");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-        connection.setRequestProperty("Content-Type", "application/json");
-        UserData user = new UserData(username, password, email);
-        String jsonUser = new Gson().toJson(user);
-
-        try (DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream())) {
-        dataOutputStream.writeBytes(jsonUser);
-        }
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String line;
-        StringBuilder response = new StringBuilder();
-
-        while ((line = reader.readLine()) != null) {
-        response.append(line);
-        }
-
-        reader.close();
-        System.out.println("Response from API: " + response.toString());
-        connection.disconnect();
-        } catch (Exception exception){
-        exception.printStackTrace();
-        }
-
- */

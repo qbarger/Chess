@@ -23,7 +23,7 @@ public class BishopMoves {
     int rowLimit = row + 1;
     int colLimit = col + 1;
     while(rowLimit < 9 && colLimit < 9){
-      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      addMove(rowLimit, colLimit, piece, position, board, moveList);
       if(this.stop){break;}
       rowLimit++;
       colLimit++;
@@ -33,7 +33,7 @@ public class BishopMoves {
     rowLimit = row + 1;
     colLimit = col - 1;
     while(rowLimit < 9 && colLimit > 0){
-      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      addMove(rowLimit, colLimit, piece, position, board, moveList);
       if(this.stop){break;}
       rowLimit++;
       colLimit--;
@@ -43,7 +43,7 @@ public class BishopMoves {
     rowLimit = row - 1;
     colLimit = col - 1;
     while(rowLimit > 0 && colLimit > 0){
-      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      addMove(rowLimit, colLimit, piece, position, board, moveList);
       if(this.stop){break;}
       rowLimit--;
       colLimit--;
@@ -53,7 +53,7 @@ public class BishopMoves {
     rowLimit = row - 1;
     colLimit = col + 1;
     while(rowLimit > 0 && colLimit < 9){
-      moveList = addMove(rowLimit, colLimit, piece, position, board, moveList);
+      addMove(rowLimit, colLimit, piece, position, board, moveList);
       if(this.stop){break;}
       rowLimit--;
       colLimit++;

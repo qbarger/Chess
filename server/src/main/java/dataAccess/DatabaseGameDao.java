@@ -30,35 +30,6 @@ public class DatabaseGameDao implements GameDao{
     return newGame.gameID();
   }
 
-  /*
-  @Override
-  public GameData getGame(int gameID) throws DataAccessException{
-    //DatabaseManager databaseManager = new DatabaseManager();
-    //databaseManager.configureDatabase();
-    try (var conn = DatabaseManager.getConnection()){
-      var statement = "Select json From Game Where gameID = ?";
-      try (var ps = conn.prepareStatement(statement)){
-        ps.setInt(1, gameID);
-        try (var rs = ps.executeQuery()){
-          if(rs.next()){
-            var json = rs.getString("json");
-            var game = new Gson().fromJson(json, GameData.class);
-            return game;
-          }
-          else {
-            ErrorData error = new ErrorData("Error: Game not found.");
-            throw new DataAccessException(error.message(), 400);
-          }
-        }
-      }
-    } catch (DataAccessException exception) {
-      ErrorData error = new ErrorData("Error: Unable to read data: %s");
-      throw new DataAccessException(String.format(error.message(), exception.getMessage()), 400);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-  }
-  */
   @Override
   public GameData getGame(int gameID) throws DataAccessException, SQLException {
     try(var conn = databaseManager.getConnection()){
