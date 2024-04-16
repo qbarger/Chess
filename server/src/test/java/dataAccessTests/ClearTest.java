@@ -10,6 +10,9 @@ import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClearTest {
@@ -55,6 +58,8 @@ class ClearTest {
       fail("Expected a data access exception");
     } catch (DataAccessException exception){
       assertEquals("Error: Unable to read data: Error: Game not found.", exception.getMessage());
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
 
   }

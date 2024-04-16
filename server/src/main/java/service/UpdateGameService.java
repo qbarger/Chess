@@ -21,7 +21,7 @@ public class UpdateGameService {
     this.gameDB=gameDB;
   }
 
-  public void joinGame(JoinGameData info, String authToken) throws DataAccessException {
+  public void joinGame(JoinGameData info, String authToken) throws DataAccessException, SQLException {
     if (authDB.checkAuth(authToken)) {
       if (gameDB.getGame(info.gameID()) != null) {
         GameData game=gameDB.getGame(info.gameID());
@@ -62,7 +62,7 @@ public class UpdateGameService {
     }
   }
 
-  public void joinGameObserver(int gameID, String authtoken) throws DataAccessException {
+  public void joinGameObserver(int gameID, String authtoken) throws DataAccessException, SQLException {
     if (authDB.checkAuth(authtoken)) {
       GameData game=gameDB.getGame(gameID);
     }
@@ -74,39 +74,35 @@ public class UpdateGameService {
         AuthData authData=authDB.getAuth(authToken);
         GameData gameData=gameDB.getGame(moveData.gameID());
         ChessGame chessGame=gameData.game();
-        if(chessGame.isInCheckmate(moveData.color())) {
-          ChessPiece piece=gameData.game().getPiece(moveData.move());
-          if (authData.username().equals(gameData.whiteUsername())) {
-            if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-              boolean check;
-              check=chessGame.makeMove(moveData.move());
-              if (check) {
-                return gameDB.makeMove(moveData.gameID(), chessGame);
-              } else {
-                throw new DataAccessException("Error: invalid move...", 400);
-              }
-            } else {
-              throw new DataAccessException("Error: invalid move...", 400);
-            }
-          } else if (authData.username().equals(gameData.blackUsername())) {
-            if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
-              boolean check;
-              check=chessGame.makeMove(moveData.move());
-              if (check) {
-                return gameDB.makeMove(moveData.gameID(), chessGame);
-              } else {
-                throw new DataAccessException("Error: invalid move...", 400);
-              }
+        ChessPiece piece=gameData.game().getPiece(moveData.move());
+        if (authData.username().equals(gameData.whiteUsername())) {
+          if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+            boolean check;
+            check=chessGame.makeMove(moveData.move());
+            if (check) {
+              return gameDB.makeMove(moveData.gameID(), chessGame);
             } else {
               throw new DataAccessException("Error: invalid move...", 400);
             }
           } else {
-            throw new DataAccessException("Error: cannot make move as observer...", 400);
+            throw new DataAccessException("Error: invalid move...", 400);
+          }
+        } else if (authData.username().equals(gameData.blackUsername())) {
+          if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+            boolean check;
+            check=chessGame.makeMove(moveData.move());
+            if (check) {
+              return gameDB.makeMove(moveData.gameID(), chessGame);
+            } else {
+              throw new DataAccessException("Error: invalid move...", 400);
+            }
+          } else {
+            throw new DataAccessException("Error: invalid move...", 400);
           }
         } else {
-          throw new DataAccessException("Error: game is over...", 400);
+          throw new DataAccessException("Error: cannot make move as observer...", 400);
         }
-      } catch (DataAccessException exception){
+      } catch (DataAccessException | SQLException exception){
         throw new DataAccessException("Error: invalid move...", 400);
       }
     } else {

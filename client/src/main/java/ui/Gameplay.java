@@ -34,7 +34,7 @@ public class Gameplay {
   public void help(){
     System.out.println("redraw - board");
     System.out.println("leave - game");
-    System.out.println("make move");
+    System.out.println("move - make move");
     System.out.println("resign - from the game");
     System.out.println("highlight - legal moves");
     System.out.println("help - with commands");
@@ -64,21 +64,21 @@ public class Gameplay {
     String input=scanner.next();
 
     if (input.equals("A")) {
-      col=1;
-    } else if (input.equals("B")) {
-      col=2;
-    } else if (input.equals("C")) {
-      col=3;
-    } else if (input.equals("D")) {
-      col=4;
-    } else if (input.equals("E")) {
-      col=5;
-    } else if (input.equals("F")) {
-      col=6;
-    } else if (input.equals("G")) {
-      col=7;
-    } else if (input.equals("H")) {
       col=8;
+    } else if (input.equals("B")) {
+      col=7;
+    } else if (input.equals("C")) {
+      col=6;
+    } else if (input.equals("D")) {
+      col=5;
+    } else if (input.equals("E")) {
+      col=4;
+    } else if (input.equals("F")) {
+      col=3;
+    } else if (input.equals("G")) {
+      col=2;
+    } else if (input.equals("H")) {
+      col=1;
     } else {
       invalidInput();
       return;
@@ -113,21 +113,21 @@ public class Gameplay {
     System.out.println("Here are the possible moves...");
     int i = 0;
     for(ChessMove move : moves){
-      if(move.getEndPosition().getColumn() == 1){
+      if(move.getEndPosition().getColumn() == 8){
         System.out.println(i + ") A" + move.getEndPosition().getRow());
-      } else if (move.getEndPosition().getColumn() == 2){
-        System.out.println(i + ") B" + move.getEndPosition().getRow());
-      } else if (move.getEndPosition().getColumn() == 3){
-        System.out.println(i + ") C" + move.getEndPosition().getRow());
-      } else if (move.getEndPosition().getColumn() == 4){
-        System.out.println(i + ") D" + move.getEndPosition().getRow());
-      } else if (move.getEndPosition().getColumn() == 5){
-        System.out.println(i + ") E" + move.getEndPosition().getRow());
-      } else if (move.getEndPosition().getColumn() == 6){
-        System.out.println(i + ") F" + move.getEndPosition().getRow());
       } else if (move.getEndPosition().getColumn() == 7){
+        System.out.println(i + ") B" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 6){
+        System.out.println(i + ") C" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 5){
+        System.out.println(i + ") D" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 4){
+        System.out.println(i + ") E" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 3){
+        System.out.println(i + ") F" + move.getEndPosition().getRow());
+      } else if (move.getEndPosition().getColumn() == 2){
         System.out.println(i + ") G" + move.getEndPosition().getRow());
-      } else if (move.getEndPosition().getColumn() == 8){
+      } else if (move.getEndPosition().getColumn() == 1){
         System.out.println(i + ") H" + move.getEndPosition().getRow());
       }
       i++;
@@ -181,7 +181,7 @@ public class Gameplay {
       redrawChessBoard();
     } else if (userInput.equals("leave")) {
       leave();
-    } else if (userInput.equals("make")) {
+    } else if (userInput.equals("move")) {
       makeMove();
     } else if (userInput.equals("resign")) {
       resign();

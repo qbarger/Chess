@@ -14,8 +14,9 @@ import static java.sql.Types.NULL;
 
 public class DatabaseGameDao implements GameDao{
 
+  DatabaseManager databaseManager=new DatabaseManager();
+
   public DatabaseGameDao() throws DataAccessException {
-    DatabaseManager databaseManager=new DatabaseManager();
     databaseManager.configureDatabase();
   }
   @Override
@@ -60,21 +61,29 @@ public class DatabaseGameDao implements GameDao{
   }
   */
   @Override
-  public GameData getGame(int gameID) throws DataAccessException {
-    GameList gameList=listGames();
-    for (GameData gameData : gameList.games()) {
-      if (gameData.gameID() == gameID) {
-        return gameData;
+  public GameData getGame(int gameID) throws DataAccessException, SQLException {
+    try(var conn = databaseManager.getConnection()){
+      var statement = "SELECT json FROM Game WHERE gameID = ?";
+      try(var ps = conn.prepareStatement(statement)){
+        ps.setInt(1, gameID);
+        var rs = ps.executeQuery();
+        if(rs.next()){
+          String json = rs.getString("json");
+          return new Gson().fromJson(json, GameData.class);
+        } else {
+          throw new DataAccessException("Error: bad request", 400);
+        }
       }
+    } catch (SQLException e){
+      throw new DataAccessException(e.getMessage(), 500);
     }
-    return null;
   }
 
   @Override
   public void joinGame(GameData game) throws DataAccessException{
     //DatabaseManager databaseManager = new DatabaseManager();
     //databaseManager.configureDatabase();
-    try (var conn = DatabaseManager.getConnection()) {
+    try (var conn = databaseManager.getConnection()) {
       String statement = "UPDATE Game SET gameID = ?, whiteUsername = ?, blackUsername = ?, gameName = ?, game = ?, json = ? WHERE gameID = ?";
       var whiteUsername = new Gson().toJson(game.whiteUsername());
       var blackUsername = new Gson().toJson(game.blackUsername());
@@ -104,8 +113,8 @@ public class DatabaseGameDao implements GameDao{
     var gameList = new ArrayList<GameData>();
    // DatabaseManager databaseManager = new DatabaseManager();
    // databaseManager.configureDatabase();
-    try(var conn = DatabaseManager.getConnection()){
-      var statement = "Select gameID, json From Game";
+    try(var conn = databaseManager.getConnection()){
+      var statement = "Select json From Game";
       try(var ps = conn.prepareStatement(statement)){
         try(var rs = ps.executeQuery()){
           while(rs.next()){
@@ -128,62 +137,76 @@ public class DatabaseGameDao implements GameDao{
 
   @Override
   public void leaveGame(int gameID, String username) throws DataAccessException, SQLException {
-    try (var conn=DatabaseManager.getConnection()) {
+    try (var conn=databaseManager.getConnection()) {
       GameData game=getGame(gameID);
-      if (game.whiteUsername().equals(username)) {
-        GameData newGame = new GameData(game.gameID(), null, game.blackUsername(), game.gameName(), game.game());
-        String statement = "UPDATE Game SET gameID = ?, whiteUsername = NULL, blackUsername = ?, gameName = ?, game = ?, json = ? WHERE gameID = ?";
-        var blackUsername = new Gson().toJson(newGame.blackUsername());
-        var gameName = new Gson().toJson(newGame.gameName());
-        String gameString = new Gson().toJson(newGame.game());
-        String json = new Gson().toJson(newGame);
-        try (var ps=conn.prepareStatement(statement)) {
-          ps.setInt(1, newGame.gameID());
-          ps.setString(2, blackUsername);
-          ps.setString(3, gameName);
-          ps.setString(4, gameString);
-          ps.setString(5, json);
-          ps.setInt(6, newGame.gameID());
+      if (game.whiteUsername() != null) {
+        if (game.whiteUsername().equals(username)) {
+          GameData newGame=new GameData(game.gameID(), null, game.blackUsername(), game.gameName(), game.game());
+          String statement="UPDATE Game SET gameID = ?, whiteUsername = NULL, blackUsername = ?, gameName = ?, game = ?, json = ? WHERE gameID = ?";
+          var blackUsername=new Gson().toJson(newGame.blackUsername());
+          var gameName=new Gson().toJson(newGame.gameName());
+          String gameString=new Gson().toJson(newGame.game());
+          String json=new Gson().toJson(newGame);
+          try (var ps=conn.prepareStatement(statement)) {
+            ps.setInt(1, newGame.gameID());
+            ps.setString(2, blackUsername);
+            ps.setString(3, gameName);
+            ps.setString(4, gameString);
+            ps.setString(5, json);
+            ps.setInt(6, newGame.gameID());
 
-          ps.executeUpdate();
-        }
-      } else {
-        GameData newGame = new GameData(game.gameID(), game.whiteUsername(), null, game.gameName(), game.game());
-        String statement = "UPDATE Game SET gameID = ?, whiteUsername = NULL, blackUsername = ?, gameName = ?, game = ?, json = ? WHERE gameID = ?";
-        var whiteUsername = new Gson().toJson(newGame.whiteUsername());
-        var gameName = new Gson().toJson(newGame.gameName());
-        String gameString = new Gson().toJson(newGame.game());
-        String json = new Gson().toJson(newGame);
-        try (var ps=conn.prepareStatement(statement)) {
-          ps.setInt(1, newGame.gameID());
-          ps.setString(2, whiteUsername);
-          ps.setString(3, gameName);
-          ps.setString(4, gameString);
-          ps.setString(5, json);
-          ps.setInt(6, newGame.gameID());
+            ps.executeUpdate();
+          }
+        } else {
+          if (game.blackUsername() != null) {
+            if (game.blackUsername().equals(username)) {
+              GameData newGame=new GameData(game.gameID(), game.whiteUsername(), null, game.gameName(), game.game());
+              String statement="UPDATE Game SET gameID = ?, whiteUsername = NULL, blackUsername = ?, gameName = ?, game = ?, json = ? WHERE gameID = ?";
+              var whiteUsername=new Gson().toJson(newGame.whiteUsername());
+              var gameName=new Gson().toJson(newGame.gameName());
+              String gameString=new Gson().toJson(newGame.game());
+              String json=new Gson().toJson(newGame);
+              try (var ps=conn.prepareStatement(statement)) {
+                ps.setInt(1, newGame.gameID());
+                ps.setString(2, whiteUsername);
+                ps.setString(3, gameName);
+                ps.setString(4, gameString);
+                ps.setString(5, json);
+                ps.setInt(6, newGame.gameID());
 
-          ps.executeUpdate();
-        } catch (SQLException e) {
-          throw new DataAccessException(e.getMessage(), 400);
+                ps.executeUpdate();
+              } catch (SQLException e) {
+                throw new DataAccessException(e.getMessage(), 400);
+              }
+            }
+          }
         }
       }
     }
   }
 
   @Override
-  public GameData makeMove(int gameID, ChessGame game) throws DataAccessException {
+  public GameData makeMove(int gameID, ChessGame game) throws DataAccessException, SQLException {
     GameData gameData = getGame(gameID);
-    try(var conn = DatabaseManager.getConnection()){
-      GameData newGame = new GameData(gameData.gameID(), gameData.whiteUsername(), gameData.blackUsername(), gameData.gameName(), game);
-      var statement = "UPDATE Game Set game = ?, json = ? Where gameID = ?";
-      var gamestring = new Gson().toJson(newGame.game());
-      var json = new Gson().toJson(newGame);
+    try(var conn = databaseManager.getConnection()){
+      GameData newGame = new GameData(gameID, gameData.whiteUsername(), gameData.blackUsername(), gameData.gameName(), game);
+      var statement = "UPDATE Game Set gameID = ?, whiteUsername = ?, blackUsername = ?, gameName = ?, game = ?, json = ? Where gameID = ?";
+      var whiteUsername = new Gson().toJson(newGame.whiteUsername());
+      var blackUsername = new Gson().toJson(newGame.blackUsername());
+      var gameName = new Gson().toJson(newGame.gameName());
+      String gameString = new Gson().toJson(newGame.game());
+      String json = new Gson().toJson(newGame);
       try(var ps = conn.prepareStatement(statement)){
-        ps.setString(1, new Gson().toJson(gamestring));
-        ps.setString(2, new Gson().toJson(json));
-        ps.setInt(3, gameID);
+        ps.setInt(1, newGame.gameID());
+        ps.setString(2, whiteUsername);
+        ps.setString(3, blackUsername);
+        ps.setString(4, gameName);
+        ps.setString(5, gameString);
+        ps.setString(6, json);
+        ps.setInt(7, newGame.gameID());
+
         ps.executeUpdate();
-        return newGame;
+        return getGame(gameID);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -200,7 +223,7 @@ public class DatabaseGameDao implements GameDao{
 
   @Override
   public int getMaxID() throws DataAccessException {
-    try (var conn = DatabaseManager.getConnection()) {
+    try (var conn = databaseManager.getConnection()) {
       var statement="SELECT MAX(gameID) AS max_value FROM Game";
       try (var ps=conn.prepareStatement(statement)) {
         try (var rs=ps.executeQuery()) {
@@ -224,7 +247,7 @@ public class DatabaseGameDao implements GameDao{
   }
 
   private void executeCommand(String statement, Object...params) throws DataAccessException{
-    try (var conn = DatabaseManager.getConnection()){
+    try (var conn = databaseManager.getConnection()){
       try (var ps = conn.prepareStatement(statement)){
         for(var i = 0; i < params.length; i++){
           var param = params[i];

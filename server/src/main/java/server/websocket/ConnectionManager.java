@@ -13,13 +13,41 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConnectionManager {
   public final ConcurrentHashMap<String, Connection> connections = new ConcurrentHashMap<>();
 
-  public void add(int gameID, String authtoken, Session session, String username){
-    var connection = new Connection(authtoken, gameID, session, username);
+  public void addPlayer(int gameID, String authtoken, Session session, String username){
+    var connection = new Connection(authtoken, gameID, session, username, true);
+    connections.put(authtoken,connection);
+  }
+
+  public void addObserver(int gameID, String authtoken, Session session, String username){
+    var connection = new Connection(authtoken, gameID, session, username, false);
     connections.put(authtoken,connection);
   }
 
   public void remove(String authtoken){
     connections.remove(authtoken);
+  }
+
+  public void removeAll(){
+    for(var c : connections.values()){
+      connections.remove(c.authtoken);
+    }
+  }
+
+  public boolean checkResign(){
+    boolean check = false;
+    for(var c : connections.values()){
+      if(c.resign){
+        check = true;
+        break;
+      }
+    }
+    return check;
+  }
+
+  public void setResign(){
+    for(var c : connections.values()){
+      c.setResignTrue();
+    }
   }
 
   public void broadcast(String authtoken, int gameID, ServerMessage message) throws IOException {

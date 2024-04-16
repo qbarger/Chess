@@ -25,7 +25,7 @@ public class UpdateGameHandler {
     this.updateGameService = new UpdateGameService(authDB, gameDB);
   }
 
-  public Object updateGame(Request req, Response res) throws DataAccessException{
+  public Object updateGame(Request req, Response res) throws DataAccessException, SQLException {
     var data = new Gson().fromJson(req.body(), JoinGameData.class);
     String authToken =req.headers("authorization");
     if(authToken != null) {

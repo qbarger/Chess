@@ -39,7 +39,7 @@ public class GameHandler {
     System.out.print("[LOGGED_IN] >>> ");
   }
 
-  public void printWhite(ChessGame game){
+  public void printBlack(ChessGame game){
     System.out.println();
     System.out.println();
     ChessBoard board = game.getBoard();
@@ -77,7 +77,7 @@ public class GameHandler {
     System.out.println();
   }
 
-  public void printBlack(ChessGame game){
+  public void printWhite(ChessGame game){
     System.out.println();
     System.out.println();
     ChessBoard board = game.getBoard();
@@ -171,21 +171,21 @@ public class GameHandler {
 
   public void printLetters(int col){
     String letter = EMPTY;
-    if(col == 1) {
+    if(col == 8) {
       letter=" A ";
-    } else if(col == 2){
+    } else if(col == 7){
       letter=" B ";
-    } else if (col == 3) {
-      letter=" C ";
-    } else if (col == 4) {
-      letter=" D ";
-    } else if (col == 5) {
-      letter=" E ";
     } else if (col == 6) {
+      letter=" C ";
+    } else if (col == 5) {
+      letter=" D ";
+    } else if (col == 4) {
+      letter=" E ";
+    } else if (col == 3) {
       letter=" F ";
-    } else if (col == 7){
+    } else if (col == 2){
       letter=" G ";
-    } else if (col == 8) {
+    } else if (col == 1) {
       letter=" H ";
     }
     System.out.print(letter);

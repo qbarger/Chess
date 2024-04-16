@@ -9,6 +9,8 @@ import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UpdateGameServiceTest {
@@ -31,7 +33,7 @@ class UpdateGameServiceTest {
   }
 
   @Test
-  void joinGame() throws DataAccessException {
+  void joinGame() throws DataAccessException, SQLException {
     userTestDB.clear();
     authTestDB.clear();
     gameTestDB.clear();
@@ -61,7 +63,7 @@ class UpdateGameServiceTest {
       updateGameService.joinGame(add,authToken.authToken() + "b");
       fail("Expected to throw a Data Access Exception.");
     }
-    catch (DataAccessException error) {
+    catch (DataAccessException | SQLException error) {
       assertEquals("Error: unauthorized", error.getMessage());
     }
   }

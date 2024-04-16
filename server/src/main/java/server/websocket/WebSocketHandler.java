@@ -41,39 +41,56 @@ public class WebSocketHandler {
   }
 
   private void leave(LeaveGameCommand cmd) throws IOException, SQLException, DataAccessException {
-    connectionManager.remove(cmd.getAuthString());
     var text = String.format("%s left the game...", cmd.getUsername());
     var alert = new NotificationMessage(text);
     updateGameService.leaveGame(cmd.getGameID(), cmd.getAuthString());
     connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
     connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You left the game..."));
+    connectionManager.remove(cmd.getAuthString());
   }
 
-  private void resign(ResignGameCommand cmd) throws IOException {
+  private void resign(ResignGameCommand cmd) throws IOException, SQLException, DataAccessException {
     var text = String.format("%s resigned...", cmd.getUsername());
     var alert = new NotificationMessage(text);
-    connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
-    connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You resigned..."));
+    for(var c : connectionManager.connections.values()){
+      if(c.authtoken.equals(cmd.getAuthString())){
+        if(!c.resign) {
+          if (c.player) {
+            connectionManager.setResign();
+            connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
+            connectionManager.sendMessage(cmd.getAuthString(), new NotificationMessage("You resigned..."));
+          } else {
+            connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Observers cannot resign..."));
+          }
+        } else {
+          connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Observers cannot resign..."));
+        }
+      }
+    }
   }
 
   private void makeMove(MakeMoveCommand cmd) throws IOException, DataAccessException, InvalidMoveException {
     try {
-      MakeMoveData moveData=new MakeMoveData(cmd.getGameID(), cmd.getMove(), cmd.getColor());
-      GameData game=updateGameService.makeMove(moveData, cmd.getAuthString());
-      if(game.game().isInCheckmate(game.game().getTeamTurn())){
-        if(cmd.getUsername().equals(game.whiteUsername())) {
-          connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), new NotificationMessage(cmd.getUsername() + " has checkmated " + game.blackUsername()));
+      if(!connectionManager.checkResign()) {
+        MakeMoveData moveData=new MakeMoveData(cmd.getGameID(), cmd.getMove(), cmd.getColor());
+        GameData game=updateGameService.makeMove(moveData, cmd.getAuthString());
+        if (game.game().isInCheckmate(game.game().getTeamTurn())) {
+          if (cmd.getUsername().equals(game.whiteUsername())) {
+            connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), new NotificationMessage(cmd.getUsername() + " has checkmated " + game.blackUsername()));
+          } else {
+            connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), new NotificationMessage(cmd.getUsername() + " has checkmated " + game.whiteUsername()));
+          }
+        } else if (game.game().isInStalemate(game.game().getTeamTurn())) {
+          connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), new NotificationMessage(game.whiteUsername() + " stalemated " + game.blackUsername()));
         } else {
-          connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), new NotificationMessage(cmd.getUsername() + " has checkmated " + game.whiteUsername()));
+          var text=String.format("%s made a move...", cmd.getUsername());
+          var alert=new NotificationMessage(text);
+          connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
+          connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(text, game.game(), cmd.getColor()));
+          connectionManager.sendMove(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(text, game.game(), cmd.getColor()));
         }
-      } else if(game.game().isInStalemate(game.game().getTeamTurn())){
-        connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), new NotificationMessage(game.whiteUsername() + " stalemated " + game.blackUsername()));
       } else {
-        var text=String.format("%s made a move...", cmd.getUsername());
-        var alert=new NotificationMessage(text);
-        connectionManager.broadcast(cmd.getAuthString(), cmd.getGameID(), alert);
-        connectionManager.sendGame(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(text, game.game(), cmd.getColor()));
-        connectionManager.sendMove(cmd.getGameID(), cmd.getAuthString(), new LoadGameMessage(text, game.game(), cmd.getColor()));
+        connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: cannot make move..."));
       }
     } catch (DataAccessException exception) {
       connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: invalid move..."));
@@ -82,7 +99,7 @@ public class WebSocketHandler {
 
   private void checkJoinPlayer(JoinPlayerCommand cmd, Session session) throws IOException, DataAccessException {
     try {
-      connectionManager.add(cmd.getGameID(), cmd.getAuthString(), session, cmd.getUsername());
+      connectionManager.addPlayer(cmd.getGameID(), cmd.getAuthString(), session, cmd.getUsername());
       GameData gameData=updateGameService.gameDB.getGame(cmd.getGameID());
       cmd.setUsername(updateGameService.authDB.getAuth(cmd.getAuthString()).username());
       if(gameData != null) {
@@ -113,6 +130,8 @@ public class WebSocketHandler {
       }
     } catch (DataAccessException exception) {
       connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: Cannot join that team..."));
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -125,7 +144,7 @@ public class WebSocketHandler {
 
   private void joinObserver(JoinObserverCommand cmd, Session session) throws IOException, DataAccessException {
     try {
-      connectionManager.add(cmd.getGameID(), cmd.getAuthString(), session, cmd.getUsername());
+      connectionManager.addObserver(cmd.getGameID(), cmd.getAuthString(), session, cmd.getUsername());
       boolean check = updateGameService.authDB.checkAuth(cmd.getAuthString());
       if(check) {
         GameData gameData=updateGameService.gameDB.getGame(cmd.getGameID());
@@ -142,6 +161,8 @@ public class WebSocketHandler {
       }
     } catch (DataAccessException exception){
       connectionManager.sendError(cmd.getAuthString(), new ErrorMessage("Error: cannot join that game..."));
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
   }
 }

@@ -65,7 +65,7 @@ public class ChessBoard {
     }
 
     public void setPieces(int row, int col){
-        /* Piece is white */
+        /* Piece is black */
         if(row == 7){
             if(col == 0){
                 ChessPiece piece = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
@@ -105,7 +105,7 @@ public class ChessBoard {
             board[row][col] = piece;
         }
 
-        /* Piece is black */
+        /* Piece is white */
         if(row == 0){
             if(col == 0){
                 ChessPiece piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);

@@ -9,6 +9,8 @@ import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CreateGameServiceTest {
@@ -28,7 +30,7 @@ class CreateGameServiceTest {
     registerService = new RegisterService(userTestDB,authTestDB);
   }
   @Test
-  void createGame() throws DataAccessException {
+  void createGame() throws DataAccessException, SQLException {
     userTestDB.clear();
     authTestDB.clear();
     gameTestDB.clear();

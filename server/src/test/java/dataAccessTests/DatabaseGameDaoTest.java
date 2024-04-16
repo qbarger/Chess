@@ -8,6 +8,8 @@ import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseGameDaoTest {
@@ -21,7 +23,7 @@ class DatabaseGameDaoTest {
 
 
   @Test
-  void createGame() throws DataAccessException {
+  void createGame() throws DataAccessException, SQLException {
     databaseGameDao.clear();
     GameData game = new GameData(1, null, null, "game1", new ChessGame());
     databaseGameDao.createGame(game);
@@ -37,13 +39,13 @@ class DatabaseGameDaoTest {
       databaseGameDao.createGame(game);
       GameData newGame=databaseGameDao.getGame(2);
       fail("Expected Data access exception.");
-    } catch (DataAccessException exception){
+    } catch (DataAccessException | SQLException exception){
       assertEquals("Error: Unable to read data: Error: Game not found.", exception.getMessage());
     }
   }
 
   @Test
-  void getGame() throws DataAccessException{
+  void getGame() throws DataAccessException, SQLException {
     databaseGameDao.clear();
     GameData game = new GameData(1, null, null, "game1", new ChessGame());
     databaseGameDao.createGame(game);
@@ -59,13 +61,13 @@ class DatabaseGameDaoTest {
       databaseGameDao.createGame(game);
       GameData newGame=databaseGameDao.getGame(2);
       fail("Expected Data access exception.");
-    } catch (DataAccessException exception){
+    } catch (DataAccessException | SQLException exception){
       assertEquals("Error: Unable to read data: Error: Game not found.", exception.getMessage());
     }
   }
 
   @Test
-  void joinGame() throws DataAccessException{
+  void joinGame() throws DataAccessException, SQLException {
     databaseGameDao.clear();
     GameData game = new GameData(1, null, null, "game1", new ChessGame());
     databaseGameDao.createGame(game);
@@ -75,7 +77,7 @@ class DatabaseGameDaoTest {
   }
 
   @Test
-  void joinGameFails() throws DataAccessException{
+  void joinGameFails() throws DataAccessException, SQLException {
       databaseGameDao.clear();
       GameData game=new GameData(1, null, null, "game1", new ChessGame());
       databaseGameDao.createGame(game);

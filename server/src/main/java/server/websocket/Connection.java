@@ -14,12 +14,16 @@ public class Connection {
   public Session session;
   public int gameID;
   public String username;
+  boolean resign;
+  boolean player;
 
-  public Connection(String authtoken, int gameID, Session session, String username){
+  public Connection(String authtoken, int gameID, Session session, String username, boolean player){
     this.authtoken = authtoken;
     this.gameID = gameID;
     this.session = session;
     this.username = username;
+    this.resign = false;
+    this.player = player;
   }
 
   public void send(ServerMessage message) throws IOException{
@@ -32,5 +36,9 @@ public class Connection {
 
   public void sendError(ErrorMessage errorMessage) throws IOException {
     session.getRemote().sendString(new Gson().toJson(errorMessage));
+  }
+
+  public void setResignTrue(){
+    this.resign = true;
   }
 }
