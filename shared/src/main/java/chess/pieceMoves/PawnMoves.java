@@ -91,6 +91,7 @@ public class PawnMoves {
         }
       }
     }
+    return  moveList;
   }
 
   public ArrayList<ChessMove> blackMoves(ChessBoard board, ChessPiece piece, ChessPosition position, int row, int col){
