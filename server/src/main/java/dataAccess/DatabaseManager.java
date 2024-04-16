@@ -1,5 +1,7 @@
 package dataAccess;
 
+import chess.ResponseException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -59,13 +61,13 @@ public class DatabaseManager {
      * }
      * </code>
      */
-    static Connection getConnection() {
+    static Connection getConnection() throws SQLException {
         try {
             var conn = DriverManager.getConnection(connectionUrl, user, password);
             conn.setCatalog(databaseName);
             return conn;
         } catch (SQLException e) {
-            System.err.println("Cannot connect to database...");
+            throw new SQLException(e.getMessage());
         }
     }
 
