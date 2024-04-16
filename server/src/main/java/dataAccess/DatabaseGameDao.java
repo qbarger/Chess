@@ -124,11 +124,9 @@ public class DatabaseGameDao implements GameDao{
         }
       }
     }
-    catch (DataAccessException exception){
+    catch (SQLException exception){
       ErrorData error = new ErrorData("Error: Unable to read data: %s");
       throw new DataAccessException(String.format(error.message(), exception.getMessage()), 400);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
     GameList games = new GameList(gameList);
     return games;
